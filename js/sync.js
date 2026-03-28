@@ -21,7 +21,7 @@ async function syncFromGist() {
     const content = gist.files[GIST_FILE]?.content;
     if (content && content.trim() !== '{}') {
       const remote = JSON.parse(content);
-      if (remote.data) data = remote.data;
+      if (remote.data) { data = remote.data; normalizeData(); }
       if (remote.sessionLog) sessionLog = remote.sessionLog;
       if (remote.doneState) doneState = { ...remote.doneState, ...doneState };
       saveToStorage();

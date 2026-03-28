@@ -193,6 +193,15 @@ let currentPhase = 0;
 let sessionLog = [];
 let doneState = {};
 
+// Migracja: konwertuje stare items rozgrzewki (stringi) na obiekty {text, link}
+function normalizeData() {
+  Object.values(data.warmups).forEach(wu => {
+    wu.items = wu.items.map(item =>
+      typeof item === 'string' ? { text: item, link: '' } : item
+    );
+  });
+}
+
 function loadFromStorage() {
   try {
     const d = localStorage.getItem('ironman_data');
@@ -202,6 +211,7 @@ function loadFromStorage() {
     const s = localStorage.getItem('ironman_done');
     if (s) doneState = JSON.parse(s);
   } catch(e) { console.warn('load error', e); }
+  normalizeData();
 }
 
 function saveToStorage() {
