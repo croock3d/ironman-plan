@@ -18,6 +18,49 @@ function renderEdit() {
   `).join('');
   cont.appendChild(wbSec);
 
+  // Warmup editor
+  const warmupSec = makeEditSection('🔥 Rozgrzewki', '2 bloki');
+  const warmupBody = warmupSec.querySelector('.edit-section-body');
+  ['nogi', 'gora'].forEach(key => {
+    const wu = data.warmups[key];
+    const wuDiv = document.createElement('div');
+    wuDiv.className = 'day-editor';
+    wuDiv.innerHTML = `
+      <div class="day-editor-title"><span>${wu.title}</span></div>
+      <div class="field-group">
+        <div class="field-label">Tytuł bloku</div>
+        <input class="field-input" value="${escHtml(wu.title)}" onchange="data.warmups['${key}'].title=this.value">
+      </div>
+      <div style="font-size:11px;font-weight:700;color:var(--text3);text-transform:uppercase;letter-spacing:.5px;margin:10px 0 6px;font-family:var(--mono);">Elementy</div>
+      <div id="warmup-items-${key}"></div>
+      <div class="field-group" style="margin-top:10px;">
+        <div class="field-label">Notatka</div>
+        <input class="field-input" value="${escHtml(wu.note||'')}" onchange="data.warmups['${key}'].note=this.value">
+      </div>
+    `;
+    const itemsContainer = wuDiv.querySelector(`#warmup-items-${key}`);
+    wu.items.forEach((item, ii) => {
+      const text = typeof item === 'string' ? item : item.text;
+      const link = typeof item === 'object' ? (item.link || '') : '';
+      const itemDiv = document.createElement('div');
+      itemDiv.className = 'ex-editor';
+      itemDiv.innerHTML = `
+        <div class="ex-editor-num">Element ${ii + 1}</div>
+        <div class="field-group">
+          <div class="field-label">Opis</div>
+          <input class="field-input" value="${escHtml(text)}" onchange="data.warmups['${key}'].items[${ii}]={text:this.value,link:data.warmups['${key}'].items[${ii}]?.link||''}">
+        </div>
+        <div class="field-group">
+          <div class="field-label">Link (YouTube, artykuł — opcjonalne)</div>
+          <input class="field-input" type="url" placeholder="https://..." value="${escHtml(link)}" onchange="data.warmups['${key}'].items[${ii}]={text:data.warmups['${key}'].items[${ii}]?.text||'',link:this.value}">
+        </div>
+      `;
+      itemsContainer.appendChild(itemDiv);
+    });
+    warmupBody.appendChild(wuDiv);
+  });
+  cont.appendChild(warmupSec);
+
   // Phases editor
   data.phases.forEach((phase, pi) => {
     const sec = makeEditSection(`Faza ${pi+1}: ${phase.label}`, `${phase.days.length} dni`);
@@ -160,6 +203,10 @@ function makeExEditor(pi, di, ei, ex) {
         <div class="field-label">Cel ćwiczenia</div>
         <input class="field-input" value="${escHtml(ex.why||'')}" onchange="data.phases[${pi}].days[${di}].exercises[${ei}].why=this.value">
       </div>
+      <div class="field-group ex-editor-full">
+        <div class="field-label">Link (YouTube, artykuł — opcjonalne)</div>
+        <input class="field-input" type="url" placeholder="https://..." value="${escHtml(ex.link||'')}" onchange="data.phases[${pi}].days[${di}].exercises[${ei}].link=this.value">
+      </div>
     </div>
     <div class="btn-row">
       <button class="btn-small danger" onclick="removeExercise(${pi},${di},${ei})">Usuń</button>
@@ -179,7 +226,7 @@ function escHtml(str) {
 // ============================================================
 
 function addExercise(pi, di) {
-  data.phases[pi].days[di].exercises.push({ name:"Nowe ćwiczenie", sets:"3×10", tempo:"2-0-1-0", note:"", prog:"", why:"", tag:"" });
+  data.phases[pi].days[di].exercises.push({ name:"Nowe ćwiczenie", sets:"3×10", tempo:"2-0-1-0", note:"", prog:"", why:"", tag:"", link:"" });
   renderEdit();
   showToast('Dodano ćwiczenie');
 }
@@ -202,7 +249,7 @@ function addDay(pi) {
   data.phases[pi].days.push({
     label: "Nowy dzień", focus: "Focus",
     warmup: "nogi", note: "Notatka.", warn: null, changes: null,
-    exercises: [{ name:"Ćwiczenie 1", sets:"3×10", tempo:"2-0-1-0", note:"", prog:"", why:"", tag:"" }]
+    exercises: [{ name:"Ćwiczenie 1", sets:"3×10", tempo:"2-0-1-0", note:"", prog:"", why:"", tag:"", link:"" }]
   });
   renderEdit();
   showToast('Dodano dzień');
@@ -218,7 +265,7 @@ function addPhase() {
   data.phases.push({
     label: "Nowa faza", desc: "Opis nowej fazy.",
     days: [{ label:"Dzień 1", focus:"Focus", warmup:"nogi", note:"Notatka.", warn:null, changes:null,
-      exercises:[{ name:"Ćwiczenie 1", sets:"3×10", tempo:"2-0-1-0", note:"", prog:"", why:"", tag:"" }] }]
+      exercises:[{ name:"Ćwiczenie 1", sets:"3×10", tempo:"2-0-1-0", note:"", prog:"", why:"", tag:"", link:"" }] }]
   });
   renderEdit();
   showToast('Dodano fazę');

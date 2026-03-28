@@ -17,21 +17,21 @@ const DEFAULT_DATA = {
     nogi: {
       title: "Rozgrzewka — nogi (10 min)",
       items: [
-        "Hip CARs lewe biodro — 5 okrążeń w każdą stronę",
-        "90/90 stretch z aktywną rotacją wewnętrzną lewą — 2×45 sek.",
-        "Clamshell lewy z gumą — 2×20",
-        "Single-leg glute bridge lewy — 2×15",
-        "Monster walk z gumą — 2×12m w każdą stronę"
+        { text: "Hip CARs lewe biodro — 5 okrążeń w każdą stronę", link: "" },
+        { text: "90/90 stretch z aktywną rotacją wewnętrzną lewą — 2×45 sek.", link: "" },
+        { text: "Clamshell lewy z gumą — 2×20", link: "" },
+        { text: "Single-leg glute bridge lewy — 2×15", link: "" },
+        { text: "Monster walk z gumą — 2×12m w każdą stronę", link: "" }
       ],
       note: "Lewa strona zawsze pierwsza. Jeśli biodro klika przy CARs — skróć zakres."
     },
     gora: {
       title: "Rozgrzewka — góra (5–7 min)",
       items: [
-        "Rotacje ramion przód/tył — 2×15",
-        "Band pull-apart — 2×20",
-        "Face pull z gumą — 2×15",
-        "Podciąganie z gumą asekurującą — 2×5"
+        { text: "Rotacje ramion przód/tył — 2×15", link: "" },
+        { text: "Band pull-apart — 2×20", link: "" },
+        { text: "Face pull z gumą — 2×15", link: "" },
+        { text: "Podciąganie z gumą asekurującą — 2×5", link: "" }
       ],
       note: "Środa: siłownia ODDZIELNIE od roweru. Przerwa min. 4–5h."
     }
@@ -48,13 +48,13 @@ const DEFAULT_DATA = {
           warn: null,
           changes: "v6: usunięto wspięcia na łydki. Dodano side-lying hip abduction z hantlem.",
           exercises: [
-            { name:"Single-leg RDL ze sztangielką", sets:"4×6/nogę", tempo:"4-1-1-0", note:"Lewa noga pierwsza. Zakres bez bólu biodra.", prog:"Start: 12–14kg. Co 2 tyg. +2kg gdy 6 powt. czysto.", why:"łańcuch tylny w warunkach biegowych", tag:"key" },
-            { name:"Hip thrust ze sztangą", sets:"4×8", tempo:"3-1-2-0", note:"Guma nad kolanami. 3s opuszczasz, 1s pauza, 2s wciskasz.", prog:"Start: 40kg. Co 1–2 tyg. +5kg.", why:"siła pośladka wielkiego", tag:"key" },
-            { name:"Wykroki na skrzynię", sets:"3×8/nogę", tempo:"3-0-1-0", note:"Skrzynia 30–40cm. Lewa noga pierwsza.", prog:"Start: 16kg/hantel. Co 2 tyg. +2kg.", why:"wzorzec biegowy, bezpieczny zakres biodra", tag:"fai" },
-            { name:"Nordics (ekscentryczny)", sets:"3×5", tempo:"4-0-0-0", note:"4 sek. opuszczanie. Kluczowe dla km 35+.", prog:"Start: tylko ekscentryczna. Co 2 tyg. +1 powt. do 8.", why:"wytrzymałość dwugłowych na maraton", tag:"key" },
-            { name:"Side-lying hip abduction z hantlem", sets:"3×12/stronę", tempo:"2-1-2-0", note:"Lewa strona pierwsza + dodatkowa seria.", prog:"Start: 4–6kg. Co 2 tyg. +2kg.", why:"progresywna siła pośladka średniego", tag:"key" },
-            { name:"Copenhagen plank", sets:"3×20 sek./stronę", tempo:"statyczny", note:"Noga oparta na ławce.", prog:"Start: 20 sek. Co 2 tyg. +5 sek. do 40 sek.", why:"przywodziciele + stabilizacja biodra", tag:"fai" },
-            { name:"Pallof press stojąc", sets:"3×10/stronę", tempo:"2-2-1-0", note:"", prog:"Start: 10kg. Co 2 tyg. +2,5kg.", why:"stabilizacja rotacyjna", tag:"core" }
+            { name:"Single-leg RDL ze sztangielką", sets:"4×6/nogę", tempo:"4-1-1-0", note:"Lewa noga pierwsza. Zakres bez bólu biodra.", prog:"Start: 12–14kg. Co 2 tyg. +2kg gdy 6 powt. czysto.", why:"łańcuch tylny w warunkach biegowych", tag:"key", link:"" },
+            { name:"Hip thrust ze sztangą", sets:"4×8", tempo:"3-1-2-0", note:"Guma nad kolanami. 3s opuszczasz, 1s pauza, 2s wciskasz.", prog:"Start: 40kg. Co 1–2 tyg. +5kg.", why:"siła pośladka wielkiego", tag:"key", link:"" },
+            { name:"Wykroty na skrzynię", sets:"3×8/nogę", tempo:"3-0-1-0", note:"Skrzynia 30–40cm. Lewa noga pierwsza.", prog:"Start: 16kg/hantel. Co 2 tyg. +2kg.", why:"wzorzec biegowy, bezpieczny zakres biodra", tag:"fai", link:"" },
+            { name:"Nordics (ekscentryczny)", sets:"3×5", tempo:"4-0-0-0", note:"4 sek. opuszczanie. Kluczowe dla km 35+.", prog:"Start: tylko ekscentryczna. Co 2 tyg. +1 powt. do 8.", why:"wytrzymałość dwugłowych na maraton", tag:"key", link:"" },
+            { name:"Side-lying hip abduction z hantlem", sets:"3×12/stronę", tempo:"2-1-2-0", note:"Lewa strona pierwsza + dodatkowa seria.", prog:"Start: 4–6kg. Co 2 tyg. +2kg.", why:"progresywna siła pośladka średniego", tag:"key", link:"" },
+            { name:"Copenhagen plank", sets:"3×20 sek./stronę", tempo:"statyczny", note:"Noga oparta na ławce.", prog:"Start: 20 sek. Co 2 tyg. +5 sek. do 40 sek.", why:"przywodziciele + stabilizacja biodra", tag:"fai", link:"" },
+            { name:"Pallof press stojąc", sets:"3×10/stronę", tempo:"2-2-1-0", note:"", prog:"Start: 10kg. Co 2 tyg. +2,5kg.", why:"stabilizacja rotacyjna", tag:"core", link:"" }
           ]
         },
         {
@@ -64,12 +64,12 @@ const DEFAULT_DATA = {
           warn: "Środa: siłownia ODDZIELNIE od roweru. Przerwa minimum 4–5 godzin.",
           changes: null,
           exercises: [
-            { name:"Podciąganie na drążku", sets:"4×6–8", tempo:"3-0-1-0", note:"Gdy 8 powt. czysto → +2,5kg pasy.", prog:"Start: masa własna. Co 2 tyg. +2,5kg.", why:"siła ciągnąca do pływania", tag:"key" },
-            { name:"Wiosłowanie sztangą", sets:"4×6–8", tempo:"3-1-1-0", note:"Plecy neutralne.", prog:"Start: 60kg. Co 2 tyg. +2,5–5kg.", why:"pełna siła grzbietu", tag:"" },
-            { name:"Wyciskanie sztangi płasko", sets:"3×6", tempo:"3-0-1-0", note:"", prog:"Start: 72,5kg. Co 2 tyg. +2,5kg.", why:"siła pchająca / balans", tag:"" },
-            { name:"OHP (wyciskanie żołnierskie)", sets:"3×6", tempo:"3-0-1-0", note:"", prog:"Start: 45kg. Co 2 tyg. +2,5kg.", why:"stabilizacja barku dla pływania", tag:"" },
-            { name:"Face pull na wyciągu", sets:"3×15", tempo:"2-1-1-0", note:"Wyciąg góra, łokcie wysoko.", prog:"Start: 12,5kg. Do 20 powt., potem +2,5kg.", why:"rotatory zewnętrzne, prewencja barku", tag:"fai" },
-            { name:"Wspięcia na łydki 1 noga", sets:"3×15/nogę", tempo:"3-0-1-1", note:"Jedyna sesja z łydkami.", prog:"Start: 16kg. Co 2 tyg. +2kg.", why:"podtrzymanie łydek", tag:"" }
+            { name:"Podciąganie na drążku", sets:"4×6–8", tempo:"3-0-1-0", note:"Gdy 8 powt. czysto → +2,5kg pasy.", prog:"Start: masa własna. Co 2 tyg. +2,5kg.", why:"siła ciągnąca do pływania", tag:"key", link:"" },
+            { name:"Wiosłowanie sztangą", sets:"4×6–8", tempo:"3-1-1-0", note:"Plecy neutralne.", prog:"Start: 60kg. Co 2 tyg. +2,5–5kg.", why:"pełna siła grzbietu", tag:"", link:"" },
+            { name:"Wyciskanie sztangi płasko", sets:"3×6", tempo:"3-0-1-0", note:"", prog:"Start: 72,5kg. Co 2 tyg. +2,5kg.", why:"siła pchająca / balans", tag:"", link:"" },
+            { name:"OHP (wyciskanie żołnierskie)", sets:"3×6", tempo:"3-0-1-0", note:"", prog:"Start: 45kg. Co 2 tyg. +2,5kg.", why:"stabilizacja barku dla pływania", tag:"", link:"" },
+            { name:"Face pull na wyciągu", sets:"3×15", tempo:"2-1-1-0", note:"Wyciąg góra, łokcie wysoko.", prog:"Start: 12,5kg. Do 20 powt., potem +2,5kg.", why:"rotatory zewnętrzne, prewencja barku", tag:"fai", link:"" },
+            { name:"Wspięcia na łydki 1 noga", sets:"3×15/nogę", tempo:"3-0-1-1", note:"Jedyna sesja z łydkami.", prog:"Start: 16kg. Co 2 tyg. +2kg.", why:"podtrzymanie łydek", tag:"", link:"" }
           ]
         },
         {
@@ -79,13 +79,13 @@ const DEFAULT_DATA = {
           warn: null,
           changes: "v6: dodano wall-supported hip abduction — czysta izolacja pośladka średniego.",
           exercises: [
-            { name:"BSS izometryczny", sets:"3×30 sek./nogę", tempo:"statyczny", note:"Dolna pozycja BSS bez ruchu. Lewa noga pierwsza.", prog:"Start: masa własna. Co 2 tyg. +5 sek. lub +5kg.", why:"kontrola biodra bez dużego zakresu zgięcia", tag:"fai" },
-            { name:"Step-down", sets:"3×8/nogę", tempo:"4-0-0-0", note:"Skrzynia 20–30cm. Kolano nie zawija się.", prog:"Start: masa własna. Co 2 tyg. +2kg.", why:"ekscentryczna kontrola VMO", tag:"new" },
-            { name:"Hip airplane", sets:"3×6/nogę", tempo:"3-2-2-0", note:"Stoisz na jednej nodze, rotacja tułowia.", prog:"Progresja przez jakość, nie ciężar.", why:"stabilizacja bioder w rotacji", tag:"new" },
-            { name:"Wall-supported hip abduction", sets:"3×15/stronę", tempo:"2-1-2-0", note:"Lewa strona pierwsza + dodatkowa seria.", prog:"Start: masa własna. Co 2 tyg. guma lub hantel.", why:"czysta izolacja pośladka średniego stojąco", tag:"key" },
-            { name:"Lateral band walk", sets:"3×15 kroków/stronę", tempo:"kontrolowane", note:"Guma nad kolanami, biodra lekko ugięte.", prog:"Start: lekka guma. Co 2 tyg. mocniejsza.", why:"pośladek średni w ruchu", tag:"new" },
-            { name:"Single-leg bridge podwyższona", sets:"3×12/nogę", tempo:"2-1-2-0", note:"Pięta na ławce. Lewa noga pierwsza.", prog:"Start: masa własna. Co 2 tyg. +5kg.", why:"izolacja pośladka w łańcuchu zamkniętym", tag:"fai" },
-            { name:"Leg curl leżąco", sets:"3×12", tempo:"3-1-1-0", note:"Leżąco = lepsza izolacja.", prog:"Start: 22,5kg. Co 2 tyg. +2,5kg.", why:"dwugłowe", tag:"" }
+            { name:"BSS izometryczny", sets:"3×30 sek./nogę", tempo:"statyczny", note:"Dolna pozycja BSS bez ruchu. Lewa noga pierwsza.", prog:"Start: masa własna. Co 2 tyg. +5 sek. lub +5kg.", why:"kontrola biodra bez dużego zakresu zgięcia", tag:"fai", link:"" },
+            { name:"Step-down", sets:"3×8/nogę", tempo:"4-0-0-0", note:"Skrzynia 20–30cm. Kolano nie zawija się.", prog:"Start: masa własna. Co 2 tyg. +2kg.", why:"ekscentryczna kontrola VMO", tag:"new", link:"" },
+            { name:"Hip airplane", sets:"3×6/nogę", tempo:"3-2-2-0", note:"Stoisz na jednej nodze, rotacja tułowia.", prog:"Progresja przez jakość, nie ciężar.", why:"stabilizacja bioder w rotacji", tag:"new", link:"" },
+            { name:"Wall-supported hip abduction", sets:"3×15/stronę", tempo:"2-1-2-0", note:"Lewa strona pierwsza + dodatkowa seria.", prog:"Start: masa własna. Co 2 tyg. guma lub hantel.", why:"czysta izolacja pośladka średniego stojąco", tag:"key", link:"" },
+            { name:"Lateral band walk", sets:"3×15 kroków/stronę", tempo:"kontrolowane", note:"Guma nad kolanami, biodra lekko ugięte.", prog:"Start: lekka guma. Co 2 tyg. mocniejsza.", why:"pośladek średni w ruchu", tag:"new", link:"" },
+            { name:"Single-leg bridge podwyższona", sets:"3×12/nogę", tempo:"2-1-2-0", note:"Pięta na ławce. Lewa noga pierwsza.", prog:"Start: masa własna. Co 2 tyg. +5kg.", why:"izolacja pośladka w łańcuchu zamkniętym", tag:"fai", link:"" },
+            { name:"Leg curl leżąco", sets:"3×12", tempo:"3-1-1-0", note:"Leżąco = lepsza izolacja.", prog:"Start: 22,5kg. Co 2 tyg. +2,5kg.", why:"dwugłowe", tag:"", link:"" }
           ]
         }
       ]
@@ -101,12 +101,12 @@ const DEFAULT_DATA = {
           warn: null,
           changes: "v6: zastąpiono banded clamshell z progresją.",
           exercises: [
-            { name:"Hip thrust ze sztangą — wysoka obj.", sets:"4×20", tempo:"2-1-1-0", note:"Przerwa 45 sek.", prog:"Start: 25–30kg. Co 2 tyg. +5kg.", why:"wytrzymałość pośladka wielkiego", tag:"key" },
-            { name:"Single-leg RDL superseria z BSS 2×10", sets:"3×12/nogę + 2×10/nogę", tempo:"2-0-1-0", note:"BSS zaraz po RDL. Lewa noga pierwsza.", prog:"RDL: start 10kg. BSS: start 12kg. Co 2 tyg. +2kg.", why:"zmęczenie łańcucha tylnego", tag:"key" },
-            { name:"Nordics — wydłużona ekscentryczna", sets:"3×8", tempo:"5-0-0-0", note:"5 sek. opuszczanie.", prog:"Co 2 tyg. +1 powt. do 10.", why:"wytrzymałość dwugłowych na km 30–42", tag:"key" },
-            { name:"Banded clamshell z obciążeniem", sets:"4×20/stronę", tempo:"2-1-2-0", note:"Guma + hantel. Lewa strona pierwsza + dodatkowa seria.", prog:"Start: lekka guma + 2kg. Co 2 tyg. +2kg.", why:"wytrzymałość pośladka średniego", tag:"key" },
-            { name:"Step-down wysoka objętość", sets:"3×12/nogę", tempo:"3-0-0-0", note:"Skrzynia 20–30cm.", prog:"Start: masa własna. Co 2 tyg. +2kg.", why:"kontrola VMO pod zmęczeniem", tag:"new" },
-            { name:"Dead bug z ciężarkiem", sets:"3×12/stronę", tempo:"kontrolowane", note:"2,5–5kg w ręce.", prog:"Start: 2,5kg. Co 2 tyg. +1,25kg.", why:"core pod zmęczeniem", tag:"core" }
+            { name:"Hip thrust ze sztangą — wysoka obj.", sets:"4×20", tempo:"2-1-1-0", note:"Przerwa 45 sek.", prog:"Start: 25–30kg. Co 2 tyg. +5kg.", why:"wytrzymałość pośladka wielkiego", tag:"key", link:"" },
+            { name:"Single-leg RDL superseria z BSS 2×10", sets:"3×12/nogę + 2×10/nogę", tempo:"2-0-1-0", note:"BSS zaraz po RDL. Lewa noga pierwsza.", prog:"RDL: start 10kg. BSS: start 12kg. Co 2 tyg. +2kg.", why:"zmęczenie łańcucha tylnego", tag:"key", link:"" },
+            { name:"Nordics — wydłużona ekscentryczna", sets:"3×8", tempo:"5-0-0-0", note:"5 sek. opuszczanie.", prog:"Co 2 tyg. +1 powt. do 10.", why:"wytrzymałość dwugłowych na km 30–42", tag:"key", link:"" },
+            { name:"Banded clamshell z obciążeniem", sets:"4×20/stronę", tempo:"2-1-2-0", note:"Guma + hantel. Lewa strona pierwsza + dodatkowa seria.", prog:"Start: lekka guma + 2kg. Co 2 tyg. +2kg.", why:"wytrzymałość pośladka średniego", tag:"key", link:"" },
+            { name:"Step-down wysoka objętość", sets:"3×12/nogę", tempo:"3-0-0-0", note:"Skrzynia 20–30cm.", prog:"Start: masa własna. Co 2 tyg. +2kg.", why:"kontrola VMO pod zmęczeniem", tag:"new", link:"" },
+            { name:"Dead bug z ciężarkiem", sets:"3×12/stronę", tempo:"kontrolowane", note:"2,5–5kg w ręce.", prog:"Start: 2,5kg. Co 2 tyg. +1,25kg.", why:"core pod zmęczeniem", tag:"core", link:"" }
           ]
         },
         {
@@ -116,12 +116,12 @@ const DEFAULT_DATA = {
           warn: "Środa: siłownia ODDZIELNIE od roweru. Przerwa minimum 4–5 godzin.",
           changes: null,
           exercises: [
-            { name:"Podciąganie + ciężar (5kg pasy)", sets:"3×6", tempo:"3-0-1-0", note:"", prog:"Ciężar z fazy 1 + 5kg pasy.", why:"podtrzymanie siły ciągnącej", tag:"" },
-            { name:"Wiosłowanie sztangą", sets:"3×8", tempo:"3-1-1-0", note:"", prog:"Utrzymaj ciężar z fazy 1.", why:"", tag:"" },
-            { name:"OHP", sets:"3×8", tempo:"3-0-1-0", note:"", prog:"Utrzymaj.", why:"", tag:"" },
-            { name:"Face pull", sets:"3×20", tempo:"kontrolowane", note:"", prog:"Ciężar z fazy 1, powt. wzrosły do 20.", why:"rotatory na długi sezon", tag:"fai" },
-            { name:"Copenhagen plank", sets:"3×25 sek./stronę", tempo:"statyczny", note:"", prog:"Co 2 tyg. +5 sek. do 40 sek.", why:"przywodziciele + core", tag:"fai" },
-            { name:"Wspięcia 1 noga", sets:"3×20/nogę", tempo:"3-0-1-1", note:"", prog:"Utrzymaj ciężar z fazy 1.", why:"podtrzymanie łydek", tag:"" }
+            { name:"Podciąganie + ciężar (5kg pasy)", sets:"3×6", tempo:"3-0-1-0", note:"", prog:"Ciężar z fazy 1 + 5kg pasy.", why:"podtrzymanie siły ciągnącej", tag:"", link:"" },
+            { name:"Wiosłowanie sztangą", sets:"3×8", tempo:"3-1-1-0", note:"", prog:"Utrzymaj ciężar z fazy 1.", why:"", tag:"", link:"" },
+            { name:"OHP", sets:"3×8", tempo:"3-0-1-0", note:"", prog:"Utrzymaj.", why:"", tag:"", link:"" },
+            { name:"Face pull", sets:"3×20", tempo:"kontrolowane", note:"", prog:"Ciężar z fazy 1, powt. wzrosły do 20.", why:"rotatory na długi sezon", tag:"fai", link:"" },
+            { name:"Copenhagen plank", sets:"3×25 sek./stronę", tempo:"statyczny", note:"", prog:"Co 2 tyg. +5 sek. do 40 sek.", why:"przywodziciele + core", tag:"fai", link:"" },
+            { name:"Wspięcia 1 noga", sets:"3×20/nogę", tempo:"3-0-1-1", note:"", prog:"Utrzymaj ciężar z fazy 1.", why:"podtrzymanie łydek", tag:"", link:"" }
           ]
         },
         {
@@ -131,13 +131,13 @@ const DEFAULT_DATA = {
           warn: null,
           changes: "v6: wzmocniono pracę pośladka średniego: wall-supported hip abduction i lateral band walk z większą objętością.",
           exercises: [
-            { name:"Wall-supported hip abduction — wysoka obj.", sets:"4×20/stronę", tempo:"2-1-2-0", note:"Lewa strona pierwsza + dodatkowa seria. Przerwa 30 sek.", prog:"Start: masa własna. Co 2 tyg. guma lub hantel.", why:"wytrzymałość pośladka średniego", tag:"key" },
-            { name:"Lateral band walk — wysoka objętość", sets:"4×20 kroków/stronę", tempo:"kontrolowane", note:"Mocniejsza guma niż faza 1.", prog:"Co 2 tyg. mocniejsza guma lub wolniejsze tempo.", why:"pośladek średni w ruchu", tag:"new" },
-            { name:"BSS izometryczny — wydłużony", sets:"3×40 sek./nogę", tempo:"statyczny", note:"Lewa noga pierwsza.", prog:"Start: 5kg/hantel. Co 2 tyg. +5 sek. lub +2,5kg.", why:"kontrola biodra pod zmęczeniem", tag:"fai" },
-            { name:"Hip airplane", sets:"3×8/nogę", tempo:"3-2-2-0", note:"", prog:"Ewentualnie +1–2kg w ręce.", why:"stabilizacja rotacyjna biodra", tag:"new" },
-            { name:"Single-leg bridge podwyższona", sets:"3×15/nogę", tempo:"2-1-2-0", note:"Lewa noga pierwsza.", prog:"Guma lub 5kg talerz na biodro.", why:"izolacja pośladka", tag:"fai" },
-            { name:"Step-down", sets:"3×10/nogę", tempo:"4-0-0-0", note:"Skrzynia 25–30cm.", prog:"Co 2 tyg. +2kg.", why:"ekscentryczna kontrola VMO", tag:"new" },
-            { name:"Leg curl leżąco — podtrzymanie", sets:"3×15", tempo:"2-1-1-0", note:"", prog:"~70% ciężaru z fazy 1 (ok. 16–17kg).", why:"podtrzymanie dwugłowych", tag:"" }
+            { name:"Wall-supported hip abduction — wysoka obj.", sets:"4×20/stronę", tempo:"2-1-2-0", note:"Lewa strona pierwsza + dodatkowa seria. Przerwa 30 sek.", prog:"Start: masa własna. Co 2 tyg. guma lub hantel.", why:"wytrzymałość pośladka średniego", tag:"key", link:"" },
+            { name:"Lateral band walk — wysoka objętość", sets:"4×20 kroków/stronę", tempo:"kontrolowane", note:"Mocniejsza guma niż faza 1.", prog:"Co 2 tyg. mocniejsza guma lub wolniejsze tempo.", why:"pośladek średni w ruchu", tag:"new", link:"" },
+            { name:"BSS izometryczny — wydłużony", sets:"3×40 sek./nogę", tempo:"statyczny", note:"Lewa noga pierwsza.", prog:"Start: 5kg/hantel. Co 2 tyg. +5 sek. lub +2,5kg.", why:"kontrola biodra pod zmęczeniem", tag:"fai", link:"" },
+            { name:"Hip airplane", sets:"3×8/nogę", tempo:"3-2-2-0", note:"", prog:"Ewentualnie +1–2kg w ręce.", why:"stabilizacja rotacyjna biodra", tag:"new", link:"" },
+            { name:"Single-leg bridge podwyższona", sets:"3×15/nogę", tempo:"2-1-2-0", note:"Lewa noga pierwsza.", prog:"Guma lub 5kg talerz na biodro.", why:"izolacja pośladka", tag:"fai", link:"" },
+            { name:"Step-down", sets:"3×10/nogę", tempo:"4-0-0-0", note:"Skrzynia 25–30cm.", prog:"Co 2 tyg. +2kg.", why:"ekscentryczna kontrola VMO", tag:"new", link:"" },
+            { name:"Leg curl leżąco — podtrzymanie", sets:"3×15", tempo:"2-1-1-0", note:"", prog:"~70% ciężaru z fazy 1 (ok. 16–17kg).", why:"podtrzymanie dwugłowych", tag:"", link:"" }
           ]
         }
       ]
@@ -152,12 +152,12 @@ const DEFAULT_DATA = {
           note: "<em>Mniej serii, ten sam ciężar.</em> Sygnał do mięśni, nie budowanie.",
           warn: null, changes: null,
           exercises: [
-            { name:"Hip thrust ze sztangą", sets:"3×8", tempo:"3-1-2-0", note:"Ciężar z fazy 1.", prog:"Utrzymaj.", why:"", tag:"" },
-            { name:"Single-leg RDL", sets:"2×8/nogę", tempo:"3-1-1-0", note:"Lewa noga pierwsza.", prog:"Utrzymaj.", why:"", tag:"" },
-            { name:"Nordics", sets:"2×5", tempo:"4-0-0-0", note:"Bez forsowania.", prog:"Utrzymaj.", why:"", tag:"" },
-            { name:"Side-lying hip abduction z hantlem", sets:"2×12/stronę", tempo:"2-1-2-0", note:"Lewa strona pierwsza.", prog:"Utrzymaj.", why:"podtrzymanie pośladka średniego przed startem", tag:"key" },
-            { name:"Wall-supported hip abduction", sets:"2×15/stronę", tempo:"2-1-2-0", note:"Lewa strona pierwsza.", prog:"Utrzymaj.", why:"", tag:"" },
-            { name:"Hip airplane + clamshell lewy", sets:"2×6 + 2×15", tempo:"kontrolowane", note:"", prog:"Utrzymaj.", why:"wzorce motoryczne przed startem", tag:"core" }
+            { name:"Hip thrust ze sztangą", sets:"3×8", tempo:"3-1-2-0", note:"Ciężar z fazy 1.", prog:"Utrzymaj.", why:"", tag:"", link:"" },
+            { name:"Single-leg RDL", sets:"2×8/nogę", tempo:"3-1-1-0", note:"Lewa noga pierwsza.", prog:"Utrzymaj.", why:"", tag:"", link:"" },
+            { name:"Nordics", sets:"2×5", tempo:"4-0-0-0", note:"Bez forsowania.", prog:"Utrzymaj.", why:"", tag:"", link:"" },
+            { name:"Side-lying hip abduction z hantlem", sets:"2×12/stronę", tempo:"2-1-2-0", note:"Lewa strona pierwsza.", prog:"Utrzymaj.", why:"podtrzymanie pośladka średniego przed startem", tag:"key", link:"" },
+            { name:"Wall-supported hip abduction", sets:"2×15/stronę", tempo:"2-1-2-0", note:"Lewa strona pierwsza.", prog:"Utrzymaj.", why:"", tag:"", link:"" },
+            { name:"Hip airplane + clamshell lewy", sets:"2×6 + 2×15", tempo:"kontrolowane", note:"", prog:"Utrzymaj.", why:"wzorce motoryczne przed startem", tag:"core", link:"" }
           ]
         },
         {
@@ -166,11 +166,11 @@ const DEFAULT_DATA = {
           note: "<em>Ostatnia sesja siłowa przed Ironmanem.</em> Lekko i kontrolowanie. Zero DOMS-ów przed wyścigiem.",
           warn: null, changes: null,
           exercises: [
-            { name:"Podciąganie (bez dodatkowego ciężaru)", sets:"3×5", tempo:"3-0-1-0", note:"", prog:"Utrzymaj.", why:"", tag:"" },
-            { name:"Wiosłowanie wyciąg dolny", sets:"2×10", tempo:"2-1-1-0", note:"", prog:"Utrzymaj.", why:"", tag:"" },
-            { name:"Face pull", sets:"3×15", tempo:"kontrolowane", note:"", prog:"Utrzymaj.", why:"", tag:"" },
-            { name:"Copenhagen plank", sets:"2×20 sek./stronę", tempo:"statyczny", note:"", prog:"Utrzymaj.", why:"", tag:"" },
-            { name:"Pallof press", sets:"2×10/stronę", tempo:"2-2-1-0", note:"", prog:"Utrzymaj.", why:"", tag:"" }
+            { name:"Podciąganie (bez dodatkowego ciężaru)", sets:"3×5", tempo:"3-0-1-0", note:"", prog:"Utrzymaj.", why:"", tag:"", link:"" },
+            { name:"Wiosłowanie wyciąg dolny", sets:"2×10", tempo:"2-1-1-0", note:"", prog:"Utrzymaj.", why:"", tag:"", link:"" },
+            { name:"Face pull", sets:"3×15", tempo:"kontrolowane", note:"", prog:"Utrzymaj.", why:"", tag:"", link:"" },
+            { name:"Copenhagen plank", sets:"2×20 sek./stronę", tempo:"statyczny", note:"", prog:"Utrzymaj.", why:"", tag:"", link:"" },
+            { name:"Pallof press", sets:"2×10/stronę", tempo:"2-2-1-0", note:"", prog:"Utrzymaj.", why:"", tag:"", link:"" }
           ]
         }
       ]

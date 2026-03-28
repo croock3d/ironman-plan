@@ -590,6 +590,18 @@ tr.ex-done .ex-name { text-decoration: line-through; color: var(--text3); }
 .wday.gym-day.clickable-day:active { transform: scale(.96); }
 .wday.gym-day.clickable-day:hover { box-shadow: 0 0 0 1.5px var(--green); }
 
+/* ---- EXERCISE / WARMUP LINK ---- */
+.ex-link {
+  display: inline-block;
+  margin-left: 6px;
+  font-size: 12px;
+  text-decoration: none;
+  opacity: 0.7;
+  vertical-align: middle;
+  transition: opacity .15s;
+}
+.ex-link:hover { opacity: 1; }
+
 /* ---- MOBILE RESPONSIVENESS ---- */
 
 /* 480px — tabele, nawigacja, karty */

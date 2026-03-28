@@ -48,7 +48,11 @@ function renderPlan() {
     const wu = data.warmups[day.warmup] || { title:'Rozgrzewka', items:[], note:'' };
     const warmupHtml = `<div class="warmup-block">
       <div class="warmup-title">${wu.title}</div>
-      ${wu.items.map(it => `<div class="warmup-item">${it}</div>`).join('')}
+      ${wu.items.map(it => {
+        const text = typeof it === 'string' ? it : it.text;
+        const link = typeof it === 'object' && it.link ? it.link : '';
+        return `<div class="warmup-item">${text}${link ? `<a href="${link}" target="_blank" rel="noopener" class="ex-link">🔗</a>` : ''}</div>`;
+      }).join('')}
       <div class="warmup-note">${wu.note}</div>
     </div>`;
 
@@ -60,7 +64,7 @@ function renderPlan() {
       const isDone = doneState[doneKey];
       return `<tr class="${isDone?'ex-done':''}" id="ex-row-${currentPhase}-${di}-${ei}">
         <td>
-          <div class="ex-name">${e.name}</div>
+          <div class="ex-name">${e.name}${e.link ? `<a href="${e.link}" target="_blank" rel="noopener" class="ex-link">🔗</a>` : ''}</div>
           ${e.note ? `<div class="ex-sub">${e.note}</div>` : ''}
           ${e.prog ? `<div class="ex-prog">↗ ${e.prog}</div>` : ''}
           ${e.why ? `<div class="ex-why">∵ ${e.why} ${tagHtml(e.tag)}</div>` : tagHtml(e.tag) ? `<div class="ex-why">${tagHtml(e.tag)}</div>` : ''}
