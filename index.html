@@ -615,6 +615,7 @@ tr.ex-done .ex-name { text-decoration: line-through; color: var(--text3); }
   <button class="nav-btn" id="btn-edit" onclick="showScreen('edit')">Edytuj</button>
   <button class="nav-btn" id="btn-log" onclick="showScreen('log')">Log</button>
   <button class="nav-btn" title="Synchronizuj" onclick="manualSync()">⇅</button>
+  <button class="nav-btn" id="btn-settings" onclick="showScreen('settings')">⚙️</button>
 </nav>
 
 <div class="toast" id="toast"></div>
@@ -643,6 +644,51 @@ tr.ex-done .ex-name { text-decoration: line-through; color: var(--text3); }
   <div class="save-bar" id="save-bar">
     <button class="btn-save" onclick="saveEdits()">💾 Zapisz zmiany</button>
     <button class="btn-reset" onclick="resetData()">Reset</button>
+  </div>
+</div>
+
+<!-- ==================== SETTINGS SCREEN ==================== -->
+<div class="screen" id="screen-settings">
+  <div class="edit-screen">
+    <h2>⚙️ Ustawienia</h2>
+    <p>Token przechowywany lokalnie na urządzeniu — nigdy nie trafia do kodu ani repo.</p>
+
+    <div class="edit-section open">
+      <div class="edit-section-header">
+        <div class="edit-section-title">🔑 GitHub Token (synchronizacja)</div>
+      </div>
+      <div class="edit-section-body">
+        <div class="field-group">
+          <div class="field-label">Gist ID</div>
+          <input class="field-input" value="db261a815c6e41a502c2271f27b13798" readonly style="opacity:.5;font-family:var(--mono);font-size:12px;">
+        </div>
+        <div class="field-group">
+          <div class="field-label">Personal Access Token (tylko zakres: gist)</div>
+          <div style="display:flex;gap:8px;">
+            <input class="field-input" id="token-input" type="password" placeholder="ghp_..." style="font-family:var(--mono);font-size:12px;flex:1;">
+            <button class="btn-small" onclick="toggleTokenVisibility()">👁</button>
+          </div>
+          <div style="font-size:11px;color:var(--text3);margin-top:6px;line-height:1.6;">
+            Gdzie wygenerować: <strong style="color:var(--text2);">github.com/settings/tokens</strong> → Generate new token (classic) → zaznacz tylko <strong style="color:var(--green);">gist</strong>
+          </div>
+        </div>
+        <div class="btn-row">
+          <button class="btn-small success" onclick="saveToken()">💾 Zapisz token</button>
+          <button class="btn-small danger" onclick="clearToken()">Usuń token</button>
+        </div>
+        <div id="token-status" style="margin-top:10px;font-size:12px;color:var(--text3);"></div>
+      </div>
+    </div>
+
+    <div class="edit-section open" style="margin-top:12px;">
+      <div class="edit-section-header">
+        <div class="edit-section-title">🧪 Test połączenia</div>
+      </div>
+      <div class="edit-section-body">
+        <button class="btn-small success" onclick="testConnection()">Sprawdź połączenie z Gistem</button>
+        <div id="test-result" style="margin-top:10px;font-size:12px;line-height:1.6;"></div>
+      </div>
+    </div>
   </div>
 </div>
 
@@ -837,11 +883,11 @@ const DEFAULT_DATA = {
 };
 
 // ============================================================
-// GIST CONFIG
+// GIST CONFIG — token z localStorage, nie z kodu
 // ============================================================
-const GIST_TOKEN = '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';
-const GIST_ID    = 'db261a815c6e41a502c2271f27b13798';
-const GIST_FILE  = 'ironman_plan.json';
+const GIST_ID   = 'db261a815c6e41a502c2271f27b13798';
+const GIST_FILE = 'ironman_plan.json';
+function getToken() { return localStorage.getItem('ironman_token') || ''; }
 
 // ============================================================
 // STATE
@@ -882,7 +928,7 @@ async function syncFromGist() {
   setSyncStatus('syncing', 'Pobieranie z chmury...');
   try {
     const res = await fetch(`https://api.github.com/gists/${GIST_ID}`, {
-      headers: { 'Authorization': `token ${GIST_TOKEN}`, 'Accept': 'application/vnd.github.v3+json' }
+      headers: { 'Authorization': `token ${getToken()}`, 'Accept': 'application/vnd.github.v3+json' }
     });
     if (!res.ok) throw new Error('HTTP ' + res.status);
     const gist = await res.json();
@@ -910,7 +956,7 @@ async function syncToGist() {
     const res = await fetch(`https://api.github.com/gists/${GIST_ID}`, {
       method: 'PATCH',
       headers: {
-        'Authorization': `token ${GIST_TOKEN}`,
+        'Authorization': `token ${getToken()}`,
         'Accept': 'application/vnd.github.v3+json',
         'Content-Type': 'application/json'
       },
@@ -954,6 +1000,7 @@ function showScreen(name) {
   if (name === 'plan') renderPlan();
   if (name === 'edit') renderEdit();
   if (name === 'log') renderLog();
+  if (name === 'settings') renderSettings();
 }
 
 // ============================================================
@@ -1411,13 +1458,78 @@ function addLogEntry() {
 }
 
 // ============================================================
+// SETTINGS
+// ============================================================
+function saveToken() {
+  const val = document.getElementById('token-input').value.trim();
+  if (!val) { showToast('❌ Wpisz token'); return; }
+  localStorage.setItem('ironman_token', val);
+  document.getElementById('token-status').innerHTML = '<span style="color:var(--green)">✅ Token zapisany na tym urządzeniu</span>';
+  showToast('✅ Token zapisany');
+}
+
+function clearToken() {
+  localStorage.removeItem('ironman_token');
+  document.getElementById('token-input').value = '';
+  document.getElementById('token-status').innerHTML = '<span style="color:var(--red)">Token usunięty</span>';
+  showToast('Token usunięty');
+}
+
+function toggleTokenVisibility() {
+  const inp = document.getElementById('token-input');
+  inp.type = inp.type === 'password' ? 'text' : 'password';
+}
+
+async function testConnection() {
+  const res = document.getElementById('test-result');
+  if (!getToken()) {
+    res.innerHTML = '<span style="color:var(--red)">❌ Brak tokena — wpisz token powyżej i zapisz</span>';
+    return;
+  }
+  res.innerHTML = '<span style="color:var(--amber)">⏳ Testuję...</span>';
+  try {
+    const r = await fetch(`https://api.github.com/gists/${GIST_ID}`, {
+      headers: { 'Authorization': `token ${getToken()}`, 'Accept': 'application/vnd.github.v3+json' }
+    });
+    if (r.ok) {
+      res.innerHTML = '<span style="color:var(--green)">✅ Połączenie działa! Gist dostępny.</span>';
+    } else {
+      const j = await r.json();
+      res.innerHTML = `<span style="color:var(--red)">❌ Błąd ${r.status}: ${j.message}</span><br><span style="color:var(--text3)">Wygeneruj nowy token na github.com/settings/tokens</span>`;
+    }
+  } catch(e) {
+    res.innerHTML = '<span style="color:var(--red)">❌ Brak internetu lub błąd sieci</span>';
+  }
+}
+
+function renderSettings() {
+  const inp = document.getElementById('token-input');
+  const status = document.getElementById('token-status');
+  const token = getToken();
+  if (token) {
+    inp.value = token;
+    status.innerHTML = '<span style="color:var(--green)">✅ Token zapisany na tym urządzeniu</span>';
+  } else {
+    inp.value = '';
+    status.innerHTML = '<span style="color:var(--amber)">⚠️ Brak tokena — synchronizacja nie działa</span>';
+  }
+  document.getElementById('test-result').innerHTML = '';
+}
+
+// ============================================================
 // INIT
 // ============================================================
 loadFromStorage();
-showScreen('plan');
-document.getElementById('btn-plan').classList.add('active');
-// Fetch latest from gist on startup
-syncFromGist().then(ok => { if (ok) { renderPlan(); } });
+// Jeśli brak tokena — pokaż ustawienia, inaczej plan
+if (!getToken()) {
+  showScreen('settings');
+  document.getElementById('btn-settings').classList.add('active');
+  showToast('⚙️ Wpisz token GitHub aby włączyć sync');
+} else {
+  showScreen('plan');
+  document.getElementById('btn-plan').classList.add('active');
+  syncFromGist().then(ok => { if (ok) renderPlan(); });
+}
 </script>
 
 <!-- PWA manifest inline -->
