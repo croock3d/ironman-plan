@@ -1,0 +1,33 @@
+name: Cache Bust
+
+on:
+  push:
+    branches: [main]
+    paths-ignore:
+      - '.github/**'   # nie triggeruj od własnych commitów
+
+jobs:
+  bust:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Wbij nowy timestamp w ?v= w index.html
+        run: |
+          VERSION=$(date -u +%Y%m%d%H%M%S)
+          sed -i "s/?v=[0-9]\{14\}/?v=${VERSION}/g" index.html
+          echo "Cache bust version: ${VERSION}"
+
+      - name: Commit & push jeśli index.html się zmienił
+        run: |
+          git config user.name  "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add index.html
+          git diff --staged --quiet && echo "Brak zmian" && exit 0
+          git commit -m "chore: cache bust ${VERSION:-auto} [skip ci]"
+          git push
