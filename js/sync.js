@@ -72,3 +72,48 @@ function showToast(msg) {
   t.classList.add('show');
   setTimeout(() => t.classList.remove('show'), 2000);
 }
+
+// ============================================================
+// CONFIRM MODAL — zastępuje natywny confirm()
+// showConfirm({ title, message, confirmLabel, danger, onConfirm })
+// ============================================================
+function showConfirm({ title, message, confirmLabel = 'Potwierdź', danger = false, onConfirm }) {
+  // Usuń poprzedni modal jeśli istnieje
+  const existing = document.getElementById('confirm-overlay');
+  if (existing) existing.remove();
+
+  const overlay = document.createElement('div');
+  overlay.className = 'confirm-overlay';
+  overlay.id = 'confirm-overlay';
+
+  overlay.innerHTML = `
+    <div class="confirm-modal" id="confirm-modal">
+      <div class="confirm-title">${title}</div>
+      ${message ? `<div class="confirm-message">${message}</div>` : ''}
+      <div class="confirm-actions">
+        <button class="confirm-btn-cancel" id="confirm-cancel">Anuluj</button>
+        <button class="confirm-btn-ok${danger ? ' danger' : ''}" id="confirm-ok">${confirmLabel}</button>
+      </div>
+    </div>
+  `;
+
+  document.body.appendChild(overlay);
+
+  // Animacja wejścia
+  requestAnimationFrame(() => overlay.classList.add('open'));
+
+  function close() {
+    overlay.classList.remove('open');
+    overlay.addEventListener('transitionend', () => overlay.remove(), { once: true });
+  }
+
+  document.getElementById('confirm-cancel').onclick = close;
+  document.getElementById('confirm-ok').onclick = () => { close(); onConfirm(); };
+  overlay.addEventListener('click', e => { if (e.target === overlay) close(); });
+
+  // Zamknij na Escape
+  function onKey(e) {
+    if (e.key === 'Escape') { close(); document.removeEventListener('keydown', onKey); }
+  }
+  document.addEventListener('keydown', onKey);
+}

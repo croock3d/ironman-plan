@@ -232,9 +232,16 @@ function addExercise(pi, di) {
 }
 
 function removeExercise(pi, di, ei) {
-  if (!confirm('Usunąć ćwiczenie?')) return;
-  data.phases[pi].days[di].exercises.splice(ei, 1);
-  renderEdit();
+  showConfirm({
+    title: 'Usuń ćwiczenie',
+    message: 'Ćwiczenie zostanie trwale usunięte z dnia treningowego.',
+    confirmLabel: 'Usuń',
+    danger: true,
+    onConfirm: () => {
+      data.phases[pi].days[di].exercises.splice(ei, 1);
+      renderEdit();
+    }
+  });
 }
 
 function moveExercise(pi, di, ei, dir) {
@@ -256,9 +263,16 @@ function addDay(pi) {
 }
 
 function removeDay(pi, di) {
-  if (!confirm('Usunąć cały dzień?')) return;
-  data.phases[pi].days.splice(di, 1);
-  renderEdit();
+  showConfirm({
+    title: 'Usuń dzień treningowy',
+    message: 'Wszystkie ćwiczenia w tym dniu zostaną trwale usunięte.',
+    confirmLabel: 'Usuń',
+    danger: true,
+    onConfirm: () => {
+      data.phases[pi].days.splice(di, 1);
+      renderEdit();
+    }
+  });
 }
 
 function addPhase() {
@@ -278,10 +292,17 @@ function saveEdits() {
 }
 
 function resetData() {
-  if (!confirm('Reset do domyślnych danych? Utracisz wszystkie zmiany!')) return;
-  data = JSON.parse(JSON.stringify(DEFAULT_DATA));
-  doneState = {};
-  saveToStorage();
-  renderEdit();
-  showToast('Zresetowano do v6');
+  showConfirm({
+    title: 'Reset do domyślnych danych',
+    message: 'Utracisz wszystkie własne zmiany w planie. Historia treningów zostanie zachowana.',
+    confirmLabel: 'Resetuj',
+    danger: true,
+    onConfirm: () => {
+      data = JSON.parse(JSON.stringify(DEFAULT_DATA));
+      doneState = {};
+      saveToStorage();
+      renderEdit();
+      showToast('Zresetowano do v6');
+    }
+  });
 }

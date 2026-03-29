@@ -21,6 +21,12 @@ function showScreen(name) {
 // ============================================================
 loadFromStorage();
 
+// Odtwórz niezakończony trening z localStorage (jeśli istnieje)
+const _savedActive = loadActiveWorkout();
+if (_savedActive) {
+  activeWorkout = _savedActive;
+}
+
 if (!getToken()) {
   showScreen('settings');
   document.getElementById('btn-settings').classList.add('active');

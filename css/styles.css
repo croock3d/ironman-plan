@@ -614,6 +614,731 @@ tr.ex-done .ex-name { text-decoration: line-through; color: var(--text3); }
 }
 .ex-link:hover { opacity: 1; transform: scale(1.1); }
 
+/* ============================================================
+   LOG — NOWY UI
+   ============================================================ */
+
+/* Ekran startowy */
+.log-screen { padding: 16px 16px 80px; }
+
+.log-today-bar {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 14px;
+}
+.log-today-label {
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--text3);
+  font-family: var(--mono);
+  text-transform: uppercase;
+  letter-spacing: 0.6px;
+}
+.log-today-day {
+  font-size: 13px;
+  font-weight: 800;
+  color: var(--green);
+  letter-spacing: -0.3px;
+}
+.log-today-rest {
+  font-size: 12px;
+  color: var(--text3);
+}
+
+/* Karta sugestii treningu */
+.log-suggest-card {
+  background: var(--bg2);
+  border: 1.5px solid var(--green-dim);
+  border-radius: 12px;
+  padding: 16px;
+  margin-bottom: 14px;
+  position: relative;
+  overflow: hidden;
+}
+.log-suggest-card::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 2px;
+  background: var(--green);
+}
+.log-suggest-eyebrow {
+  font-size: 10px;
+  font-weight: 700;
+  color: var(--green);
+  font-family: var(--mono);
+  text-transform: uppercase;
+  letter-spacing: 0.8px;
+  margin-bottom: 6px;
+}
+.log-suggest-name {
+  font-size: 16px;
+  font-weight: 800;
+  color: var(--text);
+  margin-bottom: 3px;
+  letter-spacing: -0.3px;
+}
+.log-suggest-focus {
+  font-size: 12px;
+  color: var(--text2);
+  margin-bottom: 12px;
+  line-height: 1.4;
+}
+.log-suggest-meta {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+  margin-bottom: 14px;
+}
+.log-meta-chip {
+  font-size: 10px;
+  font-family: var(--mono);
+  color: var(--text3);
+  background: var(--bg3);
+  border: 1px solid var(--border);
+  border-radius: 5px;
+  padding: 3px 8px;
+  white-space: nowrap;
+}
+
+.btn-start-workout {
+  width: 100%;
+  background: var(--green);
+  color: #000;
+  border: none;
+  border-radius: 10px;
+  padding: 14px;
+  font-size: 15px;
+  font-weight: 800;
+  font-family: var(--font);
+  cursor: pointer;
+  touch-action: manipulation;
+  transition: opacity .15s, transform .1s;
+  letter-spacing: -0.2px;
+  margin-bottom: 8px;
+}
+.btn-start-workout:hover { opacity: .9; }
+.btn-start-workout:active { transform: scale(.98); }
+
+.btn-pick-other {
+  width: 100%;
+  background: transparent;
+  color: var(--text2);
+  border: 1px solid var(--border2);
+  border-radius: 10px;
+  padding: 10px;
+  font-size: 13px;
+  font-weight: 600;
+  font-family: var(--font);
+  cursor: pointer;
+  transition: all .15s;
+}
+.btn-pick-other:hover { background: var(--bg3); color: var(--text); }
+
+/* Picker "inny trening" */
+.log-picker {
+  background: var(--bg2);
+  border: 1px solid var(--border2);
+  border-radius: 10px;
+  padding: 14px;
+  margin-bottom: 14px;
+  display: none;
+}
+.log-picker.open { display: block; }
+.log-picker .field-group:last-child { margin-bottom: 0; }
+
+/* Karta "dzień bez siłowni" */
+.log-rest-card {
+  background: var(--bg2);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 16px;
+  margin-bottom: 14px;
+  text-align: center;
+}
+.log-rest-icon { font-size: 28px; margin-bottom: 8px; }
+.log-rest-title { font-size: 14px; font-weight: 700; color: var(--text2); margin-bottom: 4px; }
+.log-rest-sub { font-size: 12px; color: var(--text3); margin-bottom: 14px; line-height: 1.5; }
+
+/* Historia */
+.log-hist-title {
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--text3);
+  text-transform: uppercase;
+  letter-spacing: 0.8px;
+  font-family: var(--mono);
+  padding: 4px 0 10px;
+}
+
+.log-entry {
+  background: var(--bg2);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  margin-bottom: 8px;
+  overflow: hidden;
+}
+.log-entry-header {
+  padding: 10px 12px;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 8px;
+  cursor: pointer;
+  user-select: none;
+}
+.log-entry-title { font-size: 12px; font-weight: 700; color: var(--text); line-height: 1.3; }
+.log-entry-sub { font-size: 10px; color: var(--text3); margin-top: 1px; font-family: var(--mono); }
+.log-entry-right { text-align: right; flex-shrink: 0; max-width: 55%; }
+.log-entry-date { font-family: var(--mono); font-size: 11px; color: var(--text3); display: block; }
+.log-entry-stats {
+  display: flex;
+  gap: 6px;
+  margin-top: 3px;
+  justify-content: flex-end;
+  flex-wrap: wrap;
+}
+.log-stat-chip {
+  font-size: 10px;
+  font-family: var(--mono);
+  padding: 2px 6px;
+  border-radius: 4px;
+  background: var(--bg3);
+  border: 1px solid var(--border);
+  color: var(--text3);
+}
+.log-stat-chip.green { background: var(--green-bg); border-color: var(--green-dim); color: var(--green); }
+
+.log-entry-body {
+  display: none;
+  padding: 10px 12px;
+  border-top: 1px solid var(--border);
+}
+.log-entry.expanded .log-entry-body { display: block; }
+.log-entry-note {
+  font-size: 12px;
+  color: var(--text2);
+  margin-bottom: 10px;
+  padding-bottom: 8px;
+  border-bottom: 1px solid var(--border);
+  line-height: 1.5;
+  font-style: italic;
+}
+.log-hist-ex-name {
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--text2);
+  margin: 6px 0 3px;
+}
+.log-hist-sets {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+}
+.log-hist-set-chip {
+  font-size: 10px;
+  font-family: var(--mono);
+  padding: 3px 7px;
+  border-radius: 4px;
+  background: var(--bg3);
+  border: 1px solid var(--border);
+  color: var(--text2);
+  white-space: nowrap;
+}
+.log-hist-set-chip.done { color: var(--green); border-color: var(--green-dim); background: var(--green-bg); }
+.log-hist-set-chip.skipped { color: var(--text3); text-decoration: line-through; }
+.log-warmup-summary { font-size: 11px; color: #c4b5fd; margin-bottom: 8px; }
+
+/* ============================================================
+   LOG — EKRAN AKTYWNEGO TRENINGU
+   ============================================================ */
+.log-active { padding: 0 16px 100px; }
+
+.log-active-header {
+  position: sticky;
+  top: 52px;
+  z-index: 50;
+  background: rgba(13,13,13,0.97);
+  backdrop-filter: blur(12px);
+  border-bottom: 1px solid var(--border);
+  padding: 10px 0;
+  margin: 0 -16px 16px;
+  padding-left: 16px;
+  padding-right: 16px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.log-active-info { flex: 1; min-width: 0; }
+.log-active-name {
+  font-size: 14px;
+  font-weight: 800;
+  color: var(--text);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  letter-spacing: -0.3px;
+}
+.log-active-phase {
+  font-size: 10px;
+  color: var(--text3);
+  font-family: var(--mono);
+  margin-top: 1px;
+}
+.btn-abort {
+  background: transparent;
+  border: 1px solid #4a1515;
+  color: var(--red);
+  border-radius: 8px;
+  padding: 8px 14px;
+  min-height: 44px;
+  font-size: 11px;
+  font-weight: 600;
+  font-family: var(--font);
+  cursor: pointer;
+  touch-action: manipulation;
+  white-space: nowrap;
+  transition: background .15s;
+  flex-shrink: 0;
+}
+.btn-abort:hover { background: #1c0a0a; }
+
+/* Rozgrzewka w aktywnym treningu */
+.log-warmup-block {
+  background: var(--purple-bg);
+  border: 1px solid #3b1f6e;
+  border-radius: 10px;
+  margin-bottom: 12px;
+  overflow: hidden;
+}
+.log-warmup-header {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 12px;
+  cursor: pointer;
+  user-select: none;
+}
+.log-warmup-toggle-icon {
+  font-size: 11px;
+  color: var(--purple);
+  transition: transform .2s;
+}
+.log-warmup-block.open .log-warmup-toggle-icon { transform: rotate(90deg); }
+.log-warmup-title-text {
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--purple);
+  flex: 1;
+  text-transform: uppercase;
+  letter-spacing: 0.4px;
+}
+.log-warmup-progress {
+  font-size: 10px;
+  font-family: var(--mono);
+  color: #a78bfa;
+}
+.log-warmup-items {
+  display: none;
+  padding: 0 12px 10px;
+}
+.log-warmup-block.open .log-warmup-items { display: block; }
+.log-warmup-item-row {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  padding: 7px 0;
+  border-bottom: 1px solid rgba(167,139,250,0.12);
+}
+.log-warmup-item-row:last-child { border-bottom: none; }
+.log-warmup-check {
+  width: 36px;
+  height: 36px;
+  min-width: 36px;
+  border-radius: 8px;
+  border: 2px solid #4c2a99;
+  background: transparent;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 14px;
+  transition: all .15s;
+  flex-shrink: 0;
+  margin-top: 1px;
+}
+.log-warmup-check.done { background: var(--purple); border-color: var(--purple); color: #fff; }
+.log-warmup-item-text {
+  font-size: 12px;
+  color: #c4b5fd;
+  line-height: 1.5;
+  flex: 1;
+}
+.log-warmup-item-text.done { color: #7c5fc9; text-decoration: line-through; }
+.warmup-note-text {
+  font-size: 11px;
+  color: #a78bfa;
+  font-style: italic;
+  padding: 4px 0 2px;
+  line-height: 1.5;
+}
+
+/* Ćwiczenie — karta aktywna */
+.log-ex-card {
+  background: var(--bg2);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  margin-bottom: 10px;
+  overflow-x: auto;
+  overflow-y: hidden;
+  -webkit-overflow-scrolling: touch;
+  transition: border-color .15s;
+}
+.log-ex-card.has-input { border-color: var(--border2); }
+
+.log-ex-card-header {
+  padding: 12px 14px 8px;
+}
+.log-ex-card-top {
+  display: flex;
+  align-items: flex-start;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 4px;
+}
+.log-ex-card-name {
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--text);
+  flex: 1;
+  line-height: 1.3;
+  letter-spacing: -0.2px;
+}
+.log-ex-sets-label {
+  font-size: 11px;
+  font-family: var(--mono);
+  color: var(--text3);
+  background: var(--bg3);
+  border: 1px solid var(--border);
+  border-radius: 5px;
+  padding: 3px 7px;
+  white-space: nowrap;
+  flex-shrink: 0;
+  margin-top: 2px;
+}
+.log-ex-prog-line {
+  font-size: 11px;
+  color: #86efac;
+  line-height: 1.4;
+  margin-bottom: 4px;
+}
+.log-ex-note-line {
+  font-size: 11px;
+  color: var(--text3);
+  line-height: 1.4;
+  font-style: italic;
+}
+
+/* Tabela serii */
+.log-sets-table {
+  width: 100%;
+  border-collapse: collapse;
+  border-top: 1px solid var(--border);
+}
+.log-sets-table thead th {
+  text-align: left;
+  padding: 6px 10px;
+  font-size: 9px;
+  font-weight: 700;
+  color: var(--text3);
+  text-transform: uppercase;
+  letter-spacing: 0.6px;
+  font-family: var(--mono);
+  background: var(--bg3);
+}
+.log-sets-table thead th:last-child { text-align: center; }
+.log-sets-table tbody tr { transition: background .1s; }
+.log-sets-table tbody tr.set-done-row { background: rgba(34,197,94,0.04); }
+.log-sets-table td {
+  padding: 7px 10px;
+  border-bottom: 1px solid var(--border);
+  vertical-align: middle;
+}
+.log-sets-table tbody tr:last-child td { border-bottom: none; }
+
+.log-set-num {
+  font-size: 11px;
+  font-family: var(--mono);
+  color: var(--text3);
+  min-width: 20px;
+}
+.log-set-prev {
+  font-size: 10px;
+  font-family: var(--mono);
+  color: var(--text3);
+  white-space: nowrap;
+  min-width: 60px;
+}
+.log-set-prev span { color: var(--text2); }
+.log-set-input {
+  width: 64px;
+  min-height: 36px;
+  background: var(--bg3);
+  border: 1px solid var(--border2);
+  border-radius: 6px;
+  color: var(--text);
+  font-size: 13px;
+  font-family: var(--mono);
+  font-weight: 600;
+  padding: 5px 6px;
+  text-align: center;
+  outline: none;
+  transition: border-color .15s;
+  -moz-appearance: textfield;
+}
+.log-set-input::-webkit-outer-spin-button,
+.log-set-input::-webkit-inner-spin-button { -webkit-appearance: none; }
+.log-set-input:focus { border-color: var(--green); }
+.log-set-input.reps { width: 48px; }
+.log-set-sep { font-size: 10px; color: var(--text3); padding: 0 2px; }
+.log-set-done-btn {
+  width: 36px;
+  height: 36px;
+  border-radius: 8px;
+  border: 2px solid var(--border2);
+  background: transparent;
+  cursor: pointer;
+  touch-action: manipulation;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 14px;
+  transition: all .15s;
+  margin: 0 auto;
+}
+.log-set-done-btn.done { background: var(--green); border-color: var(--green); color: #000; }
+
+/* Tabela serii — inputs cell */
+.log-sets-inputs-cell {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+.log-sets-done-cell { text-align: center; }
+
+/* Notatka i przycisk zapisu */
+.log-session-footer {
+  margin-top: 16px;
+  background: var(--bg2);
+  border: 1px solid var(--border2);
+  border-radius: 12px;
+  padding: 14px;
+}
+.log-footer-label {
+  font-size: 10px;
+  font-weight: 700;
+  color: var(--text3);
+  font-family: var(--mono);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-bottom: 8px;
+}
+.log-note-textarea {
+  width: 100%;
+  background: var(--bg3);
+  border: 1px solid var(--border2);
+  border-radius: 8px;
+  color: var(--text);
+  font-size: 13px;
+  font-family: var(--font);
+  padding: 8px 10px;
+  outline: none;
+  resize: none;
+  min-height: 64px;
+  line-height: 1.5;
+  transition: border-color .15s;
+  margin-bottom: 12px;
+}
+.log-note-textarea:focus { border-color: var(--green); }
+.btn-save-session {
+  width: 100%;
+  background: var(--green);
+  color: #000;
+  border: none;
+  border-radius: 10px;
+  padding: 14px;
+  font-size: 15px;
+  font-weight: 800;
+  font-family: var(--font);
+  cursor: pointer;
+  touch-action: manipulation;
+  transition: opacity .15s, transform .1s;
+  letter-spacing: -0.2px;
+}
+.btn-save-session:hover { opacity: .9; }
+.btn-save-session:active { transform: scale(.98); }
+
+.log-entry-actions {
+  display: flex;
+  gap: 8px;
+  margin-top: 12px;
+  padding-top: 10px;
+  border-top: 1px solid var(--border);
+}
+
+/* Baner odzyskiwania niezakończonego treningu */
+.log-recovery-banner {
+  background: var(--amber-bg);
+  border: 1.5px solid #7c4b00;
+  border-radius: 12px;
+  padding: 16px;
+  margin-bottom: 14px;
+  position: relative;
+  overflow: hidden;
+}
+.log-recovery-banner::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 2px;
+  background: var(--amber);
+}
+.log-recovery-icon { font-size: 20px; margin-bottom: 6px; }
+.log-recovery-title {
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--amber);
+  font-family: var(--mono);
+  text-transform: uppercase;
+  letter-spacing: 0.8px;
+  margin-bottom: 4px;
+}
+.log-recovery-day {
+  font-size: 16px;
+  font-weight: 800;
+  color: var(--text);
+  margin-bottom: 6px;
+  letter-spacing: -0.3px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.log-recovery-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 14px;
+  font-size: 11px;
+  font-family: var(--mono);
+  color: var(--text3);
+}
+.log-recovery-btns { display: flex; flex-direction: column; gap: 8px; }
+
+/* ============================================================
+   CONFIRM MODAL
+   ============================================================ */
+.confirm-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 500;
+  background: rgba(0,0,0,0);
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  transition: background .2s;
+  padding: 0;
+}
+.confirm-overlay.open {
+  background: rgba(0,0,0,0.7);
+  backdrop-filter: blur(4px);
+}
+
+.confirm-modal {
+  background: var(--bg2);
+  border: 1px solid var(--border2);
+  border-radius: 16px 16px 0 0;
+  padding: 24px 20px calc(32px + env(safe-area-inset-bottom, 0px));
+  width: 100%;
+  max-width: 480px;
+  transform: translateY(100%);
+  transition: transform .25s cubic-bezier(0.32, 0.72, 0, 1);
+}
+.confirm-overlay.open .confirm-modal {
+  transform: translateY(0);
+}
+
+.confirm-title {
+  font-size: 17px;
+  font-weight: 800;
+  color: var(--text);
+  margin-bottom: 6px;
+  letter-spacing: -0.3px;
+}
+.confirm-message {
+  font-size: 13px;
+  color: var(--text2);
+  line-height: 1.5;
+  margin-bottom: 22px;
+}
+.confirm-actions {
+  display: flex;
+  gap: 10px;
+}
+.confirm-btn-cancel {
+  flex: 1;
+  background: var(--bg3);
+  border: 1px solid var(--border2);
+  color: var(--text2);
+  border-radius: 10px;
+  padding: 13px;
+  min-height: 44px;
+  font-size: 14px;
+  font-weight: 600;
+  font-family: var(--font);
+  cursor: pointer;
+  transition: background .15s, color .15s;
+}
+.confirm-btn-cancel:hover { background: var(--bg4); color: var(--text); }
+
+.confirm-btn-ok {
+  flex: 1;
+  background: var(--green);
+  border: none;
+  color: #000;
+  border-radius: 10px;
+  padding: 13px;
+  min-height: 44px;
+  font-size: 14px;
+  font-weight: 800;
+  font-family: var(--font);
+  cursor: pointer;
+  transition: opacity .15s;
+}
+.confirm-btn-ok:hover { opacity: .88; }
+.confirm-btn-ok.danger {
+  background: var(--red);
+  color: #fff;
+}
+
+/* Desktop — wycentrowany modal zamiast sheet */
+@media (min-width: 481px) {
+  .confirm-overlay {
+    align-items: center;
+    padding: 20px;
+  }
+  .confirm-modal {
+    border-radius: 16px;
+    transform: scale(0.95);
+    opacity: 0;
+    transition: transform .2s cubic-bezier(0.32, 0.72, 0, 1), opacity .2s;
+  }
+  .confirm-overlay.open .confirm-modal {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
 /* ---- MOBILE RESPONSIVENESS ---- */
 
 /* 480px — tabele, nawigacja, karty */
@@ -659,6 +1384,18 @@ tr.ex-done .ex-name { text-decoration: line-through; color: var(--text3); }
   /* Log */
   .progress-screen { padding: 12px 12px 80px; }
   .log-day-select { padding: 12px; }
+
+  /* Log nowy */
+  .log-screen { padding: 12px 12px 80px; }
+  .log-active { padding: 0 12px 100px; }
+  .log-active-header { margin: 0 -12px 14px; padding-left: 12px; padding-right: 12px; }
+  .log-set-input { width: 54px; }
+  .log-set-input.reps { width: 40px; }
+  .log-sets-table thead th { padding: 5px 7px; font-size: 8px; }
+  .log-sets-table td { padding: 6px 7px; }
+  .log-set-prev { min-width: 44px; font-size: 9px; }
+  .log-ex-card-name { font-size: 13px; }
+  .log-entry-right { max-width: 48%; flex-shrink: 1; }
 }
 
 /* 360px — jeszcze mniejsze ekrany */
