@@ -2,6 +2,8 @@
 // SCREENS
 // ============================================================
 
+const VALID_SCREENS = ['plan', 'edit', 'log', 'settings'];
+
 function showScreen(name) {
   document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
   document.getElementById('screen-' + name).classList.add('active');
@@ -14,6 +16,7 @@ function showScreen(name) {
   if (name === 'edit') renderEdit();
   if (name === 'log') renderLog();
   if (name === 'settings') renderSettings();
+  history.replaceState(null, '', '#' + name);
 }
 
 // ============================================================
@@ -27,13 +30,18 @@ if (_savedActive) {
   activeWorkout = _savedActive;
 }
 
+// Ustal ekran startowy: hash z URL → fallback na plan/settings
+const _hashScreen = window.location.hash.replace('#', '');
+const _startScreen = VALID_SCREENS.includes(_hashScreen) ? _hashScreen : null;
+
 if (!getToken()) {
   showScreen('settings');
-  document.getElementById('btn-settings').classList.add('active');
   showToast('⚙️ Wpisz token GitHub aby włączyć sync');
+} else if (_startScreen) {
+  showScreen(_startScreen);
+  if (_startScreen === 'plan') syncFromGist().then(ok => { if (ok) renderPlan(); });
 } else {
   showScreen('plan');
-  document.getElementById('btn-plan').classList.add('active');
   syncFromGist().then(ok => { if (ok) renderPlan(); });
 }
 
