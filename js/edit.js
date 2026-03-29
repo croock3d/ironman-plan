@@ -150,7 +150,7 @@ function renderEdit() {
 
 function makeEditSection(title, meta) {
   const sec = document.createElement('div');
-  sec.className = 'edit-section open';
+  sec.className = 'edit-section';
   sec.innerHTML = `
     <div class="edit-section-header" onclick="this.parentElement.classList.toggle('open')">
       <div class="edit-section-title">${title}</div>
