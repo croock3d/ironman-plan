@@ -5,6 +5,7 @@ on:
     branches: [main]
     paths-ignore:
       - '.github/**'   # nie triggeruj od własnych commitów
+      - 'index.html'   # nie triggeruj od cache-bust commitu bota
 
 jobs:
   bust:
