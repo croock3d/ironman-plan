@@ -592,15 +592,24 @@ tr.ex-done .ex-name { text-decoration: line-through; color: var(--text3); }
 
 /* ---- EXERCISE / WARMUP LINK ---- */
 .ex-link {
-  display: inline-block;
-  margin-left: 6px;
-  font-size: 12px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  margin-left: 7px;
+  width: 20px;
+  height: 20px;
+  border-radius: 4px;
+  background: #ff0000;
+  color: #fff;
+  font-size: 9px;
   text-decoration: none;
-  opacity: 0.7;
   vertical-align: middle;
-  transition: opacity .15s;
+  line-height: 1;
+  opacity: 0.85;
+  transition: opacity .15s, transform .15s;
+  flex-shrink: 0;
 }
-.ex-link:hover { opacity: 1; }
+.ex-link:hover { opacity: 1; transform: scale(1.1); }
 
 /* ---- MOBILE RESPONSIVENESS ---- */
 

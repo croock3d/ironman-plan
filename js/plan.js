@@ -51,7 +51,7 @@ function renderPlan() {
       ${wu.items.map(it => {
         const text = typeof it === 'string' ? it : it.text;
         const link = typeof it === 'object' && it.link ? it.link : '';
-        return `<div class="warmup-item">${text}${link ? `<a href="${link}" target="_blank" rel="noopener" class="ex-link">🔗</a>` : ''}</div>`;
+        return `<div class="warmup-item">${text}${link ? `<a href="${link}" target="_blank" rel="noopener" class="ex-link" title="Zobacz wideo">▶</a>` : ''}</div>`;
       }).join('')}
       <div class="warmup-note">${wu.note}</div>
     </div>`;
@@ -62,16 +62,15 @@ function renderPlan() {
     const rows = day.exercises.map((e, ei) => {
       const doneKey = `${currentPhase}-${di}-${ei}`;
       const isDone = doneState[doneKey];
-      return `<tr class="${isDone?'ex-done':''}" id="ex-row-${currentPhase}-${di}-${ei}">
+      return `<tr id="ex-row-${currentPhase}-${di}-${ei}">
         <td>
-          <div class="ex-name">${e.name}${e.link ? `<a href="${e.link}" target="_blank" rel="noopener" class="ex-link">🔗</a>` : ''}</div>
+          <div class="ex-name">${e.name}${e.link ? `<a href="${e.link}" target="_blank" rel="noopener" class="ex-link" title="Zobacz wideo">▶</a>` : ''}</div>
           ${e.note ? `<div class="ex-sub">${e.note}</div>` : ''}
           ${e.prog ? `<div class="ex-prog">↗ ${e.prog}</div>` : ''}
           ${e.why ? `<div class="ex-why">∵ ${e.why} ${tagHtml(e.tag)}</div>` : tagHtml(e.tag) ? `<div class="ex-why">${tagHtml(e.tag)}</div>` : ''}
         </td>
         <td class="ex-sets">${e.sets}</td>
         <td class="ex-tempo col-tempo">${e.tempo}</td>
-        <td><button class="done-btn ${isDone?'done':''}" onclick="toggleDone(${currentPhase},${di},${ei})">✓</button></td>
       </tr>`;
     }).join('');
 
@@ -87,7 +86,7 @@ function renderPlan() {
         ${day.changes ? `<div class="change-box"><strong>Zmiany:</strong> ${day.changes}</div>` : ''}
         <div class="note-box">${day.note}</div>
         <table class="ex-table">
-          <thead><tr><th>Ćwiczenie</th><th>Serie</th><th class="col-tempo">Tempo</th><th></th></tr></thead>
+          <thead><tr><th>Ćwiczenie</th><th>Serie</th><th class="col-tempo">Tempo</th></tr></thead>
           <tbody>${rows}</tbody>
         </table>
       </div>`;
