@@ -66,6 +66,7 @@ function renderPlan() {
         <td>
           <div class="ex-name">${e.name}${e.link ? `<a href="${e.link}" target="_blank" rel="noopener" class="ex-link" title="Zobacz wideo">▶</a>` : ''}</div>
           ${e.note ? `<div class="ex-sub">${e.note}</div>` : ''}
+          ${e.prog ? `<div class="ex-prog-inline">↗ ${e.prog}</div>` : ''}
           ${e.why ? `<div class="ex-why">∵ ${e.why} ${tagHtml(e.tag)}</div>` : tagHtml(e.tag) ? `<div class="ex-why">${tagHtml(e.tag)}</div>` : ''}
         </td>
         <td class="ex-sets">${e.sets}</td>

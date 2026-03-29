@@ -283,6 +283,7 @@ body {
 .ex-sub { font-size: 11px; color: var(--text3); margin-top: 2px; line-height: 1.5; }
 .ex-prog { font-size: 11px; color: #86efac; margin-top: 2px; }
 .ex-prog-cell { font-size: 11px; color: #86efac; line-height: 1.5; }
+.ex-prog-inline { display: none; font-size: 10px; color: #86efac; margin-top: 3px; line-height: 1.4; }
 .col-prog { min-width: 140px; max-width: 220px; vertical-align: top; padding-top: 10px; }
 .ex-why { font-size: 11px; color: #c4b5fd; margin-top: 2px; }
 .ex-sets { font-size: 12px; font-weight: 600; color: var(--text); font-family: var(--mono); white-space: nowrap; min-width: 80px; }
@@ -642,8 +643,9 @@ tr.ex-done .ex-name { text-decoration: line-through; color: var(--text3); }
   .ex-sets { font-size: 11px; min-width: 60px; }
   .ex-tempo { font-size: 10px; min-width: 55px; }
   .ex-table thead th { padding: 5px 5px; font-size: 9px; }
-  /* Ukryj kolumnę progresji — za szeroka na mobile */
+  /* Kolumna progresji chowana — pokazuje się inline pod nazwą */
   .col-prog { display: none; }
+  .ex-prog-inline { display: block; }
 
   /* Phase info */
   .phase-info { margin: 0 10px 10px; font-size: 11px; }
