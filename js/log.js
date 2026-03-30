@@ -412,7 +412,8 @@ function startWorkout(phaseIdx, dayIdx) {
     dayIdx,
     startedAt: new Date().toISOString(),
     warmupChecked: new Set(),
-    sets
+    sets,
+    note: ''
   };
 
   persistActiveWorkout();
@@ -610,15 +611,23 @@ function buildExCard(ex, ei, phaseIdx, dayIdx) {
 function buildSessionFooter() {
   const footer = document.createElement('div');
   footer.className = 'log-session-footer';
+  const savedNote = (activeWorkout && activeWorkout.note) ? activeWorkout.note : '';
   footer.innerHTML = `
     <div class="log-footer-label">Notatka do sesji (opcjonalna)</div>
     <textarea class="log-note-textarea" id="log-session-note"
-      placeholder="np. czułem się dobrze, hip thrust poszedł sprawnie..."></textarea>
+      placeholder="np. czułem się dobrze, hip thrust poszedł sprawnie..."
+      oninput="updateSessionNote(this.value)">${savedNote}</textarea>
     <button class="btn-save-session" onclick="saveWorkoutSession()">
       Zapisz sesję
     </button>
   `;
   return footer;
+}
+
+function updateSessionNote(value) {
+  if (!activeWorkout) return;
+  activeWorkout.note = value;
+  persistActiveWorkout();
 }
 
 // ============================================================
@@ -711,7 +720,7 @@ function saveWorkoutSession() {
   const day = phase.days[dayIdx];
 
   const noteEl = document.getElementById('log-session-note');
-  const note = noteEl ? noteEl.value.trim() : '';
+  const note = noteEl ? noteEl.value.trim() : (activeWorkout.note || '').trim();
 
   // Zlicz ćwiczenia główne (done = przynajmniej 1 seria zaznaczona)
   let doneCount = 0;
