@@ -1664,7 +1664,7 @@ tr.ex-done .ex-name { text-decoration: line-through; color: var(--text3); }
   color: var(--green);
 }
 
-/* Iframe Eisenberga */
+/* Iframe Eisenberga (zachowane dla ewentualnego przyszłego użycia) */
 .pool-iframe-wrap {
   position: relative;
   width: 100%;
@@ -1678,6 +1678,52 @@ tr.ex-done .ex-name { text-decoration: line-through; color: var(--text3); }
   display: block;
 }
 
+/* Fallback gdy iframe z PDF nie załaduje się (np. iOS PWA) */
+.pool-pdf-fallback {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--bg2);
+}
+
+.pool-pdf-fallback-inner {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  padding: 32px 24px;
+  text-align: center;
+}
+
+.pool-pdf-fallback-icon {
+  font-size: 36px;
+  opacity: 0.5;
+}
+
+.pool-pdf-fallback-text {
+  font-size: 13px;
+  color: var(--text3);
+  line-height: 1.5;
+  max-width: 220px;
+}
+
+.pool-pdf-fallback-btn {
+  display: inline-block;
+  padding: 10px 20px;
+  background: var(--green-bg);
+  border: 1px solid var(--green-dim);
+  border-radius: 8px;
+  color: var(--green);
+  font-size: 13px;
+  font-weight: 600;
+  text-decoration: none;
+  transition: opacity .15s;
+}
+
+.pool-pdf-fallback-btn:hover { opacity: .8; }
+
 /* Mobile */
 @media (max-width: 480px) {
   .pools-screen { padding: 14px 10px 80px; }
@@ -1688,4 +1734,911 @@ tr.ex-done .ex-name { text-decoration: line-through; color: var(--text3); }
   .pool-iframe-wrap { height: 500px; }
   .pool-name { font-size: 14px; }
   .pool-tab { font-size: 11px; padding: 3px 8px; }
+  .pool-pdf-list { padding: 8px 12px 14px; gap: 5px; }
+  .pool-pdf-title { font-size: 12px; }
+}
+
+/* ============================================================
+   BREATH — ekran trenażera oddechowego PowerBreathe+
+   ============================================================ */
+
+.breath-screen {
+  padding: 20px 16px 80px;
+  max-width: 600px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+/* ---- DASHBOARD CARD ---- */
+.breath-dashboard {
+  background: var(--bg2);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: 18px 18px 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  position: relative;
+  overflow: hidden;
+}
+
+.breath-dashboard::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 3px;
+  background: linear-gradient(90deg, var(--green) 0%, #86efac 100%);
+  border-radius: 14px 14px 0 0;
+}
+
+.breath-dash-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+}
+
+.breath-phase-badge {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.6px;
+  color: var(--green);
+  background: var(--green-bg);
+  border: 1px solid var(--green-dim);
+  border-radius: 20px;
+  padding: 4px 12px;
+  font-family: var(--mono);
+  text-transform: uppercase;
+}
+
+.breath-week-badge {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.6px;
+  color: var(--text3);
+  background: var(--bg3);
+  border: 1px solid var(--border);
+  border-radius: 20px;
+  padding: 4px 10px;
+  font-family: var(--mono);
+}
+
+.breath-dash-today {
+  font-size: 11px;
+  color: var(--text3);
+  font-family: var(--mono);
+}
+
+/* ---- PHASE INFO BOX (reużywa .phase-info + override) ---- */
+.breath-phase-info {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 12px 14px;
+}
+
+.breath-pi-header {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.breath-pi-header strong {
+  color: var(--green);
+  font-size: 13px;
+  font-weight: 700;
+  flex: 1;
+  min-width: 120px;
+}
+
+.breath-pi-weeks {
+  font-size: 11px;
+  color: #86efac;
+  font-family: var(--mono);
+  white-space: nowrap;
+}
+
+.breath-pi-status {
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.4px;
+  border-radius: 5px;
+  padding: 2px 8px;
+  font-family: var(--mono);
+  white-space: nowrap;
+}
+
+.breath-pi-status.active {
+  background: var(--green-bg);
+  color: var(--green);
+  border: 1px solid var(--green-dim);
+}
+
+.breath-pi-status.done {
+  background: var(--bg3);
+  color: var(--text3);
+  border: 1px solid var(--border);
+}
+
+.breath-pi-status.upcoming {
+  background: var(--bg3);
+  color: var(--text3);
+  border: 1px solid var(--border);
+}
+
+.breath-pi-desc {
+  font-size: 12px;
+  color: #86efac;
+  line-height: 1.55;
+}
+
+.breath-pi-chips {
+  display: flex;
+  gap: 6px;
+  flex-wrap: wrap;
+  margin-top: 2px;
+}
+
+.breath-pi-chip {
+  font-size: 11px;
+  font-weight: 500;
+  color: var(--green);
+  background: rgba(34,197,94,0.08);
+  border: 1px solid var(--green-dim);
+  border-radius: 6px;
+  padding: 3px 9px;
+  white-space: nowrap;
+  font-family: var(--mono);
+}
+
+.breath-pi-tip {
+  font-size: 11px;
+  color: #86efac;
+  opacity: 0.75;
+  line-height: 1.5;
+  font-style: italic;
+  margin-top: 2px;
+}
+
+/* ---- PODGLĄD FAZY UKOŃCZONEJ ---- */
+.breath-preview-wrap {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.breath-preview-stats {
+  background: var(--bg2);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.breath-preview-label {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.6px;
+  text-transform: uppercase;
+  color: var(--text3);
+}
+
+.breath-preview-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 8px;
+}
+
+.breath-prev-stat {
+  background: var(--bg3);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 12px 8px;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.breath-prev-val {
+  font-size: 22px;
+  font-weight: 800;
+  color: var(--text);
+  font-family: var(--mono);
+  line-height: 1;
+}
+
+.breath-prev-key {
+  font-size: 10px;
+  color: var(--text3);
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.4px;
+}
+
+.breath-prev-range {
+  font-size: 11px;
+  color: var(--text3);
+  font-family: var(--mono);
+  text-align: center;
+}
+
+/* ---- PODGLĄD FAZY NADCHODZĄCEJ ---- */
+.breath-preview-upcoming {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  padding: 32px 16px;
+  background: var(--bg2);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  text-align: center;
+}
+
+.breath-upcoming-icon {
+  font-size: 32px;
+  opacity: 0.5;
+}
+
+.breath-upcoming-title {
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--text2);
+}
+
+.breath-upcoming-desc {
+  font-size: 13px;
+  color: var(--text3);
+  line-height: 1.5;
+  max-width: 280px;
+}
+  line-height: 1.5;
+}
+
+/* ---- PROGRESS BAR ---- */
+.breath-progress-wrap {
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+}
+
+.breath-progress-label {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 12px;
+  color: var(--text2);
+  font-weight: 500;
+}
+
+.breath-progress-count {
+  font-family: var(--mono);
+  font-size: 12px;
+  color: var(--green);
+  font-weight: 700;
+}
+
+.breath-progress-track {
+  height: 8px;
+  background: var(--bg4);
+  border-radius: 99px;
+  overflow: hidden;
+  border: 1px solid var(--border);
+}
+
+.breath-progress-fill {
+  height: 100%;
+  background: linear-gradient(90deg, var(--green) 0%, #86efac 100%);
+  border-radius: 99px;
+  transition: width 0.6s cubic-bezier(.4,0,.2,1);
+  min-width: 4px;
+}
+
+/* ---- STATS ROW (opór + ostatnia sesja) ---- */
+.breath-stats-row {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 16px;
+  align-items: start;
+  padding-top: 4px;
+  border-top: 1px solid var(--border);
+}
+
+.breath-resist-col {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  min-width: 72px;
+}
+
+.breath-resist-circle {
+  width: 64px;
+  height: 64px;
+  border-radius: 50%;
+  background: var(--green-bg);
+  border: 2px solid var(--green-dim);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 28px;
+  font-weight: 800;
+  color: var(--green);
+  font-family: var(--mono);
+  line-height: 1;
+  transition: all .2s;
+}
+
+.breath-resist-circle.increase {
+  border-color: var(--amber);
+  background: var(--amber-bg);
+  color: var(--amber);
+  animation: breathPulse 2s ease-in-out infinite;
+}
+
+@keyframes breathPulse {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(251,191,36,0); }
+  50% { box-shadow: 0 0 0 6px rgba(251,191,36,0.15); }
+}
+
+.breath-resist-label {
+  font-size: 10px;
+  color: var(--text3);
+  text-align: center;
+  line-height: 1.3;
+  max-width: 70px;
+}
+
+.breath-resist-label strong { color: var(--amber); }
+
+.breath-last-col {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  justify-content: center;
+}
+
+.breath-last-title {
+  font-size: 10px;
+  font-weight: 700;
+  color: var(--text3);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-bottom: 2px;
+}
+
+.breath-last-stats {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  flex-wrap: wrap;
+}
+
+.breath-last-resistance {
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--text);
+  font-family: var(--mono);
+}
+
+.breath-last-dot { color: var(--text3); font-size: 12px; }
+
+.breath-last-breaths {
+  font-size: 13px;
+  color: var(--text2);
+  font-family: var(--mono);
+}
+
+.breath-last-when {
+  font-size: 11px;
+  color: var(--text3);
+}
+
+.breath-last-note {
+  font-size: 11px;
+  color: var(--text3);
+  font-style: italic;
+  margin-top: 2px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 200px;
+}
+
+.breath-last-empty {
+  font-size: 13px;
+  color: var(--text3);
+  font-style: italic;
+}
+
+/* ---- TIP ---- */
+.breath-tip {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  background: var(--purple-bg);
+  border: 1px solid #3b1f6e;
+  border-radius: 8px;
+  padding: 9px 12px;
+  font-size: 12px;
+  color: #c4b5fd;
+  line-height: 1.5;
+}
+
+.breath-tip-icon {
+  flex-shrink: 0;
+  font-size: 14px;
+  margin-top: 0px;
+}
+
+/* ---- CHECKLIST SEKCJA ---- */
+.breath-checklist-section,
+.breath-history-section {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.breath-section-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 2px;
+}
+
+.breath-section-title {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.8px;
+  text-transform: uppercase;
+  color: var(--text3);
+}
+
+.breath-section-day {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.8px;
+  color: var(--text2);
+  font-family: var(--mono);
+}
+
+.breath-history-count {
+  font-size: 11px;
+  color: var(--text3);
+  font-family: var(--mono);
+}
+
+.breath-checklist {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+/* ---- CHECK ITEM ---- */
+.breath-check-item {
+  background: var(--bg2);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  overflow: hidden;
+  transition: border-color .15s;
+}
+
+.breath-check-item.done {
+  border-color: var(--green-dim);
+  background: var(--green-bg);
+}
+
+.breath-check-item.open {
+  border-color: var(--border2);
+}
+
+.breath-check-top {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 14px 16px;
+  user-select: none;
+}
+
+.breath-check-btn {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  border: 2px solid var(--border2);
+  background: var(--bg3);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  flex-shrink: 0;
+  transition: all .15s;
+  pointer-events: none;
+}
+
+.breath-check-btn.checked {
+  background: var(--green-bg);
+  border-color: var(--green);
+}
+
+.breath-check-inner {
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--green);
+  line-height: 1;
+}
+
+.breath-check-info {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  min-width: 0;
+}
+
+.breath-check-label {
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--text);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.breath-check-icon {
+  font-size: 16px;
+}
+
+.breath-check-hint {
+  font-size: 12px;
+  color: var(--text3);
+}
+
+.breath-check-meta {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  flex-wrap: wrap;
+  font-size: 12px;
+}
+
+.breath-meta-resist {
+  color: var(--green);
+  font-weight: 600;
+  font-family: var(--mono);
+}
+
+.breath-meta-dot { color: var(--text3); }
+
+.breath-meta-breaths {
+  color: var(--text2);
+  font-family: var(--mono);
+}
+
+.breath-meta-note {
+  color: var(--text3);
+  font-style: italic;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 140px;
+}
+
+.breath-check-chevron {
+  font-size: 10px;
+  color: var(--text3);
+  flex-shrink: 0;
+  transition: transform .2s;
+}
+
+/* ---- FORMULARZ LOGOWANIA ---- */
+.breath-log-form {
+  padding: 0 16px 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  border-top: 1px solid var(--border);
+  animation: breathFormIn .2s ease;
+}
+
+@keyframes breathFormIn {
+  from { opacity: 0; transform: translateY(-6px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+.breath-form-section {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.breath-form-label {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+  color: var(--text3);
+}
+
+/* ---- PICKER OPORU (przyciski 1–10) ---- */
+.breath-resist-picker {
+  display: grid;
+  grid-template-columns: repeat(10, 1fr);
+  gap: 4px;
+}
+
+.breath-resist-btn {
+  aspect-ratio: 1;
+  border-radius: 8px;
+  border: 1.5px solid var(--border2);
+  background: var(--bg3);
+  color: var(--text2);
+  font-size: 13px;
+  font-weight: 600;
+  font-family: var(--mono);
+  cursor: pointer;
+  transition: all .12s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  min-width: 0;
+}
+
+.breath-resist-btn:hover {
+  border-color: var(--border2);
+  background: var(--bg4);
+  color: var(--text);
+}
+
+.breath-resist-btn.selected {
+  background: var(--green-bg);
+  border-color: var(--green);
+  color: var(--green);
+  font-weight: 800;
+}
+
+/* ---- STEPPER ODDECHÓW ---- */
+.breath-breaths-control {
+  display: flex;
+  align-items: center;
+  gap: 0;
+  align-self: flex-start;
+  background: var(--bg3);
+  border: 1.5px solid var(--border2);
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+.breath-stepper-btn {
+  width: 44px;
+  height: 44px;
+  background: transparent;
+  border: none;
+  color: var(--text2);
+  font-size: 22px;
+  font-weight: 400;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background .12s, color .12s;
+  flex-shrink: 0;
+}
+
+.breath-stepper-btn:hover {
+  background: var(--bg4);
+  color: var(--text);
+}
+
+.breath-breaths-input {
+  width: 64px;
+  height: 44px;
+  text-align: center;
+  background: transparent;
+  border: none;
+  border-left: 1px solid var(--border);
+  border-right: 1px solid var(--border);
+  color: var(--text);
+  font-size: 20px;
+  font-weight: 700;
+  font-family: var(--mono);
+  outline: none;
+  -moz-appearance: textfield;
+}
+
+.breath-breaths-input::-webkit-outer-spin-button,
+.breath-breaths-input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+.breath-note-input {
+  resize: none;
+  min-height: 54px;
+}
+
+/* ---- PRZYCISKI FORMULARZA ---- */
+.breath-form-actions {
+  display: flex;
+  gap: 8px;
+  justify-content: flex-end;
+  padding-top: 2px;
+}
+
+/* ---- HISTORIA ---- */
+.breath-history-empty {
+  text-align: center;
+  padding: 24px 0;
+  font-size: 13px;
+  color: var(--text3);
+  font-style: italic;
+}
+
+.breath-history-day {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.breath-history-day-header {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+  color: var(--text3);
+  padding: 4px 2px 2px;
+  font-family: var(--mono);
+}
+
+.breath-history-item {
+  background: var(--bg2);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 12px 14px;
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 12px;
+  transition: border-color .15s;
+}
+
+.breath-history-item:hover {
+  border-color: var(--border2);
+}
+
+.breath-history-left {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  min-width: 0;
+}
+
+.breath-time-badge {
+  display: inline-block;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.4px;
+  border-radius: 5px;
+  padding: 2px 8px;
+  font-family: var(--mono);
+  align-self: flex-start;
+}
+
+.breath-time-badge.morning {
+  background: var(--amber-bg);
+  color: var(--amber);
+  border: 1px solid #7c4b00;
+}
+
+.breath-time-badge.evening {
+  background: var(--blue-bg);
+  color: var(--blue);
+  border: 1px solid #1e3a5f;
+}
+
+.breath-time-badge.free {
+  background: var(--purple-bg);
+  color: var(--purple);
+  border: 1px solid #4c2a99;
+}
+
+.breath-history-stats {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.breath-hist-resist {
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--text);
+  font-family: var(--mono);
+}
+
+.breath-hist-sep { color: var(--text3); font-size: 11px; }
+
+.breath-hist-breaths {
+  font-size: 13px;
+  color: var(--text2);
+  font-family: var(--mono);
+}
+
+.breath-hist-note {
+  font-size: 12px;
+  color: var(--text3);
+  font-style: italic;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 260px;
+}
+
+.breath-history-right {
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+}
+
+.breath-del-btn {
+  background: transparent;
+  border: none;
+  color: var(--text3);
+  font-size: 15px;
+  cursor: pointer;
+  padding: 6px;
+  border-radius: 6px;
+  transition: background .12s, color .12s;
+  line-height: 1;
+}
+
+.breath-del-btn:hover {
+  background: #2a0d0d;
+  color: var(--red);
+}
+
+/* ---- MOBILE ---- */
+@media (max-width: 480px) {
+  .breath-screen { padding: 12px 12px 80px; gap: 12px; }
+
+  .breath-dashboard { padding: 14px 14px 12px; gap: 12px; border-radius: 12px; }
+
+  .breath-week-badge  { font-size: 10px; padding: 3px 8px; }
+
+  .breath-dash-desc { font-size: 12px; }
+
+  .breath-resist-circle { width: 56px; height: 56px; font-size: 24px; }
+  .breath-resist-col { min-width: 60px; }
+
+  .breath-last-resistance { font-size: 13px; }
+  .breath-last-breaths { font-size: 12px; }
+
+  /* Picker oporu — 2 rzędy po 5 */
+  .breath-resist-picker { grid-template-columns: repeat(5, 1fr); gap: 5px; }
+  .breath-resist-btn { font-size: 14px; min-height: 38px; border-radius: 7px; }
+
+  .breath-check-top { padding: 12px 14px; gap: 10px; }
+  .breath-check-label { font-size: 14px; }
+  .breath-check-btn { width: 36px; height: 36px; }
+
+  .breath-log-form { padding: 0 14px 14px; gap: 12px; }
+
+  .breath-meta-note { max-width: 100px; }
+
+  .breath-history-item { padding: 10px 12px; }
+  .breath-hist-note { max-width: 180px; }
+
+  /* Phase info chips — zawijaj na mobile */
+  .breath-pi-chips { gap: 5px; }
+  .breath-pi-chip { font-size: 10px; padding: 2px 7px; }
+  .breath-pi-header strong { font-size: 12px; }
+
+  /* Preview stats grid — 2 kolumny na małym ekranie */
+  .breath-preview-grid { grid-template-columns: repeat(2, 1fr); }
+  .breath-prev-val { font-size: 18px; }
 }

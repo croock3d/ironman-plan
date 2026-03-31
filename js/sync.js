@@ -28,6 +28,7 @@ async function syncFromGist() {
       if (remote.data) { data = remote.data; normalizeData(); }
       if (remote.sessionLog) sessionLog = remote.sessionLog;
       if (remote.doneState) doneState = { ...remote.doneState, ...doneState };
+      if (remote.breathData) breathData = remote.breathData;
       saveToStorage();
     }
     setSyncStatus('ok');
@@ -42,7 +43,7 @@ async function syncFromGist() {
 async function syncToGist() {
   setSyncStatus('syncing');
   try {
-    const payload = { data, sessionLog, doneState, updatedAt: new Date().toISOString() };
+    const payload = { data, sessionLog, doneState, breathData, updatedAt: new Date().toISOString() };
     const res = await fetch(`https://api.github.com/gists/${GIST_ID}`, {
       method: 'PATCH',
       headers: {

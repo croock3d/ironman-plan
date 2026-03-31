@@ -192,6 +192,10 @@ let data = JSON.parse(JSON.stringify(DEFAULT_DATA));
 let currentPhase = 0;
 let sessionLog = [];
 let doneState = {};
+let breathData = {
+  startDate: null,   // "YYYY-MM-DD" — data pierwszej sesji (ustawiana automatycznie)
+  sessions: []       // [ { date, time, resistance, breaths, note } ]
+};
 
 // Migracja: konwertuje stare items rozgrzewki (stringi) na obiekty {text, link}
 function normalizeData() {
@@ -210,6 +214,8 @@ function loadFromStorage() {
     if (l) sessionLog = JSON.parse(l);
     const s = localStorage.getItem('ironman_done');
     if (s) doneState = JSON.parse(s);
+    const b = localStorage.getItem('ironman_breath');
+    if (b) breathData = JSON.parse(b);
   } catch(e) { console.warn('load error', e); }
   normalizeData();
 }
@@ -218,4 +224,5 @@ function saveToStorage() {
   localStorage.setItem('ironman_data', JSON.stringify(data));
   localStorage.setItem('ironman_log', JSON.stringify(sessionLog));
   localStorage.setItem('ironman_done', JSON.stringify(doneState));
+  localStorage.setItem('ironman_breath', JSON.stringify(breathData));
 }
