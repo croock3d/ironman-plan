@@ -19,7 +19,7 @@ from html.parser import HTMLParser
 # ---- AGH ----
 AGH_BASE_URL = "https://basen.agh.edu.pl"
 AGH_SCHEDULE_URL = f"{AGH_BASE_URL}/plywalnia/rezerwacje"
-AGH_OUTPUT_IMAGE = "assets/agh-schedule.jpg"
+AGH_OUTPUT_IMAGE = "assets/agh-schedule.webp"
 AGH_OUTPUT_META = "assets/agh-schedule-meta.json"
 
 # ---- Eisenberga ----
@@ -79,36 +79,62 @@ def save_json(path, data):
 
 
 class AghScheduleParser(HTMLParser):
-    """Parses the AGH pool page to find the schedule image URL and title."""
+    """Parses the AGH pool page to find the schedule image URL and title.
+
+    Priority order:
+      1. <source data-variant="desktop"> srcset  (highest res WebP)
+      2. <source data-variant="mobile">  srcset
+      3. <source data-variant="tablet">  srcset
+      4. <a rel="lightbox"> href         (fallback JPG)
+    """
+
+    VARIANT_PRIORITY = {"desktop": 0, "mobile": 1, "tablet": 2}
 
     def __init__(self):
         super().__init__()
-        self.image_url = None
+        self._sources = {}  # variant → url
+        self.lightbox_url = None
         self.title = None
         self._in_h2 = False
         self._h2_text = ""
 
+    @property
+    def image_url(self):
+        # Return best available source
+        for variant in ("desktop", "mobile", "tablet"):
+            if variant in self._sources:
+                return self._sources[variant]
+        return self.lightbox_url
+
     def handle_starttag(self, tag, attrs):
         attrs_dict = dict(attrs)
 
+        # <source data-variant="desktop" srcset="...webp 1x">
+        if tag == "source":
+            variant = attrs_dict.get("data-variant", "")
+            srcset = attrs_dict.get("srcset", "")
+            if (
+                variant in self.VARIANT_PRIORITY
+                and srcset
+                and variant not in self._sources
+            ):
+                # srcset may be "url 1x" — take just the URL part
+                url = srcset.split()[0]
+                if url.startswith("/"):
+                    url = AGH_BASE_URL + url
+                self._sources[variant] = url
+
+        # <a rel="lightbox" href="...jpg"> — fallback
         if tag == "a":
             rel = attrs_dict.get("rel", "")
             href = attrs_dict.get("href", "")
             lightbox_title = attrs_dict.get("data-lightbox-title", "")
-            if "lightbox" in rel and href and not self.image_url:
-                self.image_url = AGH_BASE_URL + href
-                if lightbox_title:
+            if "lightbox" in rel and href and not self.lightbox_url:
+                self.lightbox_url = (
+                    AGH_BASE_URL + href if href.startswith("/") else href
+                )
+                if lightbox_title and not self.title:
                     self.title = lightbox_title
-
-        if tag == "img" and not self.image_url:
-            src = attrs_dict.get("src", "")
-            alt = attrs_dict.get("alt", "")
-            title = attrs_dict.get("title", "")
-            label = alt or title
-            if label and ("grafik" in label.lower() or "harmonogram" in label.lower()):
-                self.image_url = AGH_BASE_URL + src
-                if not self.title:
-                    self.title = label
 
         if tag == "h2":
             self._in_h2 = True

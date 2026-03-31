@@ -3,7 +3,7 @@
 // ============================================================
 
 const AGH_META_URL        = 'assets/agh-schedule-meta.json';
-const AGH_IMG_URL         = 'assets/agh-schedule.jpg';
+const AGH_IMG_URL         = 'assets/agh-schedule.webp';
 const AGH_SITE_URL        = 'https://basen.agh.edu.pl/plywalnia/rezerwacje';
 const EISENBERGA_META_URL = 'assets/eisenberga-schedule-meta.json';
 const EISENBERGA_SITE_URL = 'https://www.przystannaeisenberga.pl/harmonogram/';
