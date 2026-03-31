@@ -1622,12 +1622,83 @@ tr.ex-done .ex-name { text-decoration: line-through; color: var(--text3); }
   width: 100%;
   max-width: 372px;
   height: auto;
+  cursor: zoom-in;
   border-radius: 8px;
   border: 1px solid var(--border);
   cursor: zoom-in;
   transition: opacity 0.2s;
 }
 .pool-schedule-img:hover { opacity: 0.9; }
+
+/* ---- Lightbox ---- */
+.lightbox {
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  background: rgba(0,0,0,0.92);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.lightbox-close {
+  position: absolute;
+  top: 14px;
+  right: 16px;
+  background: rgba(255,255,255,0.1);
+  border: none;
+  color: #fff;
+  font-size: 20px;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  line-height: 1;
+  transition: background 0.15s;
+  z-index: 2;
+}
+.lightbox-close:hover { background: rgba(255,255,255,0.22); }
+
+.lightbox-hint {
+  position: absolute;
+  bottom: 14px;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 11px;
+  color: rgba(255,255,255,0.4);
+  white-space: nowrap;
+  pointer-events: none;
+  z-index: 2;
+}
+
+.lightbox-stage {
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: grab;
+}
+.lightbox-stage.dragging { cursor: grabbing; }
+
+.lightbox-img {
+  display: block;
+  max-width: none;
+  max-height: none;
+  transform-origin: 0 0;
+  user-select: none;
+  -webkit-user-drag: none;
+  pointer-events: none;
+}
+
+@media (max-width: 480px) {
+  .lightbox-hint { display: none; }
+}
 
 .pool-no-schedule {
   padding: 24px 0;
