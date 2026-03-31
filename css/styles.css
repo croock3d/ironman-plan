@@ -1612,21 +1612,25 @@ tr.ex-done .ex-name { text-decoration: line-through; color: var(--text3); }
 
 /* Obrazek harmonogramu AGH */
 .pool-schedule-wrap {
-  padding: 12px 16px 16px;
-  display: flex;
-  justify-content: center;
+  padding: 12px 0 16px;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
 }
 
 .pool-schedule-img {
-  max-width: 100%;
-  width: auto;
-  max-height: 800px;
-  border-radius: 8px;
-  border: 1px solid var(--border);
   display: block;
-  cursor: zoom-in;
+  width: auto;
+  min-width: 100%;
+  max-width: none;
+  height: auto;
+  max-height: none;
+  border-radius: 0;
+  border-top: 1px solid var(--border);
+  border-bottom: 1px solid var(--border);
+  cursor: grab;
   transition: opacity 0.2s;
 }
+.pool-schedule-img:active { cursor: grabbing; }
 .pool-schedule-img:hover { opacity: 0.9; }
 
 .pool-no-schedule {
@@ -1729,8 +1733,7 @@ tr.ex-done .ex-name { text-decoration: line-through; color: var(--text3); }
   .pools-screen { padding: 14px 10px 80px; }
   .pool-card-header { padding: 12px 12px 10px; }
   .pool-meta { padding: 7px 12px; }
-  .pool-schedule-wrap { padding: 10px 12px 12px; }
-  .pool-schedule-img { max-height: 600px; }
+  .pool-schedule-wrap { padding: 10px 0 12px; }
   .pool-iframe-wrap { height: 500px; }
   .pool-name { font-size: 14px; }
   .pool-tab { font-size: 11px; padding: 3px 8px; }
