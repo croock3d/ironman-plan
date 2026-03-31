@@ -2,19 +2,39 @@
 // SCREENS
 // ============================================================
 
-const VALID_SCREENS = ['plan', 'edit', 'log', 'settings'];
+const VALID_SCREENS = ['plan', 'edit', 'log', 'pools', 'settings'];
+
+// Mapowanie screen → id przycisku w bottom nav (tylko główne ekrany)
+const BOTTOM_NAV_MAP = {
+  plan: 'bnav-plan',
+  log: 'bnav-log',
+  pools: 'bnav-pools',
+  settings: 'bnav-settings',
+};
 
 function showScreen(name) {
   document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
   document.getElementById('screen-' + name).classList.add('active');
+
+  // Top nav active state
   document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
   const btn = document.getElementById('btn-' + name);
   if (btn) btn.classList.add('active');
+
+  // Bottom nav active state
+  document.querySelectorAll('.bottom-nav-btn').forEach(b => b.classList.remove('active'));
+  const bnavId = BOTTOM_NAV_MAP[name];
+  if (bnavId) {
+    const bnBtn = document.getElementById(bnavId);
+    if (bnBtn) bnBtn.classList.add('active');
+  }
+
   const bar = document.getElementById('save-bar');
   if (bar) bar.classList.toggle('hidden', name !== 'edit');
   if (name === 'plan') renderPlan();
   if (name === 'edit') renderEdit();
   if (name === 'log') renderLog();
+  if (name === 'pools') renderPools();
   if (name === 'settings') renderSettings();
   history.replaceState(null, '', '#' + name);
 }

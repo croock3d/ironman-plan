@@ -3,11 +3,11 @@
 // ============================================================
 
 function renderPlan() {
-  // Phase tabs
+  // Phase tabs + Edytuj plan button w jednej linii
   const tabs = document.getElementById('phase-tabs');
   tabs.innerHTML = data.phases.map((p,i) => `
     <button class="phase-tab ${i===currentPhase?'active':''}" onclick="setPhase(${i})">${p.label}</button>
-  `).join('');
+  `).join('') + `<button class="phase-tab-edit" onclick="showScreen('edit')">✏️ Edytuj</button>`;
 
   // Phase info
   document.getElementById('phase-info').innerHTML = data.phases[currentPhase].desc;

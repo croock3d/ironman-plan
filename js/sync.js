@@ -2,16 +2,20 @@
 // SYNC — GitHub Gist
 // ============================================================
 
-function setSyncStatus(s, msg) {
-  const el = document.getElementById('sync-status');
-  if (!el) return;
-  const icons = { idle:'☁️', syncing:'⏳', ok:'✅', error:'❌' };
-  el.textContent = icons[s] + ' ' + (msg || { idle:'Zsynchronizowano', syncing:'Synchronizuję...', ok:'Zapisano w chmurze', error:'Błąd sync' }[s]);
-  el.className = 'sync-badge sync-' + s;
+function setSyncStatus(s, text) {
+  const chip = document.getElementById('sync-status');
+  if (!chip) return;
+  const icons = { idle: '☁️', syncing: '⏳', ok: '✅', error: '❌' };
+  const labels = { idle: 'Sync', syncing: 'Sync...', ok: 'Zsync', error: 'Błąd' };
+  const iconEl = document.getElementById('sync-icon');
+  const textEl = document.getElementById('sync-text');
+  if (iconEl) iconEl.textContent = icons[s];
+  if (textEl) textEl.textContent = text || labels[s];
+  chip.className = 'sync-chip sync-' + s;
 }
 
 async function syncFromGist() {
-  setSyncStatus('syncing', 'Pobieranie z chmury...');
+  setSyncStatus('syncing');
   try {
     const res = await fetch(`https://api.github.com/gists/${GIST_ID}`, {
       headers: { 'Authorization': `token ${getToken()}`, 'Accept': 'application/vnd.github.v3+json' }
@@ -26,17 +30,17 @@ async function syncFromGist() {
       if (remote.doneState) doneState = { ...remote.doneState, ...doneState };
       saveToStorage();
     }
-    setSyncStatus('ok', 'zsync ☁️');
+    setSyncStatus('ok');
     return true;
   } catch(e) {
-    setSyncStatus('error', 'błąd pobierania');
+    setSyncStatus('error');
     console.error(e);
     return false;
   }
 }
 
 async function syncToGist() {
-  setSyncStatus('syncing', 'zapis...');
+  setSyncStatus('syncing');
   try {
     const payload = { data, sessionLog, doneState, updatedAt: new Date().toISOString() };
     const res = await fetch(`https://api.github.com/gists/${GIST_ID}`, {
@@ -49,9 +53,9 @@ async function syncToGist() {
       body: JSON.stringify({ files: { [GIST_FILE]: { content: JSON.stringify(payload, null, 2) } } })
     });
     if (!res.ok) throw new Error('HTTP ' + res.status);
-    setSyncStatus('ok', 'zapisano ☁️');
+    setSyncStatus('ok');
   } catch(e) {
-    setSyncStatus('error', 'błąd zapisu');
+    setSyncStatus('error');
     console.error(e);
   }
 }

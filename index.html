@@ -14,12 +14,18 @@
 
 <nav class="app-nav">
   <div class="logo">IRONMAN <span>15.08.2026</span></div>
-  <span class="sync-badge sync-idle" id="sync-status">☁️ —</span>
-  <button class="nav-btn" id="btn-plan" onclick="showScreen('plan')">Plan</button>
-  <button class="nav-btn" id="btn-edit" onclick="showScreen('edit')">Edytuj</button>
-  <button class="nav-btn" id="btn-log" onclick="showScreen('log')">Log</button>
-  <button class="nav-btn" title="Synchronizuj" onclick="manualSync()">⇅</button>
-  <button class="nav-btn" id="btn-settings" onclick="showScreen('settings')">⚙️</button>
+  <div class="nav-center">
+    <button class="nav-btn" id="btn-plan" onclick="showScreen('plan')">🏋️ Trening</button>
+    <button class="nav-btn" id="btn-log" onclick="showScreen('log')">📋 Dziennik</button>
+    <button class="nav-btn" id="btn-pools" onclick="showScreen('pools')">🏊 Basen</button>
+  </div>
+  <div class="nav-right">
+    <button class="sync-chip sync-idle" id="sync-status" onclick="manualSync()" title="Synchronizuj">
+      <span class="sync-chip-icon" id="sync-icon">☁️</span>
+      <span class="sync-chip-text" id="sync-text">Sync</span>
+    </button>
+    <button class="nav-btn" id="btn-settings" onclick="showScreen('settings')">⚙️</button>
+  </div>
 </nav>
 
 <div class="toast" id="toast"></div>
@@ -95,12 +101,34 @@
 
 <div class="screen" id="screen-log"></div>
 
+<div class="screen" id="screen-pools"></div>
+
+<nav class="bottom-nav" id="bottom-nav">
+  <button class="bottom-nav-btn" id="bnav-plan" onclick="showScreen('plan')">
+    <span class="bnav-icon">🏋️</span>
+    <span class="bnav-label">Trening</span>
+  </button>
+  <button class="bottom-nav-btn" id="bnav-log" onclick="showScreen('log')">
+    <span class="bnav-icon">📋</span>
+    <span class="bnav-label">Dziennik</span>
+  </button>
+  <button class="bottom-nav-btn" id="bnav-pools" onclick="showScreen('pools')">
+    <span class="bnav-icon">🏊</span>
+    <span class="bnav-label">Basen</span>
+  </button>
+  <button class="bottom-nav-btn" id="bnav-settings" onclick="showScreen('settings')">
+    <span class="bnav-icon">⚙️</span>
+    <span class="bnav-label">Ustawienia</span>
+  </button>
+</nav>
+
 <script src="js/data.js?v=20260330130440"></script>
 <script src="js/sync.js?v=20260330130440"></script>
 <script src="js/plan.js?v=20260330130440"></script>
 <script src="js/edit.js?v=20260330130440"></script>
 <script src="js/log.js?v=20260330130440"></script>
 <script src="js/settings.js?v=20260330130440"></script>
+<script src="js/pools.js?v=20260330130440"></script>
 <script src="js/app.js?v=20260330130440"></script>
 </body>
 </html>
