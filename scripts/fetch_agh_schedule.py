@@ -285,18 +285,53 @@ def fetch_eisenberga_schedule():
     top2 = links[:2]
     schedules = []
 
-    for item in top2:
+    for i, item in enumerate(top2):
         pdf_url = resolve_pdf_url(item["name"])
-        if pdf_url:
-            print(f"  OK: {item['title']} → {pdf_url}")
-            schedules.append(
-                {
-                    "title": item["title"],
-                    "pdf_url": pdf_url,
-                }
-            )
-        else:
+        if not pdf_url:
             print(f"  WARN: PDF not found for {item['title']}", file=sys.stderr)
+            continue
+
+        local_path = f"assets/eisenberga-{i}.pdf"
+        print(f"  Downloading {item['title']} → {local_path}...")
+        try:
+            req = urllib.request.Request(
+                pdf_url,
+                headers={
+                    "User-Agent": "Mozilla/5.0 (compatible; pool-schedule-fetcher/1.0)"
+                },
+            )
+            with urllib.request.urlopen(req, timeout=30) as resp:
+                data = resp.read()
+            os.makedirs("assets", exist_ok=True)
+            with open(local_path, "wb") as f:
+                f.write(data)
+            print(f"  Downloaded {len(data)} bytes → {local_path}")
+        except Exception as e:
+            print(f"  ERROR: Could not download PDF: {e}", file=sys.stderr)
+            continue
+
+        schedules.append(
+            {
+                "title": item["title"],
+                "pdf_url": pdf_url,  # zewnętrzny URL (backup)
+                "local_path": local_path,  # lokalny asset
+            }
+        )
+
+    if not schedules:
+        print("ERROR: Could not download any PDFs", file=sys.stderr)
+        return False
+
+    now = datetime.now(timezone.utc).isoformat()
+    save_json(
+        EISENBERGA_OUTPUT_META,
+        {
+            "schedules": schedules,
+            "fetched_at": now,
+        },
+    )
+    print(f"Saved {len(schedules)} schedule(s) to {EISENBERGA_OUTPUT_META}")
+    return True
 
     if not schedules:
         print("ERROR: Could not resolve any PDF URLs", file=sys.stderr)

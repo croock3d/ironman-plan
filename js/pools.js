@@ -43,16 +43,17 @@ function switchEisenbergaTab(idx) {
   // Zastąp iframe nowym (reset src przez clone eliminuje problem z cache iOS)
   const wrap = document.getElementById('eis-iframe-wrap');
   if (!wrap) return;
-  wrap.innerHTML = buildEisIframeHtml(s.pdf_url, idx);
+  wrap.innerHTML = buildEisIframeHtml(s._resolvedUrl, idx, s.pdf_url);
   setupEisIframeFallback(idx);
 }
 
-function buildEisIframeHtml(pdfUrl, idx) {
+function buildEisIframeHtml(localUrl, idx, externalUrl) {
+  const fallbackHref = externalUrl || localUrl;
   return `
     <iframe
       id="eis-iframe-${idx}"
       class="pool-iframe"
-      src="${pdfUrl}"
+      src="${localUrl}"
       title="Harmonogram Eisenberga"
       loading="lazy"
       allowfullscreen>
@@ -61,7 +62,7 @@ function buildEisIframeHtml(pdfUrl, idx) {
       <div class="pool-pdf-fallback-inner">
         <div class="pool-pdf-fallback-icon">📄</div>
         <div class="pool-pdf-fallback-text">Podgląd PDF niedostępny w tej przeglądarce</div>
-        <a class="pool-pdf-fallback-btn" href="${pdfUrl}" target="_blank" rel="noopener">
+        <a class="pool-pdf-fallback-btn" href="${fallbackHref}" target="_blank" rel="noopener">
           Otwórz PDF ↗
         </a>
       </div>
@@ -188,11 +189,15 @@ async function renderPools() {
     const schedules = meta.schedules || [];
     if (!schedules.length) throw new Error('No schedules');
 
-    _eisSchedules = schedules;
+    _eisSchedules = schedules.map(s => ({
+      ...s,
+      // Użyj lokalnego assetu jeśli dostępny, fallback na zewnętrzny URL
+      _resolvedUrl: s.local_path ? assetUrl(s.local_path) : s.pdf_url,
+    }));
     _eisCurrentIdx = 0;
 
     const date = formatPoolDate(meta.fetched_at);
-    const tabsHtml = schedules.map((s, i) =>
+    const tabsHtml = _eisSchedules.map((s, i) =>
       `<button class="pool-tab${i === 0 ? ' active' : ''}" onclick="switchEisenbergaTab(${i})">${s.title}</button>`
     ).join('');
 
@@ -202,7 +207,7 @@ async function renderPools() {
         ${date ? `<span class="pool-meta-updated">Zaktualizowano: ${date}</span>` : ''}
       </div>
       <div class="pool-iframe-wrap" id="eis-iframe-wrap">
-        ${buildEisIframeHtml(schedules[0].pdf_url, 0)}
+        ${buildEisIframeHtml(_eisSchedules[0]._resolvedUrl, 0, _eisSchedules[0].pdf_url)}
       </div>
     `;
 

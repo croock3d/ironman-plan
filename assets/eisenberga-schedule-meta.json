@@ -2,12 +2,14 @@
   "schedules": [
     {
       "title": "Harmonogram_30.03.-05.04.",
-      "pdf_url": "https://www.przystannaeisenberga.pl/wp-content/uploads/2025/05/Harmonogram_30.03.-05.04.pdf"
+      "pdf_url": "https://www.przystannaeisenberga.pl/wp-content/uploads/2025/05/Harmonogram_30.03.-05.04.pdf",
+      "local_path": "assets/eisenberga-0.pdf"
     },
     {
       "title": "Harmonogram_23.03.-29.03",
-      "pdf_url": "https://www.przystannaeisenberga.pl/wp-content/uploads/2025/05/Harmonogram_23.03.-29.03.pdf"
+      "pdf_url": "https://www.przystannaeisenberga.pl/wp-content/uploads/2025/05/Harmonogram_23.03.-29.03.pdf",
+      "local_path": "assets/eisenberga-1.pdf"
     }
   ],
-  "fetched_at": "2026-03-31T19:19:42.693987+00:00"
+  "fetched_at": "2026-03-31T19:46:06.499736+00:00"
 }
