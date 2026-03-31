@@ -1,0 +1,30 @@
+name: Fetch Pool Schedule
+
+on:
+  schedule:
+    - cron: '0 6 * * *'   # codziennie o 6:00 UTC (8:00 polskiego czasu latem)
+  workflow_dispatch:       # możliwość ręcznego uruchomienia
+
+jobs:
+  fetch:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Pobierz harmonogram AGH
+        run: python3 scripts/fetch_agh_schedule.py
+
+      - name: Commit i push jeśli coś się zmieniło
+        run: |
+          git config user.name  "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add assets/agh-schedule.jpg assets/agh-schedule-meta.json assets/eisenberga-schedule-meta.json
+          git diff --staged --quiet && echo "Brak zmian w harmonogramach" && exit 0
+          AGH_TITLE=$(python3 -c "import json; d=json.load(open('assets/agh-schedule-meta.json')); print(d.get('title','AGH'))")
+          git commit -m "chore: aktualizacja harmonogramów basenów - ${AGH_TITLE} [skip ci]"
+          git push
