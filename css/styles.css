@@ -1620,7 +1620,7 @@ tr.ex-done .ex-name { text-decoration: line-through; color: var(--text3); }
 .pool-schedule-img {
   display: block;
   width: 100%;
-  max-width: 372px;
+  max-width: 846px;
   height: auto;
   border-radius: 8px;
   border: 1px solid var(--border);
