@@ -1746,6 +1746,8 @@ tr.ex-done .ex-name { text-decoration: line-through; color: var(--text3); }
   -webkit-overflow-scrolling: touch;
   background: var(--bg2);
   min-height: 200px;
+  padding: 0;
+  box-sizing: border-box;
 }
 
 .eis-pdf-canvas {
