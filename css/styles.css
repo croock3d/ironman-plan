@@ -1742,18 +1742,15 @@ tr.ex-done .ex-name { text-decoration: line-through; color: var(--text3); }
 .eis-pdf-canvas-wrap {
   width: 100%;
   overflow-x: auto;
+  overflow-y: auto;
   -webkit-overflow-scrolling: touch;
   background: var(--bg2);
   min-height: 200px;
-  display: flex;
-  align-items: flex-start;
-  justify-content: center;
 }
 
 .eis-pdf-canvas {
   display: block;
-  max-width: 100%;
-  height: auto;
+  /* rozmiar ustawiany inline przez JS (style.width/height) */
 }
 
 .eis-pdf-loading {

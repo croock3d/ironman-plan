@@ -139,22 +139,30 @@ async function renderEisPdfPage(idx, pageNum) {
 
   try {
     const page = await state.doc.getPage(pageNum);
-    const containerWidth = canvasWrap.clientWidth || 340;
-    const viewport = page.getViewport({ scale: 1 });
-    const scale = containerWidth / viewport.width;
-    const scaledViewport = page.getViewport({ scale });
+    const dpr = window.devicePixelRatio || 1;
+
+    // Renderuj w stałej skali 1.5 (czytelna szerokość ~630px dla A4)
+    // przemnożonej przez devicePixelRatio dla ostrości na retina
+    const BASE_SCALE = 1.5;
+    const renderScale = BASE_SCALE * dpr;
+    const viewport = page.getViewport({ scale: BASE_SCALE });
+    const renderViewport = page.getViewport({ scale: renderScale });
 
     const canvas = document.createElement('canvas');
     canvas.className = 'eis-pdf-canvas';
-    canvas.width  = scaledViewport.width;
-    canvas.height = scaledViewport.height;
+    // CSS size = BASE_SCALE viewport (scrollowalna)
+    canvas.style.width  = viewport.width + 'px';
+    canvas.style.height = viewport.height + 'px';
+    // Physical pixels = dpr * CSS size (ostry na retina)
+    canvas.width  = renderViewport.width;
+    canvas.height = renderViewport.height;
 
     canvasWrap.innerHTML = '';
     canvasWrap.appendChild(canvas);
 
     await page.render({
       canvasContext: canvas.getContext('2d'),
-      viewport: scaledViewport,
+      viewport: renderViewport,
     }).promise;
 
     state.page = pageNum;
