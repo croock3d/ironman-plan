@@ -8,6 +8,9 @@ const AGH_SITE_URL        = 'https://basen.agh.edu.pl/plywalnia/rezerwacje';
 const EISENBERGA_META_URL = 'assets/eisenberga-schedule-meta.json';
 const EISENBERGA_SITE_URL = 'https://www.przystannaeisenberga.pl/harmonogram/';
 
+const PDFJS_CDN = 'https://unpkg.com/pdfjs-dist@3.11.174/build/pdf.min.js';
+const PDFJS_WORKER = 'https://unpkg.com/pdfjs-dist@3.11.174/build/pdf.worker.min.js';
+
 function formatPoolDate(isoStr) {
   if (!isoStr) return null;
   try {
@@ -24,13 +27,40 @@ function assetUrl(path) {
 }
 
 // ============================================================
-// EISENBERGA — tab switcher + iframe z PDF
+// PDF.js — leniwe ładowanie biblioteki
 // ============================================================
 
-let _eisSchedules = [];
-let _eisCurrentIdx = 0;
+let _pdfjsLoaded = false;
+let _pdfjsLoading = null;
 
-function switchEisenbergaTab(idx) {
+function loadPdfJs() {
+  if (_pdfjsLoaded) return Promise.resolve();
+  if (_pdfjsLoading) return _pdfjsLoading;
+
+  _pdfjsLoading = new Promise((resolve, reject) => {
+    const script = document.createElement('script');
+    script.src = PDFJS_CDN;
+    script.onload = () => {
+      window.pdfjsLib.GlobalWorkerOptions.workerSrc = PDFJS_WORKER;
+      _pdfjsLoaded = true;
+      resolve();
+    };
+    script.onerror = reject;
+    document.head.appendChild(script);
+  });
+
+  return _pdfjsLoading;
+}
+
+// ============================================================
+// EISENBERGA — PDF.js viewer
+// ============================================================
+
+let _eisSchedules  = [];
+let _eisCurrentIdx = 0;
+let _eisPdfDocs    = {};   // idx → PDFDocumentProxy
+
+async function switchEisenbergaTab(idx) {
   _eisCurrentIdx = idx;
 
   document.querySelectorAll('.pool-tab').forEach((btn, i) => {
@@ -40,69 +70,127 @@ function switchEisenbergaTab(idx) {
   const s = _eisSchedules[idx];
   if (!s) return;
 
-  // Zastąp iframe nowym (reset src przez clone eliminuje problem z cache iOS)
-  const wrap = document.getElementById('eis-iframe-wrap');
+  const wrap = document.getElementById('eis-pdf-wrap');
   if (!wrap) return;
-  wrap.innerHTML = buildEisIframeHtml(s._resolvedUrl, idx, s.pdf_url);
-  setupEisIframeFallback(idx);
+
+  renderEisPdfViewer(wrap, s, idx);
 }
 
-function buildEisIframeHtml(localUrl, idx, externalUrl) {
-  const fallbackHref = externalUrl || localUrl;
-  return `
-    <iframe
-      id="eis-iframe-${idx}"
-      class="pool-iframe"
-      src="${localUrl}"
-      title="Harmonogram Eisenberga"
-      loading="lazy"
-      allowfullscreen>
-    </iframe>
-    <div class="pool-pdf-fallback" id="eis-fallback-${idx}" style="display:none;">
-      <div class="pool-pdf-fallback-inner">
-        <div class="pool-pdf-fallback-icon">📄</div>
-        <div class="pool-pdf-fallback-text">Podgląd PDF niedostępny w tej przeglądarce</div>
-        <a class="pool-pdf-fallback-btn" href="${fallbackHref}" target="_blank" rel="noopener">
-          Otwórz PDF ↗
-        </a>
+function renderEisPdfViewer(wrap, schedule, idx) {
+  const externalUrl = schedule.pdf_url;
+  wrap.innerHTML = `
+    <div class="eis-pdf-viewer" id="eis-viewer-${idx}">
+      <div class="eis-pdf-toolbar" id="eis-toolbar-${idx}">
+        <button class="eis-nav-btn" id="eis-prev-${idx}" onclick="eisPdfPrev(${idx})" disabled>◀</button>
+        <span class="eis-page-info" id="eis-pageinfo-${idx}">…</span>
+        <button class="eis-nav-btn" id="eis-next-${idx}" onclick="eisPdfNext(${idx})">▶</button>
+        <a class="eis-open-btn" href="${externalUrl}" target="_blank" rel="noopener">Otwórz ↗</a>
+      </div>
+      <div class="eis-pdf-canvas-wrap" id="eis-canvas-wrap-${idx}">
+        <div class="eis-pdf-loading" id="eis-loading-${idx}">Ładuję PDF…</div>
       </div>
     </div>
   `;
+
+  loadEisPdf(schedule, idx);
 }
 
-function setupEisIframeFallback(idx) {
-  const iframe = document.getElementById(`eis-iframe-${idx}`);
-  const fallback = document.getElementById(`eis-fallback-${idx}`);
-  if (!iframe || !fallback) return;
+async function loadEisPdf(schedule, idx) {
+  const loadingEl = document.getElementById(`eis-loading-${idx}`);
+  const canvasWrap = document.getElementById(`eis-canvas-wrap-${idx}`);
 
-  // Timeout — jeśli iframe nie załaduje się w 6s, pokaż fallback
-  const timer = setTimeout(() => {
-    if (fallback) {
-      iframe.style.display = 'none';
-      fallback.style.display = 'flex';
+  try {
+    await loadPdfJs();
+
+    const url = schedule.local_path ? assetUrl(schedule.local_path) : schedule.pdf_url;
+    const pdf = await window.pdfjsLib.getDocument(url).promise;
+    _eisPdfDocs[idx] = { doc: pdf, page: 1, total: pdf.numPages };
+
+    updateEisPageInfo(idx);
+    await renderEisPdfPage(idx, 1);
+
+  } catch (e) {
+    console.error('PDF.js error:', e);
+    if (canvasWrap) {
+      canvasWrap.innerHTML = `
+        <div class="pool-pdf-fallback" style="display:flex;">
+          <div class="pool-pdf-fallback-inner">
+            <div class="pool-pdf-fallback-icon">📄</div>
+            <div class="pool-pdf-fallback-text">Nie udało się załadować podglądu PDF</div>
+            <a class="pool-pdf-fallback-btn" href="${schedule.pdf_url}" target="_blank" rel="noopener">Otwórz PDF ↗</a>
+          </div>
+        </div>`;
     }
-  }, 6000);
+  }
+}
 
-  iframe.addEventListener('load', () => {
-    clearTimeout(timer);
-    // Sprawdź czy iframe nie jest pusty (iOS często ładuje pusty dokument)
-    try {
-      const doc = iframe.contentDocument || iframe.contentWindow?.document;
-      if (doc && (doc.body?.innerHTML === '' || doc.title === '')) {
-        iframe.style.display = 'none';
-        fallback.style.display = 'flex';
-      }
-    } catch (_) {
-      // Cross-origin — nie możemy sprawdzić, zakładamy że OK
-      clearTimeout(timer);
-    }
-  });
+async function renderEisPdfPage(idx, pageNum) {
+  const state = _eisPdfDocs[idx];
+  if (!state) return;
 
-  iframe.addEventListener('error', () => {
-    clearTimeout(timer);
-    iframe.style.display = 'none';
-    fallback.style.display = 'flex';
-  });
+  const canvasWrap = document.getElementById(`eis-canvas-wrap-${idx}`);
+  if (!canvasWrap) return;
+
+  // Pokaż spinner podczas renderowania
+  const existingCanvas = canvasWrap.querySelector('canvas');
+  if (!existingCanvas) {
+    canvasWrap.innerHTML = '<div class="eis-pdf-loading">Renderuję stronę…</div>';
+  }
+
+  try {
+    const page = await state.doc.getPage(pageNum);
+    const containerWidth = canvasWrap.clientWidth || 340;
+    const viewport = page.getViewport({ scale: 1 });
+    const scale = containerWidth / viewport.width;
+    const scaledViewport = page.getViewport({ scale });
+
+    const canvas = document.createElement('canvas');
+    canvas.className = 'eis-pdf-canvas';
+    canvas.width  = scaledViewport.width;
+    canvas.height = scaledViewport.height;
+
+    canvasWrap.innerHTML = '';
+    canvasWrap.appendChild(canvas);
+
+    await page.render({
+      canvasContext: canvas.getContext('2d'),
+      viewport: scaledViewport,
+    }).promise;
+
+    state.page = pageNum;
+    updateEisPageInfo(idx);
+    updateEisNavButtons(idx);
+
+  } catch (e) {
+    console.error('Page render error:', e);
+  }
+}
+
+function updateEisPageInfo(idx) {
+  const state = _eisPdfDocs[idx];
+  const el = document.getElementById(`eis-pageinfo-${idx}`);
+  if (el && state) el.textContent = `${state.page} / ${state.total}`;
+}
+
+function updateEisNavButtons(idx) {
+  const state = _eisPdfDocs[idx];
+  if (!state) return;
+  const prev = document.getElementById(`eis-prev-${idx}`);
+  const next = document.getElementById(`eis-next-${idx}`);
+  if (prev) prev.disabled = state.page <= 1;
+  if (next) next.disabled = state.page >= state.total;
+}
+
+function eisPdfPrev(idx) {
+  const state = _eisPdfDocs[idx];
+  if (!state || state.page <= 1) return;
+  renderEisPdfPage(idx, state.page - 1);
+}
+
+function eisPdfNext(idx) {
+  const state = _eisPdfDocs[idx];
+  if (!state || state.page >= state.total) return;
+  renderEisPdfPage(idx, state.page + 1);
 }
 
 // ============================================================
@@ -181,7 +269,7 @@ async function renderPools() {
     if (el) el.innerHTML = '<span class="pool-meta-updated">Aktualizowany codziennie o 8:00</span>';
   }
 
-  // ---- Eisenberga — iframe z bezpośrednim URL do PDF + fallback ----
+  // ---- Eisenberga — PDF.js viewer ----
   try {
     const res = await fetch(assetUrl(EISENBERGA_META_URL) + '?_=' + Date.now());
     if (!res.ok) throw new Error('HTTP ' + res.status);
@@ -189,15 +277,12 @@ async function renderPools() {
     const schedules = meta.schedules || [];
     if (!schedules.length) throw new Error('No schedules');
 
-    _eisSchedules = schedules.map(s => ({
-      ...s,
-      // Użyj lokalnego assetu jeśli dostępny, fallback na zewnętrzny URL
-      _resolvedUrl: s.local_path ? assetUrl(s.local_path) : s.pdf_url,
-    }));
+    _eisSchedules  = schedules;
     _eisCurrentIdx = 0;
+    _eisPdfDocs    = {};
 
     const date = formatPoolDate(meta.fetched_at);
-    const tabsHtml = _eisSchedules.map((s, i) =>
+    const tabsHtml = schedules.map((s, i) =>
       `<button class="pool-tab${i === 0 ? ' active' : ''}" onclick="switchEisenbergaTab(${i})">${s.title}</button>`
     ).join('');
 
@@ -206,12 +291,11 @@ async function renderPools() {
         <div class="pool-tabs">${tabsHtml}</div>
         ${date ? `<span class="pool-meta-updated">Zaktualizowano: ${date}</span>` : ''}
       </div>
-      <div class="pool-iframe-wrap" id="eis-iframe-wrap">
-        ${buildEisIframeHtml(_eisSchedules[0]._resolvedUrl, 0, _eisSchedules[0].pdf_url)}
-      </div>
+      <div id="eis-pdf-wrap"></div>
     `;
 
-    setupEisIframeFallback(0);
+    const wrap = document.getElementById('eis-pdf-wrap');
+    renderEisPdfViewer(wrap, schedules[0], 0);
 
   } catch (e) {
     document.getElementById('eisenberga-body').innerHTML = `

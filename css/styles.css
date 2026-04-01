@@ -1681,14 +1681,94 @@ tr.ex-done .ex-name { text-decoration: line-through; color: var(--text3); }
   display: block;
 }
 
-/* Fallback gdy iframe z PDF nie załaduje się (np. iOS PWA) */
+/* PDF.js viewer */
+.eis-pdf-viewer {
+  width: 100%;
+}
+
+.eis-pdf-toolbar {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 16px;
+  background: var(--bg3);
+  border-top: 1px solid var(--border);
+  border-bottom: 1px solid var(--border);
+}
+
+.eis-nav-btn {
+  background: var(--bg2);
+  border: 1px solid var(--border);
+  color: var(--text1);
+  border-radius: 6px;
+  width: 32px;
+  height: 32px;
+  font-size: 13px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background .15s;
+  flex-shrink: 0;
+}
+.eis-nav-btn:hover:not(:disabled) { background: var(--bg4); }
+.eis-nav-btn:disabled { opacity: 0.35; cursor: default; }
+
+.eis-page-info {
+  font-size: 13px;
+  color: var(--text2);
+  font-variant-numeric: tabular-nums;
+  min-width: 48px;
+  text-align: center;
+}
+
+.eis-open-btn {
+  margin-left: auto;
+  font-size: 12px;
+  color: var(--green);
+  text-decoration: none;
+  padding: 4px 10px;
+  border: 1px solid var(--green-dim);
+  border-radius: 6px;
+  background: var(--green-bg);
+  white-space: nowrap;
+  transition: opacity .15s;
+}
+.eis-open-btn:hover { opacity: .8; }
+
+.eis-pdf-canvas-wrap {
+  width: 100%;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  background: var(--bg2);
+  min-height: 200px;
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+}
+
+.eis-pdf-canvas {
+  display: block;
+  max-width: 100%;
+  height: auto;
+}
+
+.eis-pdf-loading {
+  padding: 48px 24px;
+  font-size: 13px;
+  color: var(--text3);
+  text-align: center;
+  width: 100%;
+}
+
+/* Fallback gdy PDF.js zawiedzie */
 .pool-pdf-fallback {
-  position: absolute;
-  inset: 0;
   display: flex;
   align-items: center;
   justify-content: center;
   background: var(--bg2);
+  min-height: 200px;
+  width: 100%;
 }
 
 .pool-pdf-fallback-inner {
@@ -1733,7 +1813,6 @@ tr.ex-done .ex-name { text-decoration: line-through; color: var(--text3); }
   .pool-card-header { padding: 12px 12px 10px; }
   .pool-meta { padding: 7px 12px; }
   .pool-schedule-wrap { padding: 10px 12px 12px; }
-  .pool-iframe-wrap { height: 500px; }
   .pool-name { font-size: 14px; }
   .pool-tab { font-size: 11px; padding: 3px 8px; }
   .pool-pdf-list { padding: 8px 12px 14px; gap: 5px; }
