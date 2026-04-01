@@ -1694,6 +1694,9 @@ tr.ex-done .ex-name { text-decoration: line-through; color: var(--text3); }
   background: var(--bg3);
   border-top: 1px solid var(--border);
   border-bottom: 1px solid var(--border);
+  position: sticky;
+  top: 0;
+  z-index: 10;
 }
 
 .eis-nav-btn {
