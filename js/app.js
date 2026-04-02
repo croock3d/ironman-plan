@@ -2,7 +2,7 @@
 // SCREENS
 // ============================================================
 
-const VALID_SCREENS = ['plan', 'edit', 'log', 'pools', 'settings', 'breath'];
+const VALID_SCREENS = ['plan', 'edit', 'log', 'pools', 'settings', 'breath', 'zones'];
 
 // Mapowanie screen → id przycisku w bottom nav (tylko główne ekrany)
 const BOTTOM_NAV_MAP = {
@@ -10,6 +10,7 @@ const BOTTOM_NAV_MAP = {
   log: 'bnav-log',
   pools: 'bnav-pools',
   breath: 'bnav-breath',
+  zones: 'bnav-zones',
   settings: 'bnav-settings',
 };
 
@@ -38,6 +39,7 @@ function showScreen(name) {
   if (name === 'pools') renderPools();
   if (name === 'settings') renderSettings();
   if (name === 'breath') renderBreath();
+  if (name === 'zones') renderZones();
   history.replaceState(null, '', '#' + name);
 }
 

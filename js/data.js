@@ -179,6 +179,27 @@ const DEFAULT_DATA = {
 };
 
 // ============================================================
+// DEFAULT ZONES DATA (seed z historycznych testów)
+// ============================================================
+const DEFAULT_ZONES_DATA = {
+  swim: [
+    { id: 'sw1', date: '2024-11-21', protocol: '400/200m', thresholdPace: '1:53', time400: '7:08', time200: '3:21', note: '' },
+    { id: 'sw2', date: '2025-05-10', protocol: '400/200m', thresholdPace: '1:44', time400: '6:43', time200: '3:14', note: '' },
+    { id: 'sw3', date: '2026-01-13', protocol: '400/200m', thresholdPace: '1:49', time400: '6:47', time200: '3:08', note: '' },
+  ],
+  bike: [
+    { id: 'bk1', date: '2024-11-14', protocol: "2x8'", ftp: 230, hr: 156, weight: 82, note: 'trenażer + pedały' },
+    { id: 'bk2', date: '2025-05-03', protocol: "2x8'", ftp: 245, hr: 162, weight: 82, note: 'trenażer po kalibracji' },
+    { id: 'bk3', date: '2026-01-07', protocol: "2x8'", ftp: 235, hr: 163, weight: 87, note: 'trenażer po kalibracji' },
+  ],
+  run: [
+    { id: 'rn1', date: null,         protocol: '5KM', hr: 172, thresholdPace: '5:08', note: 'park, z przerwą' },
+    { id: 'rn2', date: '2025-05-14', protocol: '5KM', hr: 169, thresholdPace: '4:57', note: 'park, bez przerw' },
+    { id: 'rn3', date: '2025-08-23', protocol: '5KM', hr: 178, thresholdPace: '4:53', note: 'Parkrun' },
+  ],
+};
+
+// ============================================================
 // GIST CONFIG — token z localStorage, nie z kodu
 // ============================================================
 const GIST_ID   = 'db261a815c6e41a502c2271f27b13798';
@@ -196,6 +217,7 @@ let breathData = {
   startDate: null,   // "YYYY-MM-DD" — data pierwszej sesji (ustawiana automatycznie)
   sessions: []       // [ { date, time, resistance, breaths, note } ]
 };
+let zonesData = JSON.parse(JSON.stringify(DEFAULT_ZONES_DATA));
 
 // Migracja: konwertuje stare items rozgrzewki (stringi) na obiekty {text, link}
 function normalizeData() {
@@ -216,6 +238,18 @@ function loadFromStorage() {
     if (s) doneState = JSON.parse(s);
     const b = localStorage.getItem('ironman_breath');
     if (b) breathData = JSON.parse(b);
+    const z = localStorage.getItem('ironman_zones');
+    if (z) {
+      const parsed = JSON.parse(z);
+      // Merge: zachowaj seed dla sportów których brak w localStorage
+      if (parsed && typeof parsed === 'object') {
+        zonesData = {
+          swim: parsed.swim || zonesData.swim,
+          bike: parsed.bike || zonesData.bike,
+          run:  parsed.run  || zonesData.run,
+        };
+      }
+    }
   } catch(e) { console.warn('load error', e); }
   normalizeData();
 }
@@ -225,4 +259,9 @@ function saveToStorage() {
   localStorage.setItem('ironman_log', JSON.stringify(sessionLog));
   localStorage.setItem('ironman_done', JSON.stringify(doneState));
   localStorage.setItem('ironman_breath', JSON.stringify(breathData));
+  saveZonesToStorage();
+}
+
+function saveZonesToStorage() {
+  localStorage.setItem('ironman_zones', JSON.stringify(zonesData));
 }

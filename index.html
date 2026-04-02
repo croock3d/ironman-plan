@@ -19,6 +19,7 @@
     <button class="nav-btn" id="btn-log" onclick="showScreen('log')">📋 Dziennik</button>
     <button class="nav-btn" id="btn-pools" onclick="showScreen('pools')">🏊 Basen</button>
     <button class="nav-btn" id="btn-breath" onclick="showScreen('breath')">💨 Oddech</button>
+    <button class="nav-btn" id="btn-zones" onclick="showScreen('zones')">📊 Strefy</button>
   </div>
   <div class="nav-right">
     <button class="sync-chip sync-idle" id="sync-status" onclick="manualSync()" title="Synchronizuj">
@@ -106,6 +107,8 @@
 
 <div class="screen" id="screen-breath"></div>
 
+<div class="screen" id="screen-zones"></div>
+
 <nav class="bottom-nav" id="bottom-nav">
   <button class="bottom-nav-btn" id="bnav-plan" onclick="showScreen('plan')">
     <span class="bnav-icon">🏋️</span>
@@ -123,6 +126,10 @@
     <span class="bnav-icon">💨</span>
     <span class="bnav-label">Oddech</span>
   </button>
+  <button class="bottom-nav-btn" id="bnav-zones" onclick="showScreen('zones')">
+    <span class="bnav-icon">📊</span>
+    <span class="bnav-label">Strefy</span>
+  </button>
   <button class="bottom-nav-btn" id="bnav-settings" onclick="showScreen('settings')">
     <span class="bnav-icon">⚙️</span>
     <span class="bnav-label">Ustawienia</span>
@@ -137,6 +144,7 @@
 <script src="js/settings.js?v=20260401060649"></script>
 <script src="js/pools.js?v=20260401060649"></script>
 <script src="js/breath.js?v=20260401060649"></script>
+<script src="js/zones.js?v=20260402000019"></script>
 <script src="js/app.js?v=20260401060649"></script>
 </body>
 </html>
