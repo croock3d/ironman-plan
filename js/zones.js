@@ -24,8 +24,8 @@ const ZONE_RULES = {
     icon: '🚴',
     zones: [
       { name: 'S1',  label: 'Aktywna regeneracja', hrMult: null, pwrMult: null  },
-      { name: 'S2',  label: 'Aerobowa',             hrMult: 0.81, pwrMult: 0.55 },
-      { name: 'S3',  label: 'Tempo',                hrMult: 0.89, pwrMult: 0.75 },
+      { name: 'S2',  label: 'Aerobowa',             hrMult: 0.68, pwrMult: 0.55 },
+      { name: 'S3',  label: 'Tempo',                hrMult: 0.83, pwrMult: 0.75 },
       { name: 'S4',  label: 'Próg',                 hrMult: 0.93, pwrMult: 0.90 },
       { name: 'S5a', label: 'VO2max',               hrMult: 0.99, pwrMult: 1.05 },
       { name: 'S5b', label: 'Beztlenowa',           hrMult: null, pwrMult: 1.20 },
@@ -37,7 +37,7 @@ const ZONE_RULES = {
     icon: '🏃',
     zones: [
       { name: 'S1',  label: 'Aktywna regeneracja', hrMult: null, paceMult: 1.50 },
-      { name: 'S2',  label: 'Aerobowa',             hrMult: 0.85, paceMult: 1.29 },
+      { name: 'S2',  label: 'Aerobowa',             hrMult: 0.80, paceMult: 1.29 },
       { name: 'S3',  label: 'Tempo',                hrMult: 0.89, paceMult: 1.13 },
       { name: 'S4',  label: 'Próg',                 hrMult: 0.94, paceMult: 1.06 },
       { name: 'S5a', label: 'VO2max',               hrMult: 0.99, paceMult: 0.99 },
