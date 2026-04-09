@@ -12,6 +12,7 @@ import os
 import re
 import sys
 import urllib.request
+from urllib.parse import urljoin
 from datetime import datetime, timezone
 from html.parser import HTMLParser
 
@@ -25,7 +26,6 @@ AGH_OUTPUT_META = "assets/agh-schedule-meta.json"
 # ---- Eisenberga ----
 EISENBERGA_BASE_URL = "https://www.przystannaeisenberga.pl"
 EISENBERGA_HARMONOGRAM_URL = f"{EISENBERGA_BASE_URL}/harmonogram/"
-EISENBERGA_PDF_BASE = f"{EISENBERGA_BASE_URL}/wp-content/uploads/2025/05"
 EISENBERGA_OUTPUT_META = "assets/eisenberga-schedule-meta.json"
 
 
@@ -221,48 +221,25 @@ def fetch_agh_schedule():
 
 def parse_eisenberga_schedule_links(html):
     """
-    Returns list of dicts with 'title' and 'name' (filename without .pdf),
+    Returns list of dicts with 'title' and absolute 'pdf_url',
     in the order they appear on the page (newest first).
     """
-    # Match anchor text like "Harmonogram_30.03.-05.04." or "Harmonogram_23.03.-29.03"
+    # Match anchors with Harmonogram in href and in visible title text.
     pattern = re.compile(
-        r'<a[^>]+href="[^"]*Harmonogram[^"]*"[^>]*>\s*(Harmonogram_[^<]+?)\s*</a>',
+        r'<a[^>]+href="([^"]*Harmonogram[^"]*)"[^>]*>\s*(Harmonogram_[^<]+?)\s*</a>',
         re.IGNORECASE,
     )
     results = []
     seen = set()
     for m in pattern.finditer(html):
-        title = m.group(1).strip()
-        # Normalize: ensure trailing dot if missing (e.g. "29.03" → "29.03.")
-        # Keep as-is for filename matching
-        name = title.rstrip(".")  # strip trailing dot for filename
-        if name not in seen:
-            seen.add(name)
-            results.append({"title": title, "name": name})
+        href = m.group(1).strip()
+        title = m.group(2).strip()
+        pdf_url = urljoin(EISENBERGA_HARMONOGRAM_URL, href)
+
+        if pdf_url not in seen:
+            seen.add(pdf_url)
+            results.append({"title": title, "pdf_url": pdf_url})
     return results
-
-
-def resolve_pdf_url(name):
-    """
-    Given a harmonogram name like 'Harmonogram_30.03.-05.04',
-    tries to find the PDF URL by checking known upload paths.
-    Returns URL string or None.
-    """
-    # Try with and without trailing dot in filename
-    candidates = [
-        f"{EISENBERGA_PDF_BASE}/{name}.pdf",
-        f"{EISENBERGA_PDF_BASE}/{name}..pdf",  # double dot edge case
-    ]
-    # Also try with trailing dot stripped already in name
-    # and try adding it back
-    if not name.endswith("."):
-        candidates.insert(1, f"{EISENBERGA_PDF_BASE}/{name}..pdf")
-
-    for url in candidates:
-        status = head_url(url)
-        if status == 200:
-            return url
-    return None
 
 
 def fetch_eisenberga_schedule():
@@ -285,14 +262,10 @@ def fetch_eisenberga_schedule():
     top2 = links[:2]
     schedules = []
 
-    for i, item in enumerate(top2):
-        pdf_url = resolve_pdf_url(item["name"])
-        if not pdf_url:
-            print(f"  WARN: PDF not found for {item['title']}", file=sys.stderr)
-            continue
-
-        local_path = f"assets/eisenberga-{i}.pdf"
-        print(f"  Downloading {item['title']} → {local_path}...")
+    for item in top2:
+        pdf_url = item["pdf_url"]
+        local_path = f"assets/eisenberga-{len(schedules)}.pdf"
+        print(f"  Downloading {item['title']} ({pdf_url}) → {local_path}...")
         try:
             req = urllib.request.Request(
                 pdf_url,
@@ -320,21 +293,6 @@ def fetch_eisenberga_schedule():
 
     if not schedules:
         print("ERROR: Could not download any PDFs", file=sys.stderr)
-        return False
-
-    now = datetime.now(timezone.utc).isoformat()
-    save_json(
-        EISENBERGA_OUTPUT_META,
-        {
-            "schedules": schedules,
-            "fetched_at": now,
-        },
-    )
-    print(f"Saved {len(schedules)} schedule(s) to {EISENBERGA_OUTPUT_META}")
-    return True
-
-    if not schedules:
-        print("ERROR: Could not resolve any PDF URLs", file=sys.stderr)
         return False
 
     now = datetime.now(timezone.utc).isoformat()
