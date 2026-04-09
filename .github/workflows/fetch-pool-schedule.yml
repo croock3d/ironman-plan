@@ -23,7 +23,7 @@ jobs:
         run: |
           git config user.name  "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
-          git add assets/agh-schedule.jpg assets/agh-schedule-meta.json assets/eisenberga-schedule-meta.json
+          git add -A assets
           git diff --staged --quiet && echo "Brak zmian w harmonogramach" && exit 0
           AGH_TITLE=$(python3 -c "import json; d=json.load(open('assets/agh-schedule-meta.json')); print(d.get('title','AGH'))")
           git commit -m "chore: aktualizacja harmonogramów basenów - ${AGH_TITLE} [skip ci]"
