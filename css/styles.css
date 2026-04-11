@@ -1146,7 +1146,7 @@ tr.ex-done .ex-name { text-decoration: line-through; color: var(--text3); }
 }
 .log-sets-table thead th {
   text-align: left;
-  padding: 6px 10px;
+  padding: 7px 10px;
   font-size: 9px;
   font-weight: 700;
   color: var(--text3);
@@ -1154,15 +1154,18 @@ tr.ex-done .ex-name { text-decoration: line-through; color: var(--text3); }
   letter-spacing: 0.6px;
   font-family: var(--mono);
   background: var(--bg3);
+  vertical-align: middle;
 }
-.log-sets-table thead th:last-child { text-align: center; }
+.log-sets-table thead th:first-child { text-align: center; } /* Seria */
+.log-sets-table thead th:nth-last-child(-n+2) { text-align: center; } /* kg + powt. in both table variants */
 .log-sets-table tbody tr { transition: background .1s; }
-.log-sets-table tbody tr.set-done-row { background: rgba(34,197,94,0.04); }
+.log-sets-table tbody tr.set-done-row { background: rgba(34,197,94,0.18); }
 .log-sets-table td {
   padding: 7px 10px;
   border-bottom: 1px solid var(--border);
   vertical-align: middle;
 }
+.log-sets-table td:first-child { text-align: center; }
 .log-sets-table tbody tr:last-child td { border-bottom: none; }
 
 .log-set-num {
@@ -1221,7 +1224,10 @@ tr.ex-done .ex-name { text-decoration: line-through; color: var(--text3); }
 .log-sets-inputs-cell {
   display: flex;
   align-items: center;
+  justify-content: center;
   gap: 4px;
+  width: 100%;
+  padding: 0;
 }
 .log-sets-done-cell { text-align: center; }
 
