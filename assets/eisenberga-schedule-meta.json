@@ -1,8 +1,8 @@
 {
   "schedules": [
     {
-      "title": "Harmonogram_17.04.-26.04",
-      "pdf_url": "https://www.przystannaeisenberga.pl/harmonogram/Harmonogram_17.04.-26.04.",
+      "title": "Harmonogram_20.04.-26.04",
+      "pdf_url": "https://www.przystannaeisenberga.pl/harmonogram/Harmonogram_20.04.-26.04.",
       "local_path": "assets/eisenberga-0.pdf"
     },
     {
@@ -11,5 +11,5 @@
       "local_path": "assets/eisenberga-1.pdf"
     }
   ],
-  "fetched_at": "2026-04-19T07:07:19.473185+00:00"
+  "fetched_at": "2026-04-20T07:52:04.575336+00:00"
 }
