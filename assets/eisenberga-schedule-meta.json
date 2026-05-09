@@ -1,15 +1,15 @@
 {
   "schedules": [
     {
-      "title": "Harmonogram_04.05.-10.05",
-      "pdf_url": "https://www.przystannaeisenberga.pl/harmonogram/Harmonogram_04.05.-10.05.",
+      "title": "Harmonogram_08.05.-17.05",
+      "pdf_url": "https://www.przystannaeisenberga.pl/harmonogram/Harmonogram_08.05.-17.05",
       "local_path": "assets/eisenberga-0.pdf"
     },
     {
-      "title": "Harmonogram_27.04.-03.05.",
-      "pdf_url": "https://www.przystannaeisenberga.pl/harmonogram/Harmonogram_27.04.-03.05.",
+      "title": "Harmonogram_04.05.-10.05",
+      "pdf_url": "https://www.przystannaeisenberga.pl/harmonogram/Harmonogram_04.05.-10.05.",
       "local_path": "assets/eisenberga-1.pdf"
     }
   ],
-  "fetched_at": "2026-05-08T07:16:42.960416+00:00"
+  "fetched_at": "2026-05-09T07:43:17.939312+00:00"
 }
