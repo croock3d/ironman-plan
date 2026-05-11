@@ -1,8 +1,8 @@
 {
   "schedules": [
     {
-      "title": "Harmonogram_08.05.-17.05",
-      "pdf_url": "https://www.przystannaeisenberga.pl/harmonogram/Harmonogram_08.05.-17.05",
+      "title": "Harmonogram_11.05.-17.05.",
+      "pdf_url": "https://www.przystannaeisenberga.pl/harmonogram/Harmonogram_11.05.-17.05.",
       "local_path": "assets/eisenberga-0.pdf"
     },
     {
@@ -11,5 +11,5 @@
       "local_path": "assets/eisenberga-1.pdf"
     }
   ],
-  "fetched_at": "2026-05-10T07:57:31.607991+00:00"
+  "fetched_at": "2026-05-11T08:58:54.951905+00:00"
 }
