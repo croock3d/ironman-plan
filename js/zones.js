@@ -542,7 +542,7 @@ function buildMetaChips(sport, test) {
 function renderHistory(sport, tests) {
   if (tests.length <= 1) return '';
 
-  const older = tests.slice(0, tests.length - 1).slice().reverse();
+  const older = tests.slice().reverse();
 
   return `
     <details class="zones-history">
