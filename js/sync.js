@@ -65,7 +65,7 @@ async function syncToGist() {
 async function manualSync() {
   const ok = await syncFromGist();
   if (ok) {
-    renderPlan();
+    reRenderCurrentScreen();
     showToast('📥 Pobrano z chmury');
   } else {
     showToast('❌ Błąd synchronizacji');

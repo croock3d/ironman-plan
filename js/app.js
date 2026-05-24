@@ -4,6 +4,8 @@
 
 const VALID_SCREENS = ['plan', 'edit', 'log', 'pools', 'settings', 'breath', 'zones'];
 
+let _currentScreen = null;
+
 // Mapowanie screen → id przycisku w bottom nav (tylko główne ekrany)
 const BOTTOM_NAV_MAP = {
   plan: 'bnav-plan',
@@ -40,7 +42,14 @@ function showScreen(name) {
   if (name === 'settings') renderSettings();
   if (name === 'breath') renderBreath();
   if (name === 'zones') renderZones();
+  _currentScreen = name;
   history.replaceState(null, '', '#' + name);
+}
+
+function reRenderCurrentScreen() {
+  if (_currentScreen === 'plan')     renderPlan();
+  else if (_currentScreen === 'log') renderLog();
+  else if (_currentScreen === 'zones') renderZones();
 }
 
 // ============================================================
@@ -61,12 +70,9 @@ const _startScreen = VALID_SCREENS.includes(_hashScreen) ? _hashScreen : null;
 if (!getToken()) {
   showScreen('settings');
   showToast('⚙️ Wpisz token GitHub aby włączyć sync');
-} else if (_startScreen) {
-  showScreen(_startScreen);
-  if (_startScreen === 'plan') syncFromGist().then(ok => { if (ok) renderPlan(); });
 } else {
-  showScreen('plan');
-  syncFromGist().then(ok => { if (ok) renderPlan(); });
+  showScreen(_startScreen || 'plan');
+  syncFromGist().then(ok => { if (ok) reRenderCurrentScreen(); });
 }
 
 // ============================================================

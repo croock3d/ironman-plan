@@ -557,7 +557,6 @@ function buildExCard(ex, ei, phaseIdx, dayIdx) {
           <th>Poprzednio</th>
           <th>kg</th>
           <th>powt.</th>
-          <th>OK</th>
         </tr>
       </thead>
       <tbody>
@@ -588,13 +587,6 @@ function buildExCard(ex, ei, phaseIdx, dayIdx) {
                     oninput="updateSet(${ei}, ${si}, 'reps', this.value)"
                     inputmode="numeric">
                 </div>
-              </td>
-              <td class="log-sets-done-cell">
-                <button class="log-set-done-btn${s.done ? ' done' : ''}"
-                        onclick="toggleSetDone(${ei}, ${si})"
-                        aria-label="Seria wykonana">
-                  ${s.done ? '✓' : ''}
-                </button>
               </td>
             </tr>
           `;
@@ -677,23 +669,21 @@ function updateSet(ei, si, field, value) {
   if (!activeWorkout.sets[ei]) return;
   if (!activeWorkout.sets[ei][si]) return;
   activeWorkout.sets[ei][si][field] = value;
-  persistActiveWorkout();
-}
-
-function toggleSetDone(ei, si) {
-  if (!activeWorkout) return;
-  const s = activeWorkout.sets[ei][si];
-  s.done = !s.done;
-
-  const row = document.getElementById(`set-row-${ei}-${si}`);
-  const btn = row ? row.querySelector('.log-set-done-btn') : null;
-  if (row) row.className = s.done ? 'set-done-row' : '';
-  if (btn) {
-    btn.classList.toggle('done', s.done);
-    btn.textContent = s.done ? '✓' : '';
+  
+  // Automatically mark as done if both kg and reps are filled
+  const set = activeWorkout.sets[ei][si];
+  const wasDone = set.done;
+  set.done = set.kg !== '' && set.reps !== '';
+  
+  if (set.done !== wasDone) {
+    const row = document.getElementById(`set-row-${ei}-${si}`);
+    if (row) row.className = set.done ? 'set-done-row' : '';
   }
+  
   persistActiveWorkout();
 }
+
+
 
 function abortWorkout() {
   showConfirm({
@@ -895,7 +885,6 @@ function buildEditExCard(ex, ei) {
           <th>Seria</th>
           <th>kg</th>
           <th>powt.</th>
-          <th>OK</th>
         </tr>
       </thead>
       <tbody>
@@ -905,25 +894,22 @@ function buildEditExCard(ex, ei) {
             <tr id="edit-row-${ei}-${si}"${rowClass}>
               <td class="log-set-num">${si + 1}</td>
               <td>
-                <input class="log-set-input" type="number" min="0" step="2.5"
-                  placeholder="kg"
-                  value="${s.kg != null ? s.kg : ''}"
-                  oninput="updateEditSet(${ei}, ${si}, 'kg', this.value)"
-                  inputmode="decimal">
+                <div class="log-sets-inputs-cell">
+                  <input class="log-set-input" type="number" min="0" step="2.5"
+                    placeholder="kg"
+                    value="${s.kg != null ? s.kg : ''}"
+                    oninput="updateEditSet(${ei}, ${si}, 'kg', this.value)"
+                    inputmode="decimal">
+                </div>
               </td>
               <td>
-                <input class="log-set-input reps" type="number" min="0" step="1"
-                  placeholder="reps"
-                  value="${s.reps != null ? s.reps : ''}"
-                  oninput="updateEditSet(${ei}, ${si}, 'reps', this.value)"
-                  inputmode="numeric">
-              </td>
-              <td class="log-sets-done-cell">
-                <button class="log-set-done-btn${s.done ? ' done' : ''}"
-                        onclick="toggleEditSetDone(${ei}, ${si})"
-                        aria-label="Seria wykonana">
-                  ${s.done ? '✓' : ''}
-                </button>
+                <div class="log-sets-inputs-cell">
+                  <input class="log-set-input reps" type="number" min="0" step="1"
+                    placeholder="reps"
+                    value="${s.reps != null ? s.reps : ''}"
+                    oninput="updateEditSet(${ei}, ${si}, 'reps', this.value)"
+                    inputmode="numeric">
+                </div>
               </td>
             </tr>
           `;
@@ -961,21 +947,19 @@ function updateEditSet(ei, si, field, value) {
   const buf = _ensureEditBuffer(editingEntryIdx);
   if (!buf.exercises || !buf.exercises[ei] || !buf.exercises[ei].sets[si]) return;
   buf.exercises[ei].sets[si][field] = value === '' ? null : (field === 'kg' ? parseFloat(value) : parseInt(value));
+  
+  // Automatically mark as done if both kg and reps are filled
+  const set = buf.exercises[ei].sets[si];
+  const wasDone = set.done;
+  set.done = set.kg != null && set.kg !== '' && set.reps != null && set.reps !== '';
+  
+  if (set.done !== wasDone) {
+    const row = document.getElementById(`edit-row-${ei}-${si}`);
+    if (row) row.className = set.done ? 'set-done-row' : '';
+  }
 }
 
-function toggleEditSetDone(ei, si) {
-  if (editingEntryIdx === null) return;
-  const buf = _ensureEditBuffer(editingEntryIdx);
-  if (!buf.exercises || !buf.exercises[ei] || !buf.exercises[ei].sets[si]) return;
 
-  const s = buf.exercises[ei].sets[si];
-  s.done = !s.done;
-
-  const row = document.getElementById(`edit-row-${ei}-${si}`);
-  const btn = row ? row.querySelector('.log-set-done-btn') : null;
-  if (row) row.className = s.done ? 'set-done-row' : '';
-  if (btn) { btn.classList.toggle('done', s.done); btn.textContent = s.done ? '✓' : ''; }
-}
 
 function saveEntryEdit(idx) {
   const entry = sessionLog[idx];
