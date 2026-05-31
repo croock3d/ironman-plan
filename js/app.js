@@ -2,7 +2,7 @@
 // SCREENS
 // ============================================================
 
-const VALID_SCREENS = ['plan', 'edit', 'log', 'pools', 'settings', 'breath', 'zones'];
+const VALID_SCREENS = ['plan', 'edit', 'log', 'pools', 'settings', 'breath', 'zones', 'race'];
 
 let _currentScreen = null;
 
@@ -13,6 +13,7 @@ const BOTTOM_NAV_MAP = {
   pools: 'bnav-pools',
   breath: 'bnav-breath',
   zones: 'bnav-zones',
+  race: 'bnav-race',
   settings: 'bnav-settings',
 };
 
@@ -42,6 +43,7 @@ function showScreen(name) {
   if (name === 'settings') renderSettings();
   if (name === 'breath') renderBreath();
   if (name === 'zones') renderZones();
+  if (name === 'race') renderRace();
   _currentScreen = name;
   history.replaceState(null, '', '#' + name);
 }
