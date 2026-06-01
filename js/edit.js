@@ -6,60 +6,64 @@ function renderEdit() {
   const cont = document.getElementById('edit-container');
   cont.innerHTML = '';
 
-  // Week bar editor
-  const wbSec = makeEditSection('📅 Tygodniowy harmonogram', `${data.weekBar.length} dni`);
-  const wbBody = wbSec.querySelector('.edit-section-body');
-  wbBody.innerHTML = data.weekBar.map((w, i) => `
-    <div style="display:grid; grid-template-columns:60px 1fr auto; gap:8px; align-items:center; margin-bottom:8px;">
-      <input class="field-input" style="text-align:center;font-weight:700;" value="${w.day}" onchange="data.weekBar[${i}].day=this.value">
-      <input class="field-input" value="${w.label}" onchange="data.weekBar[${i}].label=this.value">
-      <button class="btn-small ${w.gym?'success':''}" onclick="data.weekBar[${i}].gym=!data.weekBar[${i}].gym; renderEdit();">${w.gym?'💪 Siłownia':'—'}</button>
-    </div>
-  `).join('');
-  cont.appendChild(wbSec);
+  // Week bar editor — tylko jeśli plan ma weekBar
+  if (data.weekBar) {
+    const wbSec = makeEditSection('📅 Tygodniowy harmonogram', `${data.weekBar.length} dni`);
+    const wbBody = wbSec.querySelector('.edit-section-body');
+    wbBody.innerHTML = data.weekBar.map((w, i) => `
+      <div style="display:grid; grid-template-columns:60px 1fr auto; gap:8px; align-items:center; margin-bottom:8px;">
+        <input class="field-input" style="text-align:center;font-weight:700;" value="${w.day}" onchange="data.weekBar[${i}].day=this.value">
+        <input class="field-input" value="${w.label}" onchange="data.weekBar[${i}].label=this.value">
+        <button class="btn-small ${w.gym?'success':''}" onclick="data.weekBar[${i}].gym=!data.weekBar[${i}].gym; renderEdit();">${w.gym?'💪 Siłownia':'—'}</button>
+      </div>
+    `).join('');
+    cont.appendChild(wbSec);
+  }
 
-  // Warmup editor
-  const warmupSec = makeEditSection('🔥 Rozgrzewki', '2 bloki');
-  const warmupBody = warmupSec.querySelector('.edit-section-body');
-  ['nogi', 'gora'].forEach(key => {
-    const wu = data.warmups[key];
-    const wuDiv = document.createElement('div');
-    wuDiv.className = 'day-editor';
-    wuDiv.innerHTML = `
-      <div class="day-editor-title"><span>${wu.title}</span></div>
-      <div class="field-group">
-        <div class="field-label">Tytuł bloku</div>
-        <input class="field-input" value="${escHtml(wu.title)}" onchange="data.warmups['${key}'].title=this.value">
-      </div>
-      <div style="font-size:11px;font-weight:700;color:var(--text3);text-transform:uppercase;letter-spacing:.5px;margin:10px 0 6px;font-family:var(--mono);">Elementy</div>
-      <div id="warmup-items-${key}"></div>
-      <div class="field-group" style="margin-top:10px;">
-        <div class="field-label">Notatka</div>
-        <input class="field-input" value="${escHtml(wu.note||'')}" onchange="data.warmups['${key}'].note=this.value">
-      </div>
-    `;
-    const itemsContainer = wuDiv.querySelector(`#warmup-items-${key}`);
-    wu.items.forEach((item, ii) => {
-      const text = typeof item === 'string' ? item : item.text;
-      const link = typeof item === 'object' ? (item.link || '') : '';
-      const itemDiv = document.createElement('div');
-      itemDiv.className = 'ex-editor';
-      itemDiv.innerHTML = `
-        <div class="ex-editor-num">Element ${ii + 1}</div>
+  // Warmup editor — tylko jeśli plan ma warmups
+  if (data.warmups) {
+    const warmupSec = makeEditSection('🔥 Rozgrzewki', '2 bloki');
+    const warmupBody = warmupSec.querySelector('.edit-section-body');
+    ['nogi', 'gora'].forEach(key => {
+      const wu = data.warmups[key];
+      const wuDiv = document.createElement('div');
+      wuDiv.className = 'day-editor';
+      wuDiv.innerHTML = `
+        <div class="day-editor-title"><span>${wu.title}</span></div>
         <div class="field-group">
-          <div class="field-label">Opis</div>
-          <input class="field-input" value="${escHtml(text)}" onchange="data.warmups['${key}'].items[${ii}]={text:this.value,link:data.warmups['${key}'].items[${ii}]?.link||''}">
+          <div class="field-label">Tytuł bloku</div>
+          <input class="field-input" value="${escHtml(wu.title)}" onchange="data.warmups['${key}'].title=this.value">
         </div>
-        <div class="field-group">
-          <div class="field-label">Link (YouTube, artykuł — opcjonalne)</div>
-          <input class="field-input" type="url" placeholder="https://..." value="${escHtml(link)}" onchange="data.warmups['${key}'].items[${ii}]={text:data.warmups['${key}'].items[${ii}]?.text||'',link:this.value}">
+        <div style="font-size:11px;font-weight:700;color:var(--text3);text-transform:uppercase;letter-spacing:.5px;margin:10px 0 6px;font-family:var(--mono);">Elementy</div>
+        <div id="warmup-items-${key}"></div>
+        <div class="field-group" style="margin-top:10px;">
+          <div class="field-label">Notatka</div>
+          <input class="field-input" value="${escHtml(wu.note||'')}" onchange="data.warmups['${key}'].note=this.value">
         </div>
       `;
-      itemsContainer.appendChild(itemDiv);
+      const itemsContainer = wuDiv.querySelector(`#warmup-items-${key}`);
+      wu.items.forEach((item, ii) => {
+        const text = typeof item === 'string' ? item : item.text;
+        const link = typeof item === 'object' ? (item.link || '') : '';
+        const itemDiv = document.createElement('div');
+        itemDiv.className = 'ex-editor';
+        itemDiv.innerHTML = `
+          <div class="ex-editor-num">Element ${ii + 1}</div>
+          <div class="field-group">
+            <div class="field-label">Opis</div>
+            <input class="field-input" value="${escHtml(text)}" onchange="data.warmups['${key}'].items[${ii}]={text:this.value,link:data.warmups['${key}'].items[${ii}]?.link||''}">
+          </div>
+          <div class="field-group">
+            <div class="field-label">Link (YouTube, artykuł — opcjonalne)</div>
+            <input class="field-input" type="url" placeholder="https://..." value="${escHtml(link)}" onchange="data.warmups['${key}'].items[${ii}]={text:data.warmups['${key}'].items[${ii}]?.text||'',link:this.value}">
+          </div>
+        `;
+        itemsContainer.appendChild(itemDiv);
+      });
+      warmupBody.appendChild(wuDiv);
     });
-    warmupBody.appendChild(wuDiv);
-  });
-  cont.appendChild(warmupSec);
+    cont.appendChild(warmupSec);
+  }
 
   // Phases editor
   data.phases.forEach((phase, pi) => {
@@ -294,15 +298,17 @@ function saveEdits() {
 function resetData() {
   showConfirm({
     title: 'Reset do domyślnych danych',
-    message: 'Utracisz wszystkie własne zmiany w planie. Historia treningów zostanie zachowana.',
+    message: 'Utracisz wszystkie własne zmiany w aktywnym planie. Historia treningów zostanie zachowana.',
     confirmLabel: 'Resetuj',
     danger: true,
     onConfirm: () => {
-      data = JSON.parse(JSON.stringify(DEFAULT_DATA));
+      const def = currentPlan === 0 ? DEFAULT_DATA : DEFAULT_PLAN2;
+      plans[currentPlan] = JSON.parse(JSON.stringify(def));
+      data = plans[currentPlan];
       doneState = {};
       saveToStorage();
       renderEdit();
-      showToast('Zresetowano do v6');
+      showToast(`Zresetowano Plan ${currentPlan + 1}`);
     }
   });
 }

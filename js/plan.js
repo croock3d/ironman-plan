@@ -3,6 +3,18 @@
 // ============================================================
 
 function renderPlan() {
+  // Plan switcher (PLAN 1 / PLAN 2)
+  const planNames = [
+    plans[0].title || 'PLAN 1',
+    plans[1].title || 'PLAN 2'
+  ];
+  const planSwitcher = document.getElementById('plan-switcher');
+  if (planSwitcher) {
+    planSwitcher.innerHTML = planNames.map((name, i) =>
+      `<button class="plan-tab ${i === currentPlan ? 'active' : ''}" onclick="setPlan(${i})">${name}</button>`
+    ).join('');
+  }
+
   // Phase tabs + Edytuj plan button w jednej linii
   const tabs = document.getElementById('phase-tabs');
   tabs.innerHTML = data.phases.map((p,i) => `
@@ -12,29 +24,35 @@ function renderPlan() {
   // Phase info
   document.getElementById('phase-info').innerHTML = data.phases[currentPhase].desc;
 
-  // Week bar
+  // Week bar — tylko jeśli plan ma weekBar
+  const weekSection = document.getElementById('week-section');
   const wb = document.getElementById('week-bar');
-  wb.innerHTML = data.weekBar.map((w, wi) => {
-    const phase = data.phases[currentPhase];
-    const matchedDi = phase.days.findIndex(d =>
-      w.label && (d.label.toLowerCase().includes(w.label.toLowerCase().split('—')[0].trim()) ||
-      w.label.toLowerCase().includes(d.label.toLowerCase().split('—')[0].trim()) ||
-      (w.gym && (
-        (w.day==='PN' && d.label.toLowerCase().includes('poniedzia')) ||
-        (w.day==='ŚR' && d.label.toLowerCase().includes('środa')) ||
-        (w.day==='PT' && d.label.toLowerCase().includes('piątek')) ||
-        (w.day==='PN' && d.label.toLowerCase().includes('sesja 1')) ||
-        (w.day==='ŚR' && d.label.toLowerCase().includes('sesja 2'))
-      ))
-    ));
-    const clickable = w.gym && matchedDi >= 0;
-    return `<div class="wday ${w.gym ? 'gym-day' : 'off'} ${clickable ? 'clickable-day' : ''}"
-      ${clickable ? `onclick="openDay(${matchedDi})"` : ''}>
-      <div class="dn">${w.day}</div>
-      <div class="dl">${w.label}</div>
-      ${clickable ? '<div class="dl" style="margin-top:2px;font-size:9px;opacity:.7;">▼ otwórz</div>' : ''}
-    </div>`;
-  }).join('');
+  if (data.weekBar) {
+    if (weekSection) weekSection.style.display = '';
+    wb.innerHTML = data.weekBar.map((w, wi) => {
+      const phase = data.phases[currentPhase];
+      const matchedDi = phase.days.findIndex(d =>
+        w.label && (d.label.toLowerCase().includes(w.label.toLowerCase().split('—')[0].trim()) ||
+        w.label.toLowerCase().includes(d.label.toLowerCase().split('—')[0].trim()) ||
+        (w.gym && (
+          (w.day==='PN' && d.label.toLowerCase().includes('poniedzia')) ||
+          (w.day==='ŚR' && d.label.toLowerCase().includes('środa')) ||
+          (w.day==='PT' && d.label.toLowerCase().includes('piątek')) ||
+          (w.day==='PN' && d.label.toLowerCase().includes('sesja 1')) ||
+          (w.day==='ŚR' && d.label.toLowerCase().includes('sesja 2'))
+        ))
+      ));
+      const clickable = w.gym && matchedDi >= 0;
+      return `<div class="wday ${w.gym ? 'gym-day' : 'off'} ${clickable ? 'clickable-day' : ''}"
+        ${clickable ? `onclick="openDay(${matchedDi})"` : ''}>
+        <div class="dn">${w.day}</div>
+        <div class="dl">${w.label}</div>
+        ${clickable ? '<div class="dl" style="margin-top:2px;font-size:9px;opacity:.7;">▼ otwórz</div>' : ''}
+      </div>`;
+    }).join('');
+  } else {
+    if (weekSection) weekSection.style.display = 'none';
+  }
 
   // Days
   const cont = document.getElementById('days-container');
@@ -45,24 +63,28 @@ function renderPlan() {
     card.className = 'day-card' + (di === 0 ? ' open' : '');
     card.id = `day-card-${currentPhase}-${di}`;
 
-    const wu = data.warmups[day.warmup] || { title:'Rozgrzewka', items:[], note:'' };
-    const warmupHtml = `<div class="warmup-block">
-      <div class="warmup-title">${wu.title}</div>
-      ${wu.items.map(it => {
-        const text = typeof it === 'string' ? it : it.text;
-        const link = typeof it === 'object' && it.link ? it.link : '';
-        return `<div class="warmup-item">${text}${link ? `<a href="${link}" target="_blank" rel="noopener" class="ex-link" title="Zobacz wideo">▶</a>` : ''}</div>`;
-      }).join('')}
-      <div class="warmup-note">${wu.note}</div>
-    </div>`;
+    // Warmup — tylko jeśli plan ma warmups i dzień ma warmup key
+    let warmupHtml = '';
+    if (data.warmups && day.warmup && data.warmups[day.warmup]) {
+      const wu = data.warmups[day.warmup];
+      warmupHtml = `<div class="warmup-block">
+        <div class="warmup-title">${wu.title}</div>
+        ${wu.items.map(it => {
+          const text = typeof it === 'string' ? it : it.text;
+          const link = typeof it === 'object' && it.link ? it.link : '';
+          return `<div class="warmup-item">${text}${link ? `<a href="${link}" target="_blank" rel="noopener" class="ex-link" title="Zobacz wideo">▶</a>` : ''}</div>`;
+        }).join('')}
+        <div class="warmup-note">${wu.note}</div>
+      </div>`;
+    }
 
     const tagLabel = t => t==='key'?'kluczowe':t==='fai'?'FAI':t==='new'?'nowe':t==='core'?'core':'';
     const tagHtml = t => t ? `<span class="tag tag-${t}">${tagLabel(t)}</span> ` : '';
 
     const rows = day.exercises.map((e, ei) => {
-      const doneKey = `${currentPhase}-${di}-${ei}`;
+      const doneKey = `${currentPlan}-${currentPhase}-${di}-${ei}`;
       const isDone = doneState[doneKey];
-      return `<tr id="ex-row-${currentPhase}-${di}-${ei}">
+      return `<tr id="ex-row-${currentPlan}-${currentPhase}-${di}-${ei}" class="${isDone ? 'ex-done' : ''}">
         <td>
           <div class="ex-name">${e.name}${e.link ? `<a href="${e.link}" target="_blank" rel="noopener" class="ex-link" title="Zobacz wideo">▶</a>` : ''}</div>
           ${e.note ? `<div class="ex-sub">${e.note}</div>` : ''}
@@ -71,7 +93,7 @@ function renderPlan() {
         </td>
         <td class="ex-sets">${e.sets}</td>
         <td class="col-prog">${e.prog ? `<div class="ex-prog-cell">↗ ${e.prog}</div>` : ''}</td>
-        <td class="ex-tempo col-tempo">${e.tempo}</td>
+        <td class="ex-tempo col-tempo">${e.tempo || ''}</td>
       </tr>`;
     }).join('');
 
@@ -95,6 +117,13 @@ function renderPlan() {
   });
 }
 
+function setPlan(i) {
+  currentPlan = i;
+  data = plans[i];
+  currentPhase = 0;
+  renderPlan();
+}
+
 function setPhase(i) {
   currentPhase = i;
   renderPlan();
@@ -108,11 +137,11 @@ function openDay(di) {
 }
 
 function toggleDone(pi, di, ei) {
-  const key = `${pi}-${di}-${ei}`;
+  const key = `${currentPlan}-${pi}-${di}-${ei}`;
   doneState[key] = !doneState[key];
   saveToStorage();
-  const row = document.getElementById(`ex-row-${pi}-${di}-${ei}`);
+  const row = document.getElementById(`ex-row-${currentPlan}-${pi}-${di}-${ei}`);
   const btn = row.querySelector('.done-btn');
   row.classList.toggle('ex-done', doneState[key]);
-  btn.classList.toggle('done', doneState[key]);
+  if (btn) btn.classList.toggle('done', doneState[key]);
 }

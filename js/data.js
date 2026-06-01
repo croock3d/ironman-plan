@@ -200,6 +200,192 @@ const DEFAULT_ZONES_DATA = {
 };
 
 // ============================================================
+// DEFAULT PLAN 2 — Siła do triathlonu (Ironman Kalmar)
+// ============================================================
+const DEFAULT_PLAN2 = {
+  title: "Siła – Triathlon Kalmar",
+  subtitle: "Sesje A/B/C · mini band, długie gumy, kettlebell 12–16 kg · FAI cam biodra lewego",
+  weekBar: null,
+  warmups: null,
+  phases: [
+    {
+      label: "Faza 1 – Budowanie ekscentryczne",
+      desc: "<strong>Czerwiec · tygodnie 1–4 · 2–3 sesje/tydzień</strong><br>Bulgarian split squat: 4 s w dół, mały opór (tylko guma), tylna stopa nisko. Nordic curl: asystowany z dużą pomocą gumy, zacznij od 5 powt. Clamshell + hip thrust jako baza w każdej sesji.<br><em>Cel: nauczyć mięśnie kontroli ekscentrycznej, nie zmęczenia – unikaj zakwasów przed długimi jednostkami triatlonowymi.</em>",
+      days: [
+        {
+          label: "Sesja A – Czwórgłowe i pośladki",
+          focus: "35–45 min · mini band, długa guma, (opcjonalnie) kettlebell",
+          warmup: null,
+          note: "<em>Zawsze zacznij od clamshell i hip thrust (aktywacja pośladka) zanim przejdziesz do obciążenia czwórgłowych. To klucz do skuteczności sesji.</em>",
+          warn: null,
+          changes: null,
+          exercises: [
+            { name: "Clamshell z mini band", sets: "3×15–20/stronę", tempo: "", note: "Leżenie bokiem, kolana 45°, band nad kolanami. Unoś kolano nie obracając miednicy. Ostatnie 3 powt. z 2s przytrzymaniem. Jeśli za łatwe – band na kostce. ZAWSZE wykonuj jako pierwsze.", prog: "", why: "aktywacja pośladka średniego", tag: "key", link: "" },
+            { name: "Hip thrust z gumą lub kettlebell", sets: "3×12–15", tempo: "", note: "Plecy na kanapie, guma/kettlebell na biodrach. Pełny wyprost – 1s ściśnięcie pośladków na górze. Nie nadwerężaj lędźwi, ściśnij brzuch. Stopy pod kolanami.", prog: "", why: "siła pośladka wielkiego", tag: "key", link: "" },
+            { name: "Bulgarian split squat – 4s zejście", sets: "3×8–10/nogę", tempo: "4-1-1-0", note: "Licz 4 s w dół, 1s pauza, 1s w górę. Gumy lub kettlebell jako obciążenie. FAI: Tylna stopa na NISKIM stołku (30–40 cm), nie na kanapie. Tułów pionowo – nie pochylaj do przodu. Głębokość max do równoległości uda – nie głębiej. Lewa noga z przodu: kolano nie wpada do środka. Ból pachwinowy = skróć zakres.", prog: "Faza 1: tylko guma, ucz się tempa. Faza 2: dodaj kettlebell.", why: "siła ekscentryczna czwórgłowych", tag: "key", link: "" },
+            { name: "Single-leg wall sit – izometria", sets: "3×30–45s/nogę", tempo: "statyczny", note: "Plecy płasko przy ścianie, udo równolegle do podłogi. Jedna noga uniesiona. Gdy czujesz palenie – zostań 5 s. Co tydzień +5 s.", prog: "", why: "wytrzymałość izometryczna czwórgłowych", tag: "key", link: "" },
+            { name: "Step-up z akcentem ekscentrycznym", sets: "3×10/nogę", tempo: "", note: "Stań na stopniu jedną nogą, drugą opuść powoli przez 3 s. Kontrolujesz siłą czwórgłowej – nie padaj. Opcja z gumą dla oporu.", prog: "", why: "ekscentryczna kontrola VMO", tag: "", link: "" },
+            { name: "Monster walk z mini band", sets: "2×15 kroków/kierunek", tempo: "", note: "Band nad kolanami lub na kostkach, lekkie ugięcie kolan. Kroki boczne z napięciem gumy przez cały czas. Kolana nie wpadają do środka.", prog: "", why: "pośladek średni w ruchu", tag: "", link: "" }
+          ]
+        },
+        {
+          label: "Sesja B – Dwugłowe ud, biodra i ITB",
+          focus: "30–40 min · długa guma, mini band, mata",
+          warmup: null,
+          note: "<em>Nordic curl powoduje zakwasy dwugłowych przez pierwsze 2–3 tygodnie. Planuj sesję B minimum 36 godzin przed każdym długim biegiem.</em>",
+          warn: null,
+          changes: null,
+          exercises: [
+            { name: "Nordic hamstring curl (asystowany)", sets: "3×5–8", tempo: "", note: "Stopy zakotw. pod kanapą, kolana na macie. Długa guma z przodu jako asekuracja. Padaj do przodu 4–6 s napinając dwugłowe. Odbij rękami. Zacznij z dużą pomocą gumy, stopniowo zmniejszaj. Planuj min. 36h przed długim biegiem.", prog: "Zmniejszaj asekurację z gumy co 2 tygodnie.", why: "wytrzymałość dwugłowych na km 30–42", tag: "key", link: "" },
+            { name: "Romanian deadlift jednonóż z gumą", sets: "3×10/nogę", tempo: "", note: "Guma pod stopą trzymana w rękach lub kettlebell. Kręgosłup neutralny. Powrót 2s. FAI: Ogranicz zakres do poczucia rozciągania – nie forsuj dalej. Lewa stopa stojąca: lekka rotacja zewnętrzna (10–15°). Ból w pachwinie = stop. Alternatywa: sumo RDL obunóż z gumą.", prog: "", why: "łańcuch tylny jednonóż", tag: "key", link: "" },
+            { name: "Side-lying hip abduction z gumą", sets: "3×15/stronę", tempo: "", note: "Leżenie na boku, guma na kostce zapiąta o nogę kanapy. Unoś prostą nogę 35–40° – nie wyżej. Opuść przez 3 s. Biodra prostopadłe.", prog: "", why: "pośladek średni w izolacji", tag: "key", link: "" },
+            { name: "90-90 hip stretch – bierny", sets: "3×45s/stronę", tempo: "statyczny", note: "Pozycja 90-90, tułów wyprostowany. Oddech brzuszny – TYLKO bierne utrzymanie – bez aktywnego dociskania kolana do podłogi. FAI: Alternatywa: supine figure-4 – lewa kostka na prawym udzie, przyciągaj udo do klatki.", prog: "", why: "mobilność rotatorów biodra", tag: "fai", link: "" },
+            { name: "Prone hip extension z mini band", sets: "2×15/nogę", tempo: "", note: "Leżenie na brzuchu, band nad kolanami. Unoś prostą nogę 15–20 cm ściskając pośladek. Nie unoś biodra z maty. 2s na górze.", prog: "", why: "pośladek wielki w wyproście", tag: "", link: "" },
+            { name: "Supine figure-4 stretch", sets: "2×60s/stronę", tempo: "statyczny", note: "Leżenie na plecach, lewa kostka skrzyżowana na prawym udzie. Delikatnie przyciągaj prawe udo do klatki piersiowej. Grawitacja nie obciąża stawu. Identyczny efekt jak pigeon pose – bezpieczny nawet przy zaawansowanym FAI.", prog: "", why: "rozciąganie rotatorów zewnętrznych", tag: "fai", link: "" }
+          ]
+        },
+        {
+          label: "Sesja C – Core funkcjonalny i stabilizacja",
+          focus: "25–35 min · mata, mini band · uzupełniająca gdy TSS pozwala",
+          warmup: null,
+          note: "<em>Przy TSS 350+ możesz zastąpić jeden lekki trening cardio sesją C – obciążenie jest wystarczająco małe, żeby nie dokładać stresu, a wystarczająco celowane, żeby budować stabilizację.</em>",
+          warn: null,
+          changes: null,
+          exercises: [
+            { name: "Dead bug z gumą – anty-rotacja", sets: "3×8/stronę", tempo: "", note: "Leżenie na plecach, ramiona z gumą w górę, kolana 90°. Opuszczaj prawą rękę i lewą nogę przez 5 s. Lędźwie nie odrywają się od maty – warunek konieczny.", prog: "", why: "stabilizacja antyrotacyjna core", tag: "key", link: "" },
+            { name: "Copenhagen plank", sets: "3×20–30s/stronę", tempo: "statyczny", note: "Stopa oparta na krześle/kanapie, dolna swobodna lub oparta kolanem. Linia prosta ciała. Zacznij od dolnej nogi wspartej, progresuj do swobodnej.", prog: "", why: "przywodziciele + stabilizacja biodra", tag: "key", link: "" },
+            { name: "Pallof press z gumą – anty-rotacja", sets: "3×10/stronę", tempo: "", note: "Stojąco na wysokości klatki. Wypychaj ręce proste, 2 s – nie pozwól, by guma obróciła tułów. Nogi biodra-szerokości, lekkie ugięcie kolan.", prog: "", why: "siła antyrotacyjna core", tag: "", link: "" },
+            { name: "Bird dog z mini band", sets: "3×10/stronę", tempo: "", note: "Czworaczki, band nad kolanami. Wyciągaj prawą rękę i lewą nogę równocześnie, ściśnij pośladek wysuniętej nogi. FAI: Lewa noga w tył: wyprost tylko do linii tułowia – nie wyżej. Miednica pozioma. Napięcie w lewej pachwinie = zmniejsz zakres.", prog: "", why: "stabilizacja lędźwi w ruchu naprzemiennym", tag: "fai", link: "" },
+            { name: "Side plank z uniesieniem nogi", sets: "2×30s + 10 unoszeń/stronę", tempo: "", note: "30 s statyki, potem 10 kontrolowanych unoszeń górnej nogi. Stopa flex, nie opuszczaj bioder między uniesieniami.", prog: "", why: "pośladek średni + stabilizacja boczna", tag: "", link: "" },
+            { name: "Hollow body hold", sets: "3×20–30s", tempo: "statyczny", note: "Ramiona przy uszach, nogi 30–40°. Lędźwie przy macie cały czas – jeśli nie – zegnij nogi lub unieś je wyżej.", prog: "", why: "core globalny, stabilizacja tułowia", tag: "", link: "" }
+          ]
+        }
+      ]
+    },
+    {
+      label: "Faza 2 – Progresja siłowa",
+      desc: "<strong>Lipiec · tygodnie 5–8 · 2–3 sesje/tydzień</strong><br>Zwiększ opór, zmniejsz asekurację w Nordic curl. Bulgarian split squat z kettlebell. Dodaj Sesję C do rotacji. Copenhagen plank bez wsparcia dolnej nogi.<br><em>Cel: faktyczna siła mięśniowa, która przenosi się na długi bieg.</em>",
+      days: [
+        {
+          label: "Sesja A – Czwórgłowe i pośladki",
+          focus: "35–45 min · mini band, długa guma, kettlebell",
+          warmup: null,
+          note: "<em>Zwiększ kettlebell w Bulgarian split squat. Skróć przerwy między seriami do 60s.</em>",
+          warn: null,
+          changes: null,
+          exercises: [
+            { name: "Clamshell z mini band", sets: "3×15–20/stronę", tempo: "", note: "Mocniejszy band niż w Fazie 1. Ostatnie 3 powt. z 2s przytrzymaniem.", prog: "", why: "aktywacja pośladka średniego", tag: "key", link: "" },
+            { name: "Hip thrust z gumą lub kettlebell", sets: "3×12–15", tempo: "", note: "Zwiększ kettlebell lub dodaj drugą gumę.", prog: "", why: "siła pośladka wielkiego", tag: "key", link: "" },
+            { name: "Bulgarian split squat – 4s zejście", sets: "3×8–10/nogę", tempo: "4-1-1-0", note: "Z kettlebell (12–16 kg). FAI: wszystkie wskazówki z Fazy 1 nadal obowiązują.", prog: "Dodaj kettlebell 12 kg, co 2 tyg. +2 kg.", why: "siła ekscentryczna czwórgłowych", tag: "key", link: "" },
+            { name: "Single-leg wall sit – izometria", sets: "3×45–60s/nogę", tempo: "statyczny", note: "Co tydzień +5 s. Jeśli osiągasz 60s – dodaj lekkie obciążenie na udo.", prog: "", why: "wytrzymałość izometryczna czwórgłowych", tag: "key", link: "" },
+            { name: "Step-up z akcentem ekscentrycznym", sets: "3×10/nogę", tempo: "", note: "Wyższy stopień (30–35 cm) lub z kettlebell.", prog: "", why: "ekscentryczna kontrola VMO", tag: "", link: "" },
+            { name: "Monster walk z mini band", sets: "3×15 kroków/kierunek", tempo: "", note: "Mocniejszy band, dodatkowa seria.", prog: "", why: "pośladek średni w ruchu", tag: "", link: "" }
+          ]
+        },
+        {
+          label: "Sesja B – Dwugłowe ud, biodra i ITB",
+          focus: "30–40 min · długa guma, mini band, mata",
+          warmup: null,
+          note: "<em>Zmniejszaj asekurację w Nordic curl. Copenhagen plank bez wsparcia dolnej nogi.</em>",
+          warn: null,
+          changes: null,
+          exercises: [
+            { name: "Nordic hamstring curl (asystowany)", sets: "3×6–8", tempo: "", note: "Zmniejsz pomoc gumy – mniej splotów lub słabsza guma. Nadal min. 36h przed długim biegiem.", prog: "Stopniowo zmniejszaj asekurację.", why: "wytrzymałość dwugłowych", tag: "key", link: "" },
+            { name: "Romanian deadlift jednonóż z gumą", sets: "3×10/nogę", tempo: "", note: "Zwiększ opór gumy lub użyj kettlebell 12 kg. FAI: wskazówki z Fazy 1.", prog: "", why: "łańcuch tylny jednonóż", tag: "key", link: "" },
+            { name: "Side-lying hip abduction z gumą", sets: "3×15/stronę", tempo: "", note: "Mocniejsza guma.", prog: "", why: "pośladek średni", tag: "key", link: "" },
+            { name: "90-90 hip stretch – bierny", sets: "3×45s/stronę", tempo: "statyczny", note: "FAI: alternatywa supine figure-4 nadal zalecana.", prog: "", why: "mobilność biodra", tag: "fai", link: "" },
+            { name: "Prone hip extension z mini band", sets: "3×15/nogę", tempo: "", note: "Dodatkowa seria vs Faza 1.", prog: "", why: "pośladek wielki w wyproście", tag: "", link: "" },
+            { name: "Supine figure-4 stretch", sets: "2×60s/stronę", tempo: "statyczny", note: "", prog: "", why: "rozciąganie rotatorów zewnętrznych", tag: "fai", link: "" }
+          ]
+        },
+        {
+          label: "Sesja C – Core funkcjonalny i stabilizacja",
+          focus: "25–35 min · mata, mini band",
+          warmup: null,
+          note: "<em>Sesja C w pełnej rotacji A+B+C. Copenhagen plank progresuj do nogi swobodnej.</em>",
+          warn: null,
+          changes: null,
+          exercises: [
+            { name: "Dead bug z gumą – anty-rotacja", sets: "3×10/stronę", tempo: "", note: "Wolniejsze tempo, pełna kontrola lędźwi.", prog: "", why: "stabilizacja antyrotacyjna", tag: "key", link: "" },
+            { name: "Copenhagen plank – noga swobodna", sets: "3×25–35s/stronę", tempo: "statyczny", note: "Dolna noga swobodna – bez wsparcia.", prog: "", why: "przywodziciele + stabilizacja", tag: "key", link: "" },
+            { name: "Pallof press z gumą – anty-rotacja", sets: "3×12/stronę", tempo: "", note: "Mocniejsza guma lub dalszy odprowadzenie od kotwy.", prog: "", why: "siła antyrotacyjna core", tag: "", link: "" },
+            { name: "Bird dog z mini band", sets: "3×12/stronę", tempo: "", note: "FAI: wskazówki z Fazy 1 nadal obowiązują.", prog: "", why: "stabilizacja lędźwi", tag: "fai", link: "" },
+            { name: "Side plank z uniesieniem nogi", sets: "3×30s + 10 unoszeń/stronę", tempo: "", note: "Dodatkowa seria vs Faza 1.", prog: "", why: "pośladek średni + boczna stabilizacja", tag: "", link: "" },
+            { name: "Hollow body hold", sets: "3×25–35s", tempo: "statyczny", note: "Nogi niżej niż w Fazie 1 jeśli możliwe.", prog: "", why: "core globalny", tag: "", link: "" }
+          ]
+        }
+      ]
+    },
+    {
+      label: "Faza 3 – Redukcja i podtrzymanie",
+      desc: "<strong>1–10 sierpnia · tygodnie 9–10 · 1–2 sesje/tydzień</strong><br>Zmniejsz liczbę serii do 2, zachowaj intensywność. Nordic curl i Bulgarian split squat – ostatni raz 10 dni przed startem. Po tym: tylko aktywacja clamshell + hip thrust jako rozgrzewka biegowa.<br><em>⚠️ Zakwasy trwające >48h → zmniejsz ekscentrykę w następnej sesji.</em>",
+      days: [
+        {
+          label: "Sesja A – Czwórgłowe i pośladki",
+          focus: "20–25 min · zredukowana objętość",
+          warmup: null,
+          note: "<em>2 serie zamiast 3. Ten sam ciężar. Sygnał do mięśni, nie budowanie.</em>",
+          warn: null,
+          changes: null,
+          exercises: [
+            { name: "Clamshell z mini band", sets: "2×15/stronę", tempo: "", note: "", prog: "Utrzymaj.", why: "", tag: "key", link: "" },
+            { name: "Hip thrust z gumą lub kettlebell", sets: "2×12", tempo: "", note: "", prog: "Utrzymaj.", why: "", tag: "key", link: "" },
+            { name: "Bulgarian split squat – 4s zejście", sets: "2×8/nogę", tempo: "4-1-1-0", note: "Ostatni raz 10 dni przed startem (ok. 5 sierpnia).", prog: "Utrzymaj ciężar z Fazy 2.", why: "", tag: "key", link: "" },
+            { name: "Single-leg wall sit – izometria", sets: "2×40s/nogę", tempo: "statyczny", note: "", prog: "Utrzymaj.", why: "", tag: "", link: "" },
+            { name: "Step-up z akcentem ekscentrycznym", sets: "2×8/nogę", tempo: "", note: "", prog: "Utrzymaj.", why: "", tag: "", link: "" }
+          ]
+        },
+        {
+          label: "Sesja B – Dwugłowe ud, biodra i ITB",
+          focus: "20–25 min · zredukowana objętość",
+          warmup: null,
+          note: "<em>Nordic curl – ostatni raz 10 dni przed startem. Potem tylko Sesja aktywacji.</em>",
+          warn: null,
+          changes: null,
+          exercises: [
+            { name: "Nordic hamstring curl (asystowany)", sets: "2×5", tempo: "", note: "Ostatni raz ok. 5 sierpnia.", prog: "Utrzymaj.", why: "", tag: "key", link: "" },
+            { name: "Romanian deadlift jednonóż z gumą", sets: "2×8/nogę", tempo: "", note: "", prog: "Utrzymaj.", why: "", tag: "key", link: "" },
+            { name: "Side-lying hip abduction z gumą", sets: "2×12/stronę", tempo: "", note: "", prog: "Utrzymaj.", why: "", tag: "key", link: "" },
+            { name: "Supine figure-4 stretch", sets: "2×60s/stronę", tempo: "statyczny", note: "", prog: "Utrzymaj.", why: "", tag: "fai", link: "" }
+          ]
+        },
+        {
+          label: "Sesja C – Core i aktywacja",
+          focus: "15–20 min · aktywacja przed startem",
+          warmup: null,
+          note: "<em>Sesja C jako aktywna regeneracja lub mini-aktywacja.</em>",
+          warn: null,
+          changes: null,
+          exercises: [
+            { name: "Dead bug z gumą", sets: "2×8/stronę", tempo: "", note: "", prog: "Utrzymaj.", why: "", tag: "key", link: "" },
+            { name: "Copenhagen plank", sets: "2×20s/stronę", tempo: "statyczny", note: "", prog: "Utrzymaj.", why: "", tag: "key", link: "" },
+            { name: "Pallof press z gumą", sets: "2×10/stronę", tempo: "", note: "", prog: "Utrzymaj.", why: "", tag: "", link: "" }
+          ]
+        }
+      ]
+    },
+    {
+      label: "Tydzień startowy (11–14 sierpnia)",
+      desc: "<strong>11–14 sierpnia · brak ekscentryki</strong><br>Brak ćwiczeń ekscentrycznych ani izometrycznych do upadku. Opcjonalnie D-1 lub D-2: 10 min aktywacji – clamshell 2×10, hip thrust 2×10 z mini band.<br><em>Cel: mięśnie obudzone, nie zmęczone.</em>",
+      days: [
+        {
+          label: "Aktywacja D-1 / D-2",
+          focus: "10 min · tylko aktywacja pośladków",
+          warmup: null,
+          note: "<em>Tylko jeśli czujesz potrzebę aktywacji. Żadnego zmęczenia przed startem.</em>",
+          warn: "Brak ćwiczeń ekscentrycznych i izometrycznych do upadku w tym tygodniu!",
+          changes: null,
+          exercises: [
+            { name: "Clamshell z mini band", sets: "2×10/stronę", tempo: "", note: "Lekki band. Nie do upadku.", prog: "", why: "aktywacja pośladka przed startem", tag: "key", link: "" },
+            { name: "Hip thrust z gumą", sets: "2×10", tempo: "", note: "Lekki opór. Nie do upadku.", prog: "", why: "aktywacja pośladka wielkiego", tag: "key", link: "" }
+          ]
+        }
+      ]
+    }
+  ]
+};
+
+// ============================================================
 // GIST CONFIG — token z localStorage, nie z kodu
 // ============================================================
 const GIST_ID   = 'db261a815c6e41a502c2271f27b13798';
@@ -209,7 +395,12 @@ function getToken() { return localStorage.getItem('ironman_token') || ''; }
 // ============================================================
 // STATE
 // ============================================================
-let data = JSON.parse(JSON.stringify(DEFAULT_DATA));
+let plans = [
+  JSON.parse(JSON.stringify(DEFAULT_DATA)),
+  JSON.parse(JSON.stringify(DEFAULT_PLAN2))
+];
+let currentPlan = 0;
+let data = plans[0];
 let currentPhase = 0;
 let sessionLog = [];
 let doneState = {};
@@ -221,17 +412,29 @@ let zonesData = JSON.parse(JSON.stringify(DEFAULT_ZONES_DATA));
 
 // Migracja: konwertuje stare items rozgrzewki (stringi) na obiekty {text, link}
 function normalizeData() {
-  Object.values(data.warmups).forEach(wu => {
-    wu.items = wu.items.map(item =>
-      typeof item === 'string' ? { text: item, link: '' } : item
-    );
+  plans.forEach(plan => {
+    if (plan.warmups) {
+      Object.values(plan.warmups).forEach(wu => {
+        wu.items = wu.items.map(item =>
+          typeof item === 'string' ? { text: item, link: '' } : item
+        );
+      });
+    }
   });
 }
 
 function loadFromStorage() {
   try {
-    const d = localStorage.getItem('ironman_data');
-    if (d) data = JSON.parse(d);
+    // Nowy format: ironman_plans (tablica planów)
+    const p = localStorage.getItem('ironman_plans');
+    if (p) {
+      plans = JSON.parse(p);
+    } else {
+      // Migracja ze starego formatu (jeden plan w ironman_data)
+      const d = localStorage.getItem('ironman_data');
+      if (d) plans[0] = JSON.parse(d);
+    }
+    data = plans[currentPlan] || plans[0];
     const l = localStorage.getItem('ironman_log');
     if (l) sessionLog = JSON.parse(l);
     const s = localStorage.getItem('ironman_done');
@@ -255,7 +458,8 @@ function loadFromStorage() {
 }
 
 function saveToStorage() {
-  localStorage.setItem('ironman_data', JSON.stringify(data));
+  plans[currentPlan] = data; // synchronizuj referencję przed zapisem
+  localStorage.setItem('ironman_plans', JSON.stringify(plans));
   localStorage.setItem('ironman_log', JSON.stringify(sessionLog));
   localStorage.setItem('ironman_done', JSON.stringify(doneState));
   localStorage.setItem('ironman_breath', JSON.stringify(breathData));

@@ -25,7 +25,16 @@ async function syncFromGist() {
     const content = gist.files[GIST_FILE]?.content;
     if (content && content.trim() !== '{}') {
       const remote = JSON.parse(content);
-      if (remote.data) { data = remote.data; normalizeData(); }
+      if (remote.plans) {
+        plans = remote.plans;
+        data = plans[currentPlan] || plans[0];
+        normalizeData();
+      } else if (remote.data) {
+        // Migracja ze starego formatu
+        plans[0] = remote.data;
+        data = plans[currentPlan] || plans[0];
+        normalizeData();
+      }
       if (remote.sessionLog) sessionLog = remote.sessionLog;
       if (remote.doneState) doneState = { ...remote.doneState, ...doneState };
       if (remote.breathData) breathData = remote.breathData;
@@ -44,7 +53,7 @@ async function syncFromGist() {
 async function syncToGist() {
   setSyncStatus('syncing');
   try {
-    const payload = { data, sessionLog, doneState, breathData, zonesData, updatedAt: new Date().toISOString() };
+    const payload = { plans, sessionLog, doneState, breathData, zonesData, updatedAt: new Date().toISOString() };
     const res = await fetch(`https://api.github.com/gists/${GIST_ID}`, {
       method: 'PATCH',
       headers: {
