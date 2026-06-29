@@ -1,8 +1,8 @@
 {
   "schedules": [
     {
-      "title": "Harmonogram_26.06.-05.07",
-      "pdf_url": "https://www.przystannaeisenberga.pl/harmonogram/Harmonogram_26.06.-05.07",
+      "title": "Harmonogram_29.06.-05.07",
+      "pdf_url": "https://www.przystannaeisenberga.pl/harmonogram/Harmonogram_29.06.-05.07",
       "local_path": "assets/eisenberga-0.pdf"
     },
     {
@@ -11,5 +11,5 @@
       "local_path": "assets/eisenberga-1.pdf"
     }
   ],
-  "fetched_at": "2026-06-28T08:40:18.154093+00:00"
+  "fetched_at": "2026-06-29T10:22:41.860537+00:00"
 }
