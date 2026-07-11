@@ -1,15 +1,15 @@
 {
   "schedules": [
     {
-      "title": "Harmonogram_03.07.-12.07",
-      "pdf_url": "https://www.przystannaeisenberga.pl/harmonogram/Harmonogram_03.07.-12.07",
+      "title": "Harmonogram_13.07-19.07",
+      "pdf_url": "https://www.przystannaeisenberga.pl/pliki/harmonogramy/Harmonogram_13.07.-19.07.pdf",
       "local_path": "assets/eisenberga-0.pdf"
     },
     {
-      "title": "Harmonogram_29.06.-05.07",
-      "pdf_url": "https://www.przystannaeisenberga.pl/harmonogram/Harmonogram_29.06.-05.07",
+      "title": "Harmonogram_03.07.-12.07",
+      "pdf_url": "https://www.przystannaeisenberga.pl/pliki/harmonogramy/Harmonogram_03.07.-12.07.pdf",
       "local_path": "assets/eisenberga-1.pdf"
     }
   ],
-  "fetched_at": "2026-07-10T09:18:51.453863+00:00"
+  "fetched_at": "2026-07-11T07:40:25.501922+00:00"
 }
