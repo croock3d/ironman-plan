@@ -1,15 +1,15 @@
 {
   "schedules": [
     {
-      "title": "Harmonogram_31.08.-06.09",
-      "pdf_url": "https://www.przystannaeisenberga.pl/harmonogram/Harmonogram_31.08.-06.09",
+      "title": "Harmonogram_04.09.-13.09",
+      "pdf_url": "https://www.przystannaeisenberga.pl/pliki/harmonogramy/Harmonogram_basenu_04.09.-13.09.pdf",
       "local_path": "assets/eisenberga-0.pdf"
     },
     {
-      "title": "Harmonogram_24.08.-30.08",
-      "pdf_url": "https://www.przystannaeisenberga.pl/harmonogram/Harmonogram_24.08.-30.08",
+      "title": "Harmonogram_31.08.-06.09",
+      "pdf_url": "https://www.przystannaeisenberga.pl/harmonogram/Harmonogram_31.08.-06.09",
       "local_path": "assets/eisenberga-1.pdf"
     }
   ],
-  "fetched_at": "2026-09-04T10:10:23.477827+00:00"
+  "fetched_at": "2026-09-05T09:39:40.122242+00:00"
 }
