@@ -1,8 +1,8 @@
 {
   "schedules": [
     {
-      "title": "Harmonogram_25.09.-04.10",
-      "pdf_url": "https://www.przystannaeisenberga.pl/harmonogram/Harmonogram_25.09.-04.10",
+      "title": "Harmonogram_28.09.-04.10",
+      "pdf_url": "https://www.przystannaeisenberga.pl/harmonogram/Harmonogram_28.09.-04.10",
       "local_path": "assets/eisenberga-0.pdf"
     },
     {
@@ -11,5 +11,5 @@
       "local_path": "assets/eisenberga-1.pdf"
     }
   ],
-  "fetched_at": "2026-09-27T11:02:26.598379+00:00"
+  "fetched_at": "2026-09-28T12:22:43.211370+00:00"
 }
