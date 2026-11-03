@@ -1,15 +1,15 @@
 {
   "schedules": [
     {
-      "title": "Harmonogram_26.10.-01.11",
-      "pdf_url": "https://www.przystannaeisenberga.pl/harmonogram/Harmonogram_26.10.-01.11",
+      "title": "Harmonogram_02.11.-08.11",
+      "pdf_url": "https://www.przystannaeisenberga.pl/harmonogram/Harmonogram_02.11.-08.11",
       "local_path": "assets/eisenberga-0.pdf"
     },
     {
-      "title": "Harmonogram_19",
-      "pdf_url": "https://www.przystannaeisenberga.pl/harmonogram/Harmonogram_19.10.-25.10",
+      "title": "Harmonogram_26.10.-01.11",
+      "pdf_url": "https://www.przystannaeisenberga.pl/harmonogram/Harmonogram_26.10.-01.11",
       "local_path": "assets/eisenberga-1.pdf"
     }
   ],
-  "fetched_at": "2026-11-02T14:13:28.746582+00:00"
+  "fetched_at": "2026-11-03T13:16:10.550435+00:00"
 }
